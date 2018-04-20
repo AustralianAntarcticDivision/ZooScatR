@@ -1,0 +1,38 @@
+%% home directory
+/var/folders/gg/3s8cvtn52wnf14bz_516g3cjxwg51l/T//RtmpgTdf6w
+%% shape parameters
+30		% length in mm
+3		% rho/L
+16		% L/a
+10		% tapering order
+0		% length average flag: 0-no average,	1-average
+0.1		% relative length standard deviation (meaningless for no average)
+0.01		% relative length increment(meaningless for no average)
+/var/folders/gg/3s8cvtn52wnf14bz_516g3cjxwg51l/T//RtmpgTdf6w/2047b828f87040a1be8fdd71/0.dat		% shape profile name ( -1 if profile is not specified)
+0		% number of points for axis smoothing (meaningless if profile is not specified)
+0		% number of points for tapering function smoothing (meaningless if profile is not specified)
+%% orientation parameters
+0		% mean incident angle (deg)
+0		% angle variation range - starting value (deg)
+100		% angle variation range - ending value (deg)
+1		% average option flag: 0-no average,	1-average
+2		% PDF flag: 1-Uniform		2-Gaussian
+20		% PDF parameter: half range for Uniform PDF,
+%		% standard deviation for Gaussian (deg)
+%		% (meaningless for no average)
+1		% angle increment	(meaningless for no average)
+%% physical property parameters
+1.0357		% mean density contrast (g0)
+1.0279		% mean sound speed contrast (h0)
+7		% number of body segments (1-homogeneous body)
+0.0016		% standard deviation of g0 (meaningless for homogeneous body)
+0.0015		% standard deviation of h0 (meaningless for homogeneous body)
+20		% correlation length as a percentage of body length L
+%% simulation parameters
+20		% integration	points along body axis
+30		% number of output points
+3		% output variable index: 1-scatting amplitude, 2-cross section, 3-TS, 4-RTS
+1		% variable: 1-frequency (kHz), 2-ang(deg),		3-ka
+300		% start value for the variable
+600		% end value for the variable
+120		% frequency (kHz), enabled for variable being angle only

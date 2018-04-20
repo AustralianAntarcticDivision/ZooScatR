@@ -1,0 +1,38 @@
+%% home directory
+C:\Projects\ZBS\GUI_DWBA_scat_model\mfiles
+%% shape	parameters
+45		% length in mm
+8		% rho/L
+10		% L/a
+10		% tapering order
+1		% length average flag: 0-no average,	1-average
+0.2		% relative length standard deviation (meaningless for no average)
+0.5		% relative length increment(meaningless for no average)
+/Users/sveng/ZooScat/inst/extdata/profiles/euphaus1.dat	 % shape profile name ( "-1" if profile is not specified)
+100		% number of points for axis smoothing (meaningless if profile is not specified)
+400		% number of points for tapering function smoothing (meaningless if profile is not specified)
+%% orientation parameters
+10		% mean incident angle (deg)
+0		% angle variation range - starting value (deg)
+180		% angle variation range - ending value (deg)
+0		% average option flag: 0-no average,	1-average
+1		% PDF flag: 1-Uniform		2-Gaussian
+10		% PDF parameter: half range for Uniform PDF,
+10		% standard deviation for Gaussian (deg)
+%		% (meaningless for no average)
+2		% angle increment	(meaningless for no average)
+%% physical property parameters
+1.02		% mean density contrast (g0)
+1.04		% mean sound speed contrast (h0)
+10		% number of body segments (1-homogeneous body)
+0.1		% standard deviation of g0 (meaningless for homogeneous body)
+0.3		% standard deviation of h0 (meaningless for homogeneous body)
+50		% correlation length as a percentage of body length L
+%% simulation parameters
+500		% integration	points along body axis
+400		% number of output points
+2		% output variable index: 1-scatting amplitude, 2-cross section, 3-TS, 4-RTS
+3		% variable: 1-frequency (kHz), 2-ang(deg),  3-ka
+1		% start value for the variable
+600		% end value for the variable
+150		% frequency (kHz), enabled for avriable being angle only
