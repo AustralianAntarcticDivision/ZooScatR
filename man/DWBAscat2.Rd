@@ -18,5 +18,5 @@ list with all parameters for DWBA
 simulation average backscattering over orienation and length
 }
 \examples{
-.          4
+
 }

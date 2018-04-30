@@ -2,11 +2,12 @@
 #' @param ka0 original ka  ka=[ <a>-3*std_a  <a>+3*std_a]
 #' @param ka1 output ka
 #' @param f complex form function - freq.(or ka)  x  - orient. angle
-#' @param pdf_type distribution type       1: uniform  2: Gaussian
+#' @param pdf_type probablity density function type 1: uniform  2: Gaussian
 #' @param paral PDF parameters: paral[1] = no. of bins for L PDF; paral[2] = 1/3 max. deviation for uniform, = std(length) for Gaussian
+#' @param app = FALSE [boolean] function call from shiny interface or command line
 #' @import pracma
 #' @return averaged y points
-#' @example
+#' @examples
 #' ka0=ka
 #' ka1=kaL
 #' f=f1

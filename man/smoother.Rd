@@ -7,13 +7,19 @@
 smoother(yi, n)
 }
 \arguments{
-\item{yi}{Values to be smoothed}
+\item{yi}{Vector of values to be smoothed}
 
 \item{n}{Number of points contained in the output y}
 }
 \value{
-y Smoothed y points
+y vector of smoothed y points
 }
 \description{
 Smoother function used to build the shape of the targets when axis or taper smoothing is requested.
+}
+\examples{
+y <- smoother(yi,n)
+}
+\author{
+Sven Gastauer
 }

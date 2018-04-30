@@ -4,8 +4,10 @@
 #' @param pdf_type distribution type       1: uniform  2: Gaussian
 #' @param paral PDF parameters: paral[1] = angle; paral[2] = range for uniform, = std for Gaussian
 #' @import pracma
+#' @export
+#' @author Sven Gastauer
 #' @return averaged y points
-#' @example
+#' @examples
 #' averaging over orientation
 #' paral = orient_ave_para
 #' f=f

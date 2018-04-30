@@ -4,7 +4,7 @@
 #' @import pracma
 #' @param fn Filename
 #' @return shape
-#' @example
+#' @examples
 #' sub <- shapes[which(shapes$ID==unique(shapes$ID)[x]),]
 #' generate_pos(sub$x,sub$y,sub$z)
 

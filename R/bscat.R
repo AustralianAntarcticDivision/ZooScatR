@@ -1,7 +1,10 @@
-#' simulation average backscattering over orienation and length by euphausiid and copopod
+#' @title Simulation average backscattering over orienation and length by euphausiid and copopod
 #' @param para Model Parameters
+#' @param app = FALSE [boolean] function call from shiny interface or command line
+#' @author Sven Gastauer
 #' @return list with all parameters for DWBA
 #' @import ggplot2
+#' @export
 #' @example
 #'
 bscat <- function(para, misc, app=FALSE){

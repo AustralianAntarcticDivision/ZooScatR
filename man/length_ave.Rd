@@ -13,13 +13,23 @@ length_ave(ka0, ka1, f, pdf_type, paral, app = FALSE)
 
 \item{f}{complex form function - freq.(or ka)  x  - orient. angle}
 
-\item{pdf_type}{distribution type       1: uniform  2: Gaussian}
+\item{pdf_type}{probablity density function type 1: uniform  2: Gaussian}
 
 \item{paral}{PDF parameters: paral[1] = no. of bins for L PDF; paral[2] = 1/3 max. deviation for uniform, = std(length) for Gaussian}
+
+\item{app}{= FALSE [boolean] function call from shiny interface or command line}
 }
 \value{
 averaged y points
 }
 \description{
 averaging over length
+}
+\examples{
+ka0=ka
+ka1=kaL
+f=f1
+pdf_type=2
+paral=len_ave_para
+length_ave(ka0,ka1,pdf_type,paral)
 }

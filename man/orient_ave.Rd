@@ -21,3 +21,15 @@ averaged y points
 \description{
 averaging over orientation
 }
+\examples{
+averaging over orientation
+paral = orient_ave_para
+f=f
+pdf_type = para$orient$PDF
+paral = orient_ave_para
+paral=orient_ave_para
+orinet_ave(ang, f, pdf_type, paral)
+}
+\author{
+Sven Gastauer
+}

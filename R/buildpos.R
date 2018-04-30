@@ -1,17 +1,20 @@
-#' @title Build shape vector of the hypothetical taget
+#' @title Build shape vector of the hypothetical target
 #' @description Builds all the coordinate vectors related to the shape positions of the target
 #' body axis is along the z-axis
 #' construct shape coordinates
 #' a list containing the shape coordinates: r_pos (position vector), the_tilt , dr, gamma_t, taper, x, z, and plot if disp_prof=1
 #' @import  pracma
 #' @import ggplot2
+#' @author Sven Gastauer
+#' @export
 #' @param para a list containining the shape parameters
 #' @param para$shape$ni Number of integration points
 #' @param para$shape$order Tapering order
 #' @param para$shape$rho_L rho = radius of curvature
 #' @param para$shape$prof_name Custom shape, -1 for regular shape, filename for custom shape
-#' @param disp_prof if 1 a ggplot of the shape is added to the output list, otherwise, no plot is produces
-#' @examples para$shape$L <-30
+#' @param disp_prof = 1 if 1 a ggplot object of the shape is added to the output list, otherwise, no plot is produced
+#' @examples
+#' para$shape$L <-30
 #' para$shape$L_a <- 16
 #' para$shape$rho_L <- 3
 #' para$shape$order <- 7
