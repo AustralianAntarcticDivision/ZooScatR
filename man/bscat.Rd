@@ -16,5 +16,5 @@ list with all parameters for DWBA
 simulation average backscattering over orienation and length by euphausiid and copopod
 }
 \examples{
-.          4
+
 }

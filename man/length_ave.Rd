@@ -2,7 +2,7 @@
 % Please edit documentation in R/length_ave.R
 \name{length_ave}
 \alias{length_ave}
-\title{averaging over length}
+\title{Model output averaged over length}
 \usage{
 length_ave(ka0, ka1, f, pdf_type, paral, app = FALSE)
 }
@@ -16,10 +16,20 @@ length_ave(ka0, ka1, f, pdf_type, paral, app = FALSE)
 \item{pdf_type}{distribution type       1: uniform  2: Gaussian}
 
 \item{paral}{PDF parameters: paral[1] = no. of bins for L PDF; paral[2] = 1/3 max. deviation for uniform, = std(length) for Gaussian}
+
+\item{app}{TRUE or FALSE, defines if the function is used within a shiny app or not. If \code{app==TRUE} the progressbar inside the app will be updated.}
 }
 \value{
-averaged y points
+averaged sigma_bs points
 }
 \description{
-averaging over length
+Model output averaged over length
+}
+\examples{
+ka0=ka
+ka1=kaL
+f=f1
+pdf_type=2
+paral=len_ave_para
+length_ave(ka0,ka1,pdf_type,paral)
 }

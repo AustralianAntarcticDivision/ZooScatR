@@ -1035,7 +1035,7 @@ DWBAapp <- function(){
       })
 
       # Export data table
-      output$export <- downloadHandler(
+      output$export <- shiny::downloadHandler(
         filename = function(){
           paste("DWBA", ".csv",sep="")
         },
@@ -1045,7 +1045,7 @@ DWBAapp <- function(){
       )
 
       #Export config
-      output$save_c <- downloadHandler(
+      output$save_c <- shiny::downloadHandler(
         filename = function(){
           paste("config", ".dat",sep="")
         },

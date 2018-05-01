@@ -8,6 +8,7 @@
 #' new_gh <- inhom_gh(para)
 #' new_gh$flucplot
 #' new_gh$ghplot
+#' @export
 
 inhom_gh <- function(para){
 

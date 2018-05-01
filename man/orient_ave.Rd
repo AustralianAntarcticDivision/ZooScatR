@@ -9,7 +9,7 @@ orient_ave(ang, f, pdf_type, paral)
 \arguments{
 \item{ang}{incident angle}
 
-\item{f}{complex form function - freq.(or ka)  x  - orient. angle}
+\item{f}{complex form function as a function of frequency, ka or orient. angle}
 
 \item{pdf_type}{distribution type       1: uniform  2: Gaussian}
 

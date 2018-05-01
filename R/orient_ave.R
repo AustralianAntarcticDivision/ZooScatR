@@ -1,6 +1,6 @@
 #' averaging over orientation
 #' @param ang incident angle
-#' @param f complex form function - freq.(or ka)  x  - orient. angle
+#' @param f complex form function as a function of frequency, ka or orient. angle
 #' @param pdf_type distribution type       1: uniform  2: Gaussian
 #' @param paral PDF parameters: paral[1] = angle; paral[2] = range for uniform, = std for Gaussian
 #' @import pracma

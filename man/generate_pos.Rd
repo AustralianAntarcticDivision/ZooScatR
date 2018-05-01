@@ -17,3 +17,7 @@ shape
 Read the configuration file
 Keep standard dat format, as used in Matlab, to keep maximum compatibility with previous files
 }
+\examples{
+sub <- shapes[which(shapes$ID==unique(shapes$ID)[x]),]
+generate_pos(sub$x,sub$y,sub$z)
+}

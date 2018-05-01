@@ -3,7 +3,9 @@
 #' @param yi Values to be smoothed
 #' @param n Number of points contained in the output y
 #' @return y Smoothed y points
-#' @example
+#' @examples
+#' yi <- sample(1:1000,100)
+#' n <- 4
 #' y <- smoother(yi,n)
 
 smoother <- function(yi,n){

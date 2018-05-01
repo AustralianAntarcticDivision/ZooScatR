@@ -107,7 +107,7 @@ if(is.null(para$shape$profile)){para$shape$profile = -1}
 if(is.null(para$phy$body_ih)){para$phy$body_ih = FALSE}
 
 #define if in script mode or app mode
-if(exists('app')==FALSE){app="script"}
+if(exists('app')==FALSE){app=FALSE}
 dwba_out=DWBAscat2(para, misc, app)
 ka = dwba_out$ka
 ang = dwba_out$ang

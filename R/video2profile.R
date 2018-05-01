@@ -4,9 +4,10 @@
 #' @import pracma
 #' @param fn Filename
 #' @return shape
-#' @example
+#' @examples
 #' sub <- shapes[which(shapes$ID==unique(shapes$ID)[x]),]
 #' generate_pos(sub$x,sub$y,sub$z)
+#' @export
 
 generate_pos <- function(x=sub$x,y=sub$y,z=sub$z){
   x=x-min(x)
@@ -25,11 +26,11 @@ generate_pos <- function(x=sub$x,y=sub$y,z=sub$z){
   }
 
   ddd<-as.data.frame(cbind(x=x,y=y,y2=y2))
-  print(ggplot(data=ddd)+
-    geom_polygon(aes(x=x,y=y), alpha=0.9, fill="gray", col="black", lty=2)+
-    geom_polygon(aes(x=x,y=z), alpha=0.7, fill="lightgray", col="black", lty=3)+
-    geom_polygon(aes(x=x,y=y2), fill="lightblue", alpha=0.8, col="black")+
-    coord_fixed())
+  print(ggplot2::ggplot(data=ddd)+
+    ggplot2::geom_polygon(ggplot2::aes(x=x,y=y), alpha=0.9, fill="gray", col="black", lty=2)+
+    ggplot2::geom_polygon(ggplot2::aes(x=x,y=z), alpha=0.7, fill="lightgray", col="black", lty=3)+
+    ggplot2::geom_polygon(ggplot2::aes(x=x,y=y2), fill="lightblue", alpha=0.8, col="black")+
+    ggplot2::coord_fixed())
 
   n=200
   x_b=x[1:max(which(x==max(x)))]
@@ -37,15 +38,15 @@ generate_pos <- function(x=sub$x,y=sub$y,z=sub$z){
   x_t=x[max(which(x==max(x))):length(x)]
   y_t=y2[max(which(x==max(x))):length(y)]
 
-  top <- interp1(x_t,y_t,seq(min(x), max(x), length=n), method="linear")
-  bottom <- (interp1(x_b,y_b,seq(min(x), max(x),length=n), method="linear"))
+  top <- pracma::interp1(x_t,y_t,seq(min(x), max(x), length=n), method="linear")
+  bottom <- (pracma::interp1(x_b,y_b,seq(min(x), max(x),length=n), method="linear"))
   mid <- as.data.frame(cbind(x=seq(min(x), max(x), length=n),
                              y=rowMeans(cbind(top,bottom))))
   mid$taper=sqrt((top-bottom)^2)
 
-  print(ggplot()+
-    geom_polygon(data=as.data.frame(cbind(x=x,y=y2)), aes(x=x,y=y2), alpha=0.5)+
-    geom_line(data=mid, aes(x=x,y=y)))
+  print(ggplot2::ggplot()+
+    ggplot2::geom_polygon(data=as.data.frame(cbind(x=x,y=y2)), ggplot2::aes(x=x,y=y2), alpha=0.5)+
+    ggplot2::geom_line(data=mid, ggplot2::aes(x=x,y=y)))
   mid$p=0
   return(mid[,c(x=2,z=1,taper=3, p=4,p2=4)])
 }
@@ -60,7 +61,7 @@ generate_pos <- function(x=sub$x,y=sub$y,z=sub$z){
 # # source("length_ave.R")
 # # source("buildpos.R")
 # # source("bscat.R")
-# # source("create_profile.R")
+# # source("createfile.R")
 # # source("get_parameters.R")
 # # source("inhom_gh.R")
 # # source("save_config.R")

@@ -1,18 +1,21 @@
-#' averaging over length
+#' Model output averaged over length
+#'
 #' @param ka0 original ka  ka=[ <a>-3*std_a  <a>+3*std_a]
 #' @param ka1 output ka
 #' @param f complex form function - freq.(or ka)  x  - orient. angle
 #' @param pdf_type distribution type       1: uniform  2: Gaussian
 #' @param paral PDF parameters: paral[1] = no. of bins for L PDF; paral[2] = 1/3 max. deviation for uniform, = std(length) for Gaussian
+#' @param app TRUE or FALSE, defines if the function is used within a shiny app or not. If \code{app==TRUE} the progressbar inside the app will be updated.
 #' @import pracma
-#' @return averaged y points
-#' @example
+#' @return averaged sigma_bs points
+#' @examples
 #' ka0=ka
 #' ka1=kaL
 #' f=f1
 #' pdf_type=2
 #' paral=len_ave_para
 #' length_ave(ka0,ka1,pdf_type,paral)
+#' @export
 
 length_ave <- function(ka0,ka1,f,pdf_type,paral, app=FALSE){
   n=length(ka1)    # n = points in freq. (ka)

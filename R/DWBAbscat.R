@@ -1,9 +1,11 @@
-#' simulation average backscattering over orienation and length
+#' Computes ka
+#'
 #' @param para Model Parameters
 #' @param misc misc parameters
-#' @return list with all parameters for DWBA
+#' @param app TRUE or FALSE, defines if the function is used within a shiny app or not. If \code{app==TRUE} the progressbar inside the app will be updated.
+#' @return list of \code{ka}, the wavelength \code{k * } the width \code{a}; f the square-root of the orientation aveaged scattering cross-section
 #' @example
-#'
+#' @export
 
 DWBAscat2 <- function(para, misc, app=FALSE){
   if(exists("status")==FALSE){status=list()}
@@ -19,7 +21,7 @@ DWBAscat2 <- function(para, misc, app=FALSE){
 
   ang = misc$ang 		# different incident angle
   m = length(ang)
-  th = ang*(pi/180)
+  th = ang*(pi/180) #degrees to radians
 
   ka0 = misc$ka
 
@@ -55,7 +57,7 @@ DWBAscat2 <- function(para, misc, app=FALSE){
   # construct other Matrices
   X1 = as.matrix(ka0) %*% t(taper)
   Tmp = t(h[,matrix(1, 1, n)])
- X2 = X1 / Tmp
+  X2 = X1 / Tmp
   th <- (as.matrix(th))
   th_tilt <- as.matrix(th_tilt)
   Dtheta = t(th_tilt[,matrix(1,1,m)]) - th[,matrix(1, 1, n_int)]

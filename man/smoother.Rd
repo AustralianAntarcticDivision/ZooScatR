@@ -17,3 +17,8 @@ y Smoothed y points
 \description{
 Smoother function used to build the shape of the targets when axis or taper smoothing is requested.
 }
+\examples{
+yi <- sample(1:1000,100)
+n <- 4
+y <- smoother(yi,n)
+}

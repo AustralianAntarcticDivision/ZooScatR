@@ -2,7 +2,7 @@
 % Please edit documentation in R/DWBAbscat.R
 \name{DWBAscat2}
 \alias{DWBAscat2}
-\title{simulation average backscattering over orienation and length}
+\title{Computes ka}
 \usage{
 DWBAscat2(para, misc, app = FALSE)
 }
@@ -10,13 +10,12 @@ DWBAscat2(para, misc, app = FALSE)
 \item{para}{Model Parameters}
 
 \item{misc}{misc parameters}
+
+\item{app}{TRUE or FALSE, defines if the function is used within a shiny app or not. If \code{app==TRUE} the progressbar inside the app will be updated.}
 }
 \value{
-list with all parameters for DWBA
+list of \code{ka}, the wavelength \code{k * } the width \code{a}; f the square-root of the orientation aveaged scattering cross-section
 }
 \description{
-simulation average backscattering over orienation and length
-}
-\examples{
-.          4
+Computes ka
 }
