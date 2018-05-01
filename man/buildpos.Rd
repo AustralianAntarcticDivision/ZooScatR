@@ -2,14 +2,14 @@
 % Please edit documentation in R/buildpos.R
 \name{buildpos}
 \alias{buildpos}
-\title{Build shape vector of the hypothetical taget}
+\title{Build shape vector of the hypothetical target}
 \usage{
 buildpos(para, disp_prof = 1)
 }
 \arguments{
 \item{para}{a list containining the shape parameters}
 
-\item{disp_prof}{if 1 a ggplot of the shape is added to the output list, otherwise, no plot is produces}
+\item{disp_prof}{= 1 if 1 a ggplot object of the shape is added to the output list, otherwise, no plot is produced}
 
 \item{para$shape$ni}{Number of integration points}
 
@@ -30,4 +30,7 @@ para$shape$L <-30
 para$shape$L_a <- 16
 para$shape$rho_L <- 3
 para$shape$order <- 7
+}
+\author{
+Sven Gastauer
 }

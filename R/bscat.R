@@ -1,7 +1,17 @@
+<<<<<<< HEAD
 #' simulation average backscattering over orienation and length by euphausiid and copopod
 #' @param para Model Parameters
 #' @return list with all parameters for DWBA
 #' @import ggplot2
+=======
+#' @title Simulation average backscattering over orienation and length by euphausiid and copopod
+#' @param para Model Parameters
+#' @param app = FALSE [boolean] function call from shiny interface or command line
+#' @author Sven Gastauer
+#' @return list with all parameters for DWBA
+#' @import ggplot2
+#' @export
+>>>>>>> 96fcff5151d2be37a569b0de9bccf0f5ac743df4
 #' @example
 #'
 bscat <- function(para, misc, app=FALSE){
@@ -107,7 +117,11 @@ if(is.null(para$shape$profile)){para$shape$profile = -1}
 if(is.null(para$phy$body_ih)){para$phy$body_ih = FALSE}
 
 #define if in script mode or app mode
+<<<<<<< HEAD
 if(exists('app')==FALSE){app=FALSE}
+=======
+if(exists('app')==FALSE){app="script"}
+>>>>>>> 96fcff5151d2be37a569b0de9bccf0f5ac743df4
 dwba_out=DWBAscat2(para, misc, app)
 ka = dwba_out$ka
 ang = dwba_out$ang

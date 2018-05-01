@@ -2,19 +2,23 @@
 % Please edit documentation in R/bscat.R
 \name{bscat}
 \alias{bscat}
-\title{simulation average backscattering over orienation and length by euphausiid and copopod}
+\title{Simulation average backscattering over orienation and length by euphausiid and copopod}
 \usage{
 bscat(para, misc, app = FALSE)
 }
 \arguments{
 \item{para}{Model Parameters}
+
+\item{app}{= FALSE [boolean] function call from shiny interface or command line}
 }
 \value{
 list with all parameters for DWBA
 }
-\description{
-simulation average backscattering over orienation and length by euphausiid and copopod
-}
 \examples{
 
+<<<<<<< HEAD
+=======
+\author{
+Sven Gastauer
+>>>>>>> 96fcff5151d2be37a569b0de9bccf0f5ac743df4
 }
