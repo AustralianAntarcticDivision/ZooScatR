@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Sven Gastauer" />
+
+
+<title>Running a DWBA simulation programmatically</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Running a DWBA simulation programmatically</h1>
+<h4 class="author"><em>Sven Gastauer</em></h4>
+
+
+
+<p>This vignette will provide a brief description of the DWBA model used within the ZooScat package, explain the needed input parameters and provide a few examples.</p>
+<div id="quick-start" class="section level2">
+<h2>Quick Start</h2>
+<p>For a quick start, a minimal example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fname &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="kw">system.file</span>(<span class="dt">package=</span><span class="st">&quot;ZooScat&quot;</span>),<span class="st">&quot;/extdata/configs/config_0.dat&quot;</span>) <span class="co">#Loacation of the parameters file</span>
+para =<span class="st"> </span><span class="kw">read_para</span>(fname) <span class="co">#Read parameters file</span>
+<span class="co">#Create list with soundspeed info</span>
+misc &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">cw=</span><span class="dv">1500</span>)
+<span class="co">#Run DWBA based on config file</span>
+res &lt;-<span class="st"> </span><span class="kw">bscat</span>(<span class="dt">para=</span>para, <span class="dt">misc=</span>misc) <span class="co">#Target strength vs Frequency</span>
+res$rplot <span class="co">#Show the result plot</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Target strength vs angular position</span>
+para$simu$var_indx &lt;-<span class="st"> </span><span class="dv">2</span> <span class="co">#Set output variable to Angular position</span>
+<span class="co">#Run DWBA based on config file</span>
+res &lt;-<span class="st"> </span><span class="kw">bscat</span>(<span class="dt">para=</span>para, <span class="dt">misc=</span>misc)
+res$rplot <span class="co">#Show the result plot</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Backscattering amplitude vs ka (Wavenumber x width)</span>
+para$simu$out_indx &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co">#Set output to Backscattering amplitude</span>
+para$simu$var_indx &lt;-<span class="st"> </span><span class="dv">3</span> <span class="co">#Set output variable to ka</span>
+<span class="co">#Run DWBA based on config file</span>
+res &lt;-<span class="st"> </span><span class="kw">bscat</span>(<span class="dt">para=</span>para, <span class="dt">misc=</span>misc)
+res$rplot <span class="co">#Show the result plot</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Reduced Target Strength vs Frequency (Wavenumber x width)</span>
+para$simu$out_indx &lt;-<span class="st"> </span><span class="dv">4</span> <span class="co">#Set output to Reduced Target Strength</span>
+para$simu$var_indx &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co">#Set output variable to Frequency</span>
+<span class="co">#Run DWBA based on config file</span>
+res &lt;-<span class="st"> </span><span class="kw">bscat</span>(<span class="dt">para=</span>para, <span class="dt">misc=</span>misc)
+res$rplot <span class="co">#Show the result plot</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="the-dwba-model---a-brief-explanation" class="section level2">
+<h2>The DWBA model - a brief explanation</h2>
+<p>A detailed description of the DWBA model and its application to the scattering properties of zooplankton can be found in<br />
+The DWBA for a body of an arbitrary shape and size for an arbitrary frequency can be written as: <span class="math display">\[f_{bs} = \frac{k_s}{4}\int\int\int_v(\gamma_k - \gamma_{\rho})e^{2i\vec{k_b}\vec{r_v}}dv \]</span></p>
+<p>or under the simplified form for a deformed cylinder:<br />
+<span class="math display">\[f_{bs} = \frac{k_s}{4}\int_{\vec{r_{pos}}}a_c(\gamma_k - \gamma_{\rho})e^{2i\vec{k_b}\vec{r_{pos}}}\frac{J_1(2k_ba_{c}cos\beta_{tilt})}{cos\beta_{tilt}} \]</span> where:</p>
+<ul>
+<li><span class="math inline">\(f_{bs}\)</span> is the scattering amplitude,<br />
+</li>
+<li><span class="math inline">\(k\)</span> is the wavenumber defined as <span class="math inline">\(\frac{2\pi}{\lambda}\)</span> where <span class="math inline">\(\lambda\)</span> is the acoustic wavelength [m].<br />
+</li>
+<li><span class="math inline">\(\lambda = \frac{f}{c}\)</span> with freqency <span class="math inline">\(f\)</span> in [Hz] and <span class="math inline">\(c\)</span> the soundspeed in the surrounding fluid [m/s]),<br />
+</li>
+<li>the subscript <span class="math inline">\(s\)</span> refers to the surrounding fluid, the subscribt <span class="math inline">\(b\)</span> refers to the scattering body,<br />
+</li>
+<li><span class="math inline">\(\vec{r_{pos}}\)</span> is the position vector along the body axis,<br />
+</li>
+<li><span class="math inline">\(v\)</span> in the general model is the integration vloume of the body with the position vector <span class="math inline">\(\vec{r_{pos}}\)</span><br />
+</li>
+<li><span class="math inline">\(\gamma_k\)</span> and <span class="math inline">\(\gamma_{rho}\)</span> are related to the body material properties <span class="math inline">\(g\)</span> - the density contrast and <span class="math inline">\(h\)</span> the soundspeed contrast. Both contrast are the ratio of the density (<span class="math inline">\(\frac{\rho_b}{\rho_s}\)</span>) or soundspeed (<span class="math inline">\(\frac{c_b}{c_s}\)</span>) inside the body and the surrounding fluid.
+<ul>
+<li><p><span class="math inline">\(\gamma_k = \frac{(1 - gh2)}{gh2}\)</span> is the compressibility</p></li>
+<li><span class="math inline">\(\gamma_{\rho} = \frac{(g - 1)}{g}\)</span> is related to the density contrast<br />
+</li>
+</ul></li>
+<li><span class="math inline">\(J_1\)</span> is a Bessel function of the first kind and first order<br />
+</li>
+<li><span class="math inline">\(\beta_{tilt}\)</span> is the angle between the incident wave and the target axis.</li>
+</ul>
+<p>The equation part inside the shape integral for the DWBA can be split up into three parts:</p>
+<ul>
+<li>The material properties <span class="math inline">\(\gamma_k - \gamma_{\rho}\)</span></li>
+<li>The phase <span class="math inline">\(e^{2i\vec{k_b}\vec{r_v}}dv\)</span></li>
+<li>The shape (rest)</li>
+</ul>
+</div>
+<div id="loading-parameters-into-zooscat" class="section level2">
+<h2>Loading parameters into ZooScat</h2>
+<p>Before the DWBA model can be run several parameters have to be set.<br />
+Some example configuration files containing all parameters can be found in: C:/Programs/R/R-3.4.1/library/ZooScat/extdata/configs Parameters (config files) can be loaded into ZooScat:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># filenmae of an example configuration</span>
+fname &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="kw">system.file</span>(<span class="dt">package=</span><span class="st">&quot;ZooScat&quot;</span>),<span class="st">&quot;/extdata/configs/config_0.dat&quot;</span>)
+<span class="co">#Read the parameter file</span>
+para &lt;-<span class="st"> </span><span class="kw">read_para</span>(fname)</code></pre></div>
+<p>the read_para function will load the model parameters as a list of 5:</p>
+<ul>
+<li>…$fname - Can be ignored in the scripting version but can be used within the DWBAapp()<br />
+</li>
+<li>…$shape - Contains all the shape parameters<br />
+</li>
+<li>…$orient - Contains the orientation parameters<br />
+</li>
+<li>…$phy - Contains the material properties<br />
+</li>
+<li>…$simu - Contains the simulation settings</li>
+</ul>
+</div>
+<div id="the-input-parameters" class="section level2">
+<h2>The input parameters</h2>
+<p>Based on the previously discussed parts of the equation and the structure of the parameters file, the DWBA takes four different categories of input parameters (shape, orientation, material properties and modelling parameters).</p>
+<p>A brief description, the input format, the influence of the parameter and its name within the parameter list are outlined below:</p>
+<div id="shape-parameters" class="section level3">
+<h3>Shape parameters</h3>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Unit</th>
+<th align="left">Description</th>
+<th align="left">Influence</th>
+<th align="left">Parameters name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Length(L)</td>
+<td align="left">mm</td>
+<td align="left">The total target body length</td>
+<td align="left">Length of the target</td>
+<td align="left">…shape$L</td>
+</tr>
+<tr class="even">
+<td align="left"><U+03C1>c/L</td>
+<td align="left">ratio</td>
+<td align="left">Ratio of the radius of curvature (<U+03C1>c) and L</td>
+<td align="left">Curvature of the bent cylinder, if no shape profile is loaded ( 8 for straight cylinder)</td>
+<td align="left">…shape$rho_L</td>
+</tr>
+<tr class="odd">
+<td align="left">L/a</td>
+<td align="left">ratio</td>
+<td align="left">L/a with a the radius of the mid-point of the cylinder is the ratio of L to a</td>
+<td align="left">Contains information about the width of the target.</td>
+<td align="left">…shape$L_a</td>
+</tr>
+<tr class="even">
+<td align="left">Taper order</td>
+<td align="left">float</td>
+<td align="left">The taper order (n) controls the tapering.</td>
+<td align="left">For a straight cylinder (<U+03C1>c/L -&gt; infinity), n=2 results in a prolate spheroid if L&gt;2a, or in an oblate spheroid for L&lt;2a</td>
+<td align="left">…shape$order</td>
+</tr>
+<tr class="odd">
+<td align="left">Length average</td>
+<td align="left">boolean</td>
+<td align="left">The average model over a range of lengths will be produced</td>
+<td align="left">1 = perform average; 0 = No average</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">std(L)/L</td>
+<td align="left">mm</td>
+<td align="left">The ratio of the standard deviation of length (std(L)) to the mean length (L)</td>
+<td align="left">Defines the variability of the target lengths, used to compute the input models for the averaged model output</td>
+<td align="left">…shape$Lstd</td>
+</tr>
+<tr class="odd">
+<td align="left">Length increment</td>
+<td align="left">mm</td>
+<td align="left">This value has to be chosen with care, as it has to be possible to calculate the provided std(L)/mean(L) around the provided mean L with the given increment.</td>
+<td align="left">Defines the length increment of the target lengths, used to compute the input models for the averaged model output</td>
+<td align="left">…shape$dL</td>
+</tr>
+<tr class="even">
+<td align="left">Shape profile</td>
+<td align="left">filepath</td>
+<td align="left">Path to a profile file containing 3 or 5 columns. (X, Z, R coordinates and optional Xupper Xlower). The profile file must contain at least 3 columns, containing the center coordinates (X, Z, R) of each circular segment</td>
+<td align="left">Defines the shape of the target, if no profile is selected a uniformly bent cylinder will be computed</td>
+<td align="left">…shape$prof_name</td>
+</tr>
+<tr class="odd">
+<td align="left">Taper smooth</td>
+<td align="left">float</td>
+<td align="left">Filter length to smooth the radius (R)</td>
+<td align="left">1 = no smoothing, otherwise smoothes the tapering (reduces complexity)</td>
+<td align="left">…shape$taper_sm</td>
+</tr>
+<tr class="even">
+<td align="left">Axis smooth</td>
+<td align="left">float</td>
+<td align="left">Filter length to smooth the body axis (X, Z)</td>
+<td align="left">1 = no smoothing, otherwise smoothens the axis (flatter)</td>
+<td align="left">…shape$axis_sm</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="orientation-parameters" class="section level3">
+<h3>Orientation parameters:</h3>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Unit</th>
+<th align="left">Description</th>
+<th align="left">Influence</th>
+<th align="left">Parameters name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Mean Theta (<U+03B8>)</td>
+<td align="left">°</td>
+<td align="left">Mean orientation angle</td>
+<td align="left"></td>
+<td align="left">…orient$angm</td>
+</tr>
+<tr class="even">
+<td align="left">Orientation Average</td>
+<td align="left">Boolean</td>
+<td align="left">Defines if an orientation average should be considered</td>
+<td align="left"></td>
+<td align="left">…orient$ave_flag</td>
+</tr>
+<tr class="odd">
+<td align="left">Theta Distribution (d<U+03B8>)</td>
+<td align="left">distribution (Uniform or Gaussian)</td>
+<td align="left">PDF of theta</td>
+<td align="left">1) Uniform; 2) Gaussian</td>
+<td align="left">…orient$PDF</td>
+</tr>
+<tr class="even">
+<td align="left">Min. Theta (<U+03B8>min)</td>
+<td align="left">°</td>
+<td align="left">Minimum theta for a uniform PDF</td>
+<td align="left"></td>
+<td align="left">…orient$ang0</td>
+</tr>
+<tr class="odd">
+<td align="left">Max. Theta (<U+03B8>max)</td>
+<td align="left">°</td>
+<td align="left">Maximum theta for a uniform PDF</td>
+<td align="left"></td>
+<td align="left">…orient$ang1</td>
+</tr>
+<tr class="even">
+<td align="left">Std.(<U+03B8>)</td>
+<td align="left">°</td>
+<td align="left">Standard deviation of theta for a Gaussian PDF</td>
+<td align="left"></td>
+<td align="left">…orient$PDF_para</td>
+</tr>
+<tr class="odd">
+<td align="left">Increment <U+03B8></td>
+<td align="left">°</td>
+<td align="left">Incremental step of theta for a Gaussian PDF</td>
+<td align="left"></td>
+<td align="left">…orient$dang</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="material-properties-parameters" class="section level3">
+<h3>Material properties parameters</h3>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Unit</th>
+<th align="left">Description</th>
+<th align="left">Influence</th>
+<th align="left">Parameters name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Density contrast (g)</td>
+<td align="left">ratio</td>
+<td align="left">the ratio of the density of the animal to the density of the surrounding fluid</td>
+<td align="left">Influences acoustic impedance, should be within [0.95, 1.05]</td>
+<td align="left">…phy$g0</td>
+</tr>
+<tr class="even">
+<td align="left">Soundspeed contrast (h)</td>
+<td align="left">ratio</td>
+<td align="left">the ratio of the sound speed in the animal to the sound speed in the surrounding fluid</td>
+<td align="left">Influences acoustic impedance, should be within [0.95, 1.05]</td>
+<td align="left">…phy$h0</td>
+</tr>
+<tr class="odd">
+<td align="left">Ambient Soundspeed (c)</td>
+<td align="left">m/s</td>
+<td align="left">Soundspeed in surrounding fluid</td>
+<td align="left"></td>
+<td align="left">…misc$cw</td>
+</tr>
+<tr class="even">
+<td align="left">N body segment</td>
+<td align="left">Integer</td>
+<td align="left">Defines the number of segments with different gi and hi along the body axis (&gt;1 if an inhomogenous body should be computed).</td>
+<td align="left"></td>
+<td align="left">…phy$seg_no</td>
+</tr>
+<tr class="odd">
+<td align="left">std(g)</td>
+<td align="left">std of ratio</td>
+<td align="left">Standard deviation of the density (g), if an inhomogenous body should be computed</td>
+<td align="left"></td>
+<td align="left">…phy$g_std</td>
+</tr>
+<tr class="even">
+<td align="left">std(h)</td>
+<td align="left">std of ratio</td>
+<td align="left">Standard deviation of the sound speed contrast (h), if an inhomogenous body should be computed</td>
+<td align="left"></td>
+<td align="left">…phy$h_std</td>
+</tr>
+<tr class="odd">
+<td align="left">Correlation Length</td>
+<td align="left">% of L</td>
+<td align="left">Controls the variability of g and h along the body axis (only xonsidered if the number of segments is &gt;8)</td>
+<td align="left"></td>
+<td align="left">…phy$corrL</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="simulation-parameters" class="section level3">
+<h3>Simulation parameters</h3>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Unit</th>
+<th align="left">Description</th>
+<th align="left">Influence</th>
+<th align="left">Parameters name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Output</td>
+<td align="left">Selection</td>
+<td align="left">Model variable</td>
+<td align="left">1) backscattering amplitude; 2) differential backscattering cross-section [m2]; 3) Reduced Target Strength [dB re m2]; 4) Reduced Target Strength [db re m2]</td>
+<td align="left">…simu$out_indx</td>
+</tr>
+<tr class="even">
+<td align="left">Variable</td>
+<td align="left">Selection</td>
+<td align="left">Number of output points along the variable maximum and minimum value</td>
+<td align="left">1) Frequency [kHz]; 2) Angle (°); 3) ka (wave number k * a)</td>
+<td align="left">…simu$var_indx</td>
+</tr>
+<tr class="odd">
+<td align="left">Sample points</td>
+<td align="left">Integer</td>
+<td align="left">Number of integration points along the target body</td>
+<td align="left">Resolution of the model variable output</td>
+<td align="left">…simu$n</td>
+</tr>
+<tr class="even">
+<td align="left">Integration Points</td>
+<td align="left">Integer</td>
+<td align="left">Resolution of the model variable output</td>
+<td align="left">Resolution of the model shape input</td>
+<td align="left">…simu$ni</td>
+</tr>
+<tr class="odd">
+<td align="left">Variable start value</td>
+<td align="left">Float</td>
+<td align="left">Minimum output value</td>
+<td align="left">Range of the mdel output variable</td>
+<td align="left">…simu$var0</td>
+</tr>
+<tr class="even">
+<td align="left">Variable end value</td>
+<td align="left">Float</td>
+<td align="left">Maximum output value</td>
+<td align="left">Range of the mdel output variable</td>
+<td align="left">…simu$var1</td>
+</tr>
+<tr class="odd">
+<td align="left">Frequency</td>
+<td align="left">Float</td>
+<td align="left">Defines the discrete frequency for which the model is run if the variable is set to angle</td>
+<td align="left">Center frequency of model variation around a range of theta</td>
+<td align="left">…simu$freq</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="changing-the-configuration-parameters" class="section level2">
+<h2>Changing the configuration parameters</h2>
+<p>The configuration files can be changed either within a text editor or the different parameters can be directly changed within R:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Changing the length of the scattering target</span>
+<span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;Old length:&quot;</span>, para$shape$L))
+<span class="co">#&gt; Old length: 30</span>
+para$shape$L &lt;-<span class="st"> </span><span class="dv">40</span>
+<span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;New length:&quot;</span>, para$shape$L))
+<span class="co">#&gt; New length: 40</span>
+<span class="co">#Changing the mean orientation of the scattering target</span>
+<span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;Old orientation angle:&quot;</span>, para$orient$angm))
+<span class="co">#&gt; Old orientation angle: -60</span>
+para$orient$angm &lt;-<span class="st"> </span><span class="dv">30</span>
+<span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;New orientation angle:&quot;</span>, para$orient$angm))
+<span class="co">#&gt; New orientation angle: 30</span>
+<span class="co">#Changing the density contrast</span>
+<span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;Old density contrast:&quot;</span>, para$phy$g0))
+<span class="co">#&gt; Old density contrast: 1.0357</span>
+para$phy$g0 &lt;-<span class="st"> </span><span class="fl">1.031</span>
+<span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;New density contrast:&quot;</span>, para$phy$g0))
+<span class="co">#&gt; New density contrast: 1.031</span>
+<span class="co">#Changing the output start value</span>
+<span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;Old output start value:&quot;</span>, para$simu$var0))
+<span class="co">#&gt; Old output start value: 38</span>
+para$simu$var0 &lt;-<span class="st"> </span><span class="dv">38</span>
+<span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;New output start value:&quot;</span>, para$simu$var0))
+<span class="co">#&gt; New output start value: 38</span>
+<span class="co">#Changing the output end value</span>
+<span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;Old output end value:&quot;</span>, para$simu$var1))
+<span class="co">#&gt; Old output end value: 200</span>
+para$simu$var0 &lt;-<span class="st"> </span><span class="dv">200</span>
+<span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;New output end value:&quot;</span>, para$simu$var1))
+<span class="co">#&gt; New output end value: 200</span></code></pre></div>
+<p>Alternatively, the settings can be loaded into the DWBAapp(), changed and saved from within the shiny app.</p>
+</div>
+<div id="using-shape-profiles-or-uniformely-bent-cylinder" class="section level2">
+<h2>Using shape profiles or uniformely bent cylinder</h2>
+<p>Shape profiles can be used to define arbitrary shapes of the scattering target.</p>
+<p>The buildpos(para = list of parameters, disp_prof = 1 (include or exclude ggplot element) function can be used to generate shapes. Buildpos builds the coordinate vectors related to the shape positions along the z-axis. The buildpos function takes the following parameters from the parameters list:</p>
+<ul>
+<li>shape$L - Length of the shape<br />
+</li>
+<li>shape$ni - Number of integration points<br />
+</li>
+<li>shape$order - Tapering order (ignored if prof_name is given)<br />
+</li>
+<li>shape$rho_L rho - L/radius of curvature (ignored if prof_name is given)<br />
+</li>
+<li>shape$prof_name - Custom shape, -1 for regular shape, filename for custom shape<br />
+</li>
+<li>shape$axis_sm - smoothing along the x axis (uses smooth function)</li>
+<li>shape$taper_sm - smooths the tapering (simplifies the shape)</li>
+</ul>
+<p>The function outputs a list of 8:</p>
+<ul>
+<li>r_pos - Position vector<br />
+</li>
+<li>th_tilt - Angular information<br />
+</li>
+<li>dr - distance vector<br />
+</li>
+<li>gamma_t - atan2(z, x)<br />
+</li>
+<li>taper - tapering<br />
+</li>
+<li>x - x coordinates (normalised by rho and L for unifomly bent cylinder, normalised for the number of integration points and L if a shape profile is loaded)<br />
+</li>
+<li>z - z coordinates (normalised by rho and L for unifomly bent cylinder, normalised for the number of integration points and L if a shape profile is loaded)<br />
+</li>
+<li>plot - a ggplot of the generated shape, included if disp_prof is set to 1</li>
+</ul>
+<p>If no shape input is given, a uniformly bent cylinder with regular tapering will be used. Input parameters length (L), length/radius of curvature (rho_L), radius (a, taken from L/a -&gt; L_a) and the tapering order (order) are used to compute the cylinder. The tapering order (n) is defined through: <span class="math inline">\(r(z)=a\sqrt{1-(\frac{2z}{L})^n}\)</span><br />
+with <span class="math inline">\(z=\{-L/2│L/2\}\)</span>. For a prolate spheroid, <span class="math inline">\(n=2\)</span> with <span class="math inline">\(L&gt;2a\)</span> while <span class="math inline">\(L&lt;2a\)</span> results in an oblate spheroid.<br />
+Some examples of prolate spheroids:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cyl &lt;-<span class="st"> </span><span class="kw">buildpos</span>(para)
+<span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;Length:&quot;</span>,para$shape$L))
+<span class="co">#&gt; Length: 40</span>
+<span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;L/a:&quot;</span>,para$shape$L_a))
+<span class="co">#&gt; L/a: 16</span>
+<span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;Tapering order:&quot;</span>,para$shape$order))
+<span class="co">#&gt; Tapering order: 10</span>
+cyl$plot
+<span class="co">#&gt; Warning in if (self$expand) {: the condition has length &gt; 1 and only the</span>
+<span class="co">#&gt; first element will be used</span>
+
+<span class="co">#&gt; Warning in if (self$expand) {: the condition has length &gt; 1 and only the</span>
+<span class="co">#&gt; first element will be used</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+para$shape$order &lt;-<span class="st"> </span><span class="dv">2</span>
+para$shape$L_a &lt;-<span class="st"> </span><span class="dv">1</span>
+cyl &lt;-<span class="st"> </span><span class="kw">buildpos</span>(para)
+<span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;Length:&quot;</span>,para$shape$L))
+<span class="co">#&gt; Length: 40</span>
+<span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;L/a:&quot;</span>,para$shape$L_a))
+<span class="co">#&gt; L/a: 1</span>
+<span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;Tapering order:&quot;</span>,para$shape$order))
+<span class="co">#&gt; Tapering order: 2</span>
+cyl$plot
+<span class="co">#&gt; Warning in if (self$expand) {: the condition has length &gt; 1 and only the</span>
+<span class="co">#&gt; first element will be used</span>
+
+<span class="co">#&gt; Warning in if (self$expand) {: the condition has length &gt; 1 and only the</span>
+<span class="co">#&gt; first element will be used</span></code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAkAAAAEgCAMAAABrWDzDAAAA51BMVEUAAAAAADoAAGYAOpAAZrYzMzM6AAA6kNtNTU1NTVlNTV5NTWNNTWRNTW5NTW9NTYNNTY5NbmNNbqtNg8hNjshZTU1eneRmAABmOpBmtv9uTU1uq7Vuq+RvTU15tat5yP9/U02OTU2OWU2Obk2OtauOyMiOyP+QOgCQOmaQ2/+d5P+i//+rbk2r5Mir5P+1//+2ZgC2Zma2///IeU3Ijk3IyI7I5KvI/+TI///bkDrb///kq2Pkq27kyI7k////tmb/yHn/yIP/yI7/25D/5I7/5Kv//7X//7b//8j//83//9v//+T///9N2k8wAAAACXBIWXMAAA7DAAAOwwHHb6hkAAANoElEQVR4nO2de5/USBmFs8sC7QV3XFFkHHXxwrqKiOuIgKO4jQjL5vt/HnPvSuqtJG/eSnpz6jx/DDPp0NPnzPNLqnPpynJCDGTnfgFk31AgYoICERMUiJigQMQEBSImKJADy9DDzhxYhh525sAy9KTU2ftH9/sLvn1yOBwuXnQ/p1RGLFLq7PrQF+jt5aHicbsgpTJikVBn14e+QMX257N/l1+7bVBCZUQjmc7ePzoMBDrW5hQGXTVLkikjIql0dizsOfYFavdoN+WGqCKVMmKSSmfHe0/zvkDFlqce/Ly9bPdhqZQRk5Q66wtU7NMeN98UclUsKCM7YX+BeySl2EOBGm+ab27fvm0TKKUqT6SUelygXF1G5hPnhe6JlCJHFUi2JT2HUsobGESrBSokCXuS2oYopayR3oVNGZKWQQlFzaMcB5qxhUlqI5RM0NwTaNGR6FlypDSgTiRmxdE7F1YYpDsXNtOMhAxKI2VNJ1Cz89KfjZ+vRTIGJRGyYSiQ/nogjRQUKD2mytA5kSVRbgoZZzP17ir2EyKQQMT5jJexpCr8evETKhg/Phj/KRGAD6hhrIylRaEXjJ5PxUgZi99Sob8XA4+nY+wM6fInxVYIOpyWUBmmg4IUKB0CZdgOKoMfkkbOpiYskOlZoQ0CjqZHLsMsAAVKBbEM+wYEehOEm2wBIYHMzwtsEGywJQQuk7d3RIHSYLX7LIA3Qai5FiHvwtZ7agRggy1B3AKt+NwIoOZaBAXSg5prEUIZ8foBbRo01jL8MmLWg1k1ZqqFUCA9mKkWQoH0YKZaiFdG3HYgu4YMtRQKpAcy1FKGZUQuB/JwNGCk5fTLiP73pkDorC8QXt14iQysLBDkJggvkYFeGStsLygQOEOBoj8/oEFwgSysLRDiJggukAW3jFW2FoCbILQ8JpwyVvpTUyBo+gKt8hso0F4Zfpxd3kwh5i7dRCCwxsHiBPE+UNNZJn5K60rFoPmTikD+9Ja597G//S3QWq8ErXC0PAH8DxXPyw9rveqvRYH0oOUJ4E9rUNrUTrLSsoVAaI2DxQkgTKxSjqEvnhejIMeiTPguOmCNg8UJIExveRpDn3ZkFEgPWJwAwuRy1UTOpTpvL+tFvSkvKdBcwOIEEAVqx0M33ZuxTQQCqxwrTQhRoJajMF8YBZoLVpoQwvSWJ4QZC1dtBatyrDQhxHdhLRTIAlaaIMJxoE4qYRe2rkBQnUOFCSMdiW6luvamvFz1Twx2PhUpywj+9JbVcaByE3T0Tqau/CemQHukdza+2fbc1ItOw+qTQGu+FAq0S9zrgdqdV3VBkHNGngLpQcpiZjOBgFoHimJnG4GwNkFAUezUZay+haBAqHQCrfxrKBAoFEgPUBQ7FEgPUBQ72wmEUztOkghsJBDU2TCgKHay3j/r/yIEgKLYoUB6gKLYyZyvG/wiCICi2KFAeoCi2KFAeoCi2KFAeoCi2KFAeoCi2KFAeoCi2NlMIKDacZJEgALpwUkSge12YTgnM2CCxIAC6YEJEoOqjC3+uBQIEwqkByZIDCiQHpggMaBAemCCxIAC6YEJEoPNBAIyCCVHFMoytvnTUiBIKJAelBxRoEB6UHJEgQLpQckRhe0EwukdJkgMKJAemCAx2EwgnD0YBXJpBNriA6ZgeocJMoUw5aW37LQFWk2i9olheocJMsHYlJfdsv4uLLpE7hPC9A4T5N2Du933H/7w1eBRacpLf5k3Boq3Oxs+E0zvMEHePcg+brR53X3XIX3QuL9MHETbJZKeAaZ3mCCFNln2sPj3wxeZL5A05aW/LPwubOHQOvzfYHqHCVKbc+vVy+Ivdnf4kDTZirBs4mx8ls32aHJVmN5hgpS8rv5ot155D0hTXgrL5l3OkfURl069UpzacZKUlAZ9IiyXJpwbLmunvFTuqmY7M/hPmtW/y8AEyatxdMlHX3qPzBEo5xWJS4AJkucvq1F0aZG3EaJAqwETpBSnHv0889+FSVNeCst4Y6EemCCFQA+bb9/cCQo0410YBVIBE+Tdz503X39dfhyIAumACTLO/CPRFEgHTJBxpCkv/WUUSA9MkAmkKS/Fs/EUSAdMkCmkKS+l64G2qATIn3QEmgMF0oOTJAIUSA9OkghsNwZa/1dsBVAUOxRID1AUOxRID1AUO41A649QgFoHimKHAukBimKHAukBimJnK4GQSkfKYoYC6UHKYoYC6UHKYoYC6UHKYqYTaOVWkEpHymKmKYMCKUDKYmYjgYBOpVKgHtsItP4uckuAotjZTKA1n35jkLKYyQb/rvRbKBAqFEgPUhYzmffNKr+FAqFCgfQgZTGziUBYb8IokMtWAq347JsDFcYKBdIDFcZKJnwX/5dQIFg2EQiscqw0RrbZAq331OcALI4NCqQHLI4NCqQHLI4NR6D1RrpgjYPFsbGFQGiFo+UxQYH0oOUx0RNopWbQCkfLE0SYsfD9o/oj7gafkVh/S4HmgZYnxNiMhVsKBNc3XCAZacbC/Nh8VGIHBdIDF0hG+pzo/Nr9oaQv0CrVwPUNF0hG+qT6b59082Y0uGWsIxDWidQSuEAi0lwZxRj64nkxCnIsGggUvxuwi8lK0PLISDMWdmPo046sV8ZKAkV/zjMDF0hEmi+sGBdV6ry9rBe1MxZ2rFANBdopokDteOimezO2tkCAe7CUBWo5DqZ76ojeDaA/4AIdm6OH0oyFHcMJ5zoo0AzwErl4Arnvwlo2EwhxDwYuUIdwHKiTKrgLi10Ooj+pCCQdiW6luh7MWHiCAk0DGElCmrHw7WW1CTqKJ1PFn60glo2YSUKasfCmXnQaVntlxG0HsmvIUBLSjIXVBUHOGXkKpAcy1FJ8gaLWA9k1ZKileGOgqMNezKoxUy1E2AJRoAkwUy1EEihaQaBNg8Zahl8GBZoCNNYyKJAe0FjLEAWK1BBq0ai5FiGUEUkgyLMYFai5FiELFKMiCpQEUhlR/vSQF3LUoOZaxJoC2Z/kuwlssCXIZdgrAt4AUSCXQBnmjoD9oUAuKwmEvAGiQC6hMowlIftDgVzWEQh6A0SBXIJlmFqC9ocCuawjEHbH0OG0hMuw1IRdMXY6JRRID3Y6JSNlLB/HgDcMHk/HyBZo8UgYvWD0fCpGt0AUSAQ9n4pxgRZVBd8vfEANY2UsMwj6EFAFfEANo2UsE2jpS9kN+AkVTAmkLAv7EHRDAhHnM16G2iAKlBoTZSiFwD6J2pJAxPlMlaEyIg1/KJDLdBnznUjEHwrkMqOMuVak4g8FcplTxkwvUvGHArnMKmOWGcn4k5RA7x8NJpgbToMZbeOSUKsJRe0+GrHFmwZztkBTB4wWvLi9klDW60NfIH8aTMUAeZVLh/ZIMmGHn8gqffj43DKyMYXS8icZgY6FPYNJdv3pD1QHeQRRJjZNkKSS93jv6WCWZmECFuVx5sxfkpw/yQhU0hdImAZTearrNJzOOqK80D2RUuKhQP1J6LwpL2eR9YjyMvdFSpnHBcoNZaRqT06B8igCJQx2Z8fekcLAIJoCWcDubJZAi96FkYaUOot3HIh0pNTZMdaRaHIipc6O3rmwwTSYKZURi5Q66wRqdl4Lz8YTl5Q6Gwq08Hog4sLOHKrjgbezEMFH9A/Uj5w7bwwgQkTltv4R/QMjj+wMCjSEAqmgQEMokAoKRExQIGKCAhETFIiYoEDEBAXqCNy4+o/B4eq8uUXIW1qt/ulvR9aevDV2h1CgjtCNq4MTZu4jvw6tLq198WLy1tgdQoFa5BtXv/n88KO/9E7ZF3x9GN7T2qxeblEuXgzWdk7BTd0au0MoUE3oxtXymsar3kVDBX87fDq4kqhZ/Vjuwq4Ga1/XP8y5NXaHUKCK4I2r14cfVxcsni5bLP7ivzn8pPrGXVitXnyplvXWflJdcj3r1tgdQoEqQjeuFl9/V10yfbpwOs//98vDr4rRy72nzsJq9fJLtcxd+/2ji+fF2t+bc2vsDqFAHdKNq8XX31c3bZxu3cjz//60GSr/4rSwWr38Uq3ort0Nrq+mb43dIRSoQ7ptrPj6Z0+g/xwOP8tLM35w6QjUeOMJdKwGUcXa955O3pi2QyhQx2yB/nn4/h/Lf2/K3Zi7uihQO8K5GY6BKBAYswVqvz/OEuj09J/9iwJhEb7vsH2kGOj6Y6B29FuMbrqF3SA6KFAxVP771K2xO4QCTQnkvwtzBJrxLqwlLBDfhWEw9zhQebj5fv0fZhwH6jTxdmE8DgSGeOOqdCT6ujkBen2YcyS61eT6cDV5a+wOoUAd4o2r33x++OGfBueryiM7xY9fHwbnwqqzYN65sGLtx3lty+StsTuEAnWEblx1BkrNIzfSQv9sfH9t90h06NbYHUKBOgI3rrrXA7WP1Jf4DBZ61wP11r4f/g073v5QIGKEAhETFIiYoEDEBAUiJigQMUGBiAkKRExQIGKCAhETFIiYoEDEBAUy8e5B+7GrH3917tdyHiiQCQpEgWLw7sFHX577NZwJChSBD19kD8/9Gs4FBbJT+HP33K/hbFAgO8+yT879Es4HBTLzMmV/KJCZl9mtV+d+DWeEAhl5newb+BoKZOPNnWTfwNdQIBNv7qT7Br6GApl4dppCLlGRKJAJCkSBiAkKRExQIGKCAhETFIiYoEDEBAUiJv4PySIDLQKx4h4AAAAASUVORK5CYII=" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+para$shape$order &lt;-<span class="st"> </span><span class="dv">2</span>
+para$shape$L_a &lt;-<span class="st"> </span><span class="dv">3</span>
+cyl &lt;-<span class="st"> </span><span class="kw">buildpos</span>(para)
+<span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;Length:&quot;</span>,para$shape$L))
+<span class="co">#&gt; Length: 40</span>
+<span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;L/a:&quot;</span>,para$shape$L_a))
+<span class="co">#&gt; L/a: 3</span>
+<span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;Tapering order:&quot;</span>,para$shape$order))
+<span class="co">#&gt; Tapering order: 2</span>
+cyl$plot
+<span class="co">#&gt; Warning in if (self$expand) {: the condition has length &gt; 1 and only the</span>
+<span class="co">#&gt; first element will be used</span>
+
+<span class="co">#&gt; Warning in if (self$expand) {: the condition has length &gt; 1 and only the</span>
+<span class="co">#&gt; first element will be used</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>Input shape profiles must contain at least three columns with the center coordinates of each circular segment (X, Z) and radius of the circular segment (R). Two additional optional columns can be added to a shape file, the upper (Xupper -&gt; X+R) and lower (Xlower -&gt; X-R).<br />
+Some example shape profiles can be found in C:/Programs/R/R-3.4.1/library/ZooScat/extdata/profiles</p>
+<p>Shape profiles can be loaded and the altered:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># filenmae of an example configuration</span>
+fname &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="kw">system.file</span>(<span class="dt">package=</span><span class="st">&quot;ZooScat&quot;</span>),<span class="st">&quot;/extdata/configs/config_0.dat&quot;</span>)
+<span class="co">#Read the parameter file</span>
+para &lt;-<span class="st"> </span><span class="kw">read_para</span>(fname)
+<span class="co">#set the profile filename</span>
+profname &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="kw">system.file</span>(<span class="dt">package=</span><span class="st">&quot;ZooScat&quot;</span>),<span class="st">&quot;/extdata/profiles/euphaus1.dat&quot;</span>) <span class="co">#krill example</span>
+para$shape$prof_name &lt;-<span class="st"> </span>profname
+krill_shape1 &lt;-<span class="st"> </span><span class="kw">buildpos</span>(para)
+krill_shape1$plot
+<span class="co">#&gt; Warning in if (self$expand) {: the condition has length &gt; 1 and only the</span>
+<span class="co">#&gt; first element will be used</span>
+
+<span class="co">#&gt; Warning in if (self$expand) {: the condition has length &gt; 1 and only the</span>
+<span class="co">#&gt; first element will be used</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="co">#change the taper smoothing to no smoothing</span>
+para$shape$taper_sm &lt;-<span class="st"> </span><span class="dv">1</span>
+krill_shape1 &lt;-<span class="st"> </span><span class="kw">buildpos</span>(para)
+krill_shape1$plot
+<span class="co">#&gt; Warning in if (self$expand) {: the condition has length &gt; 1 and only the</span>
+<span class="co">#&gt; first element will be used</span>
+
+<span class="co">#&gt; Warning in if (self$expand) {: the condition has length &gt; 1 and only the</span>
+<span class="co">#&gt; first element will be used</span></code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAwAAAAGACAMAAAAtcPVNAAAAhFBMVEUAAAAAADoAAGYAOpAAZrYzMzM6AAA6kNtNTU1NTW5NTY5NbqtNjshmAABmOpBmtv9uTU1uq+SOTU2OyP+QOgCQOmaQ2/+rbk2r5P+2ZgC2Zma2///Ijk3I5KvI///bkDrb///kq27k////tmb/yI7/25D/5Kv//7b//8j//9v//+T///8WQtNwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAVCElEQVR4nO2d64LcNBKFzUKgE8IymbAEltmEQDMM6fd/v3Vf7JZsya7StaQ6349k2q1LuVTHunpmOAGgmKG2AQDUBAIAqoEAgGogAKAaCACoBgIAqoEAgGogAKAaCACoBgIAqoEAgGogAKAaCACoBgIAqoEAgGogAKAaCACoBgIAqoEAgGogAKAaCACoBgIAqoEAgGogAKAaCACoBgIAqoEAgGogAKAaCACoBgIAqoEAgGogAKAaCACoBgIAqoEAgGogAKAaCACoBgIAqoEAgGogAKAaCACoBgIAqoEAgGogAKAaCACoBgIAqoEAgGogAKAaCACoBgIAqoEAgGqSCwCKAi0BAQDVQABANRAAUA0EAFQDAQDVQABANRAAUA0EAFQDAbTPMFLbhmaBABpnuFHbjlaBANpmGKCAKCCApplCHwIIBQJomfuTf4Djw4AAmsZ88LM9j27jBAE0zuD9sJsTM4cLEEDThApgmjhAARBAywybH/czQgEQQNPECgAKgACaJlQA94QQgPgCgZ+ls6nOtwSgu8UgAAGExuAqG18A6rsACKA6gwEzJ+HKXkYIQHqBvWNFPs97DgGQChhsAahuMgggD+SwWjz4eZtZrsJodZofOFV2BwSQBfJ4ZpWOEY+OlKRaF3XqbjEIIBpHsJNH9I74JyvAlXI+HMrIqK/FTCCAWNYT2POPAy2U12nICnAnpMynV6Ij1dcpEEAkyyUcY0JLCGVHEloub4zP3/mLgQAMIIAQVpPIOeiswfVuLDtTkHL5yza0SKxURZP5gABCMEJoMK45hjO7BTkL3xvC02YY7hQuO3eL6hcIIABzhGEM/d0Jt0vyFb9ZecCG75zVpR0NbeYDAuBjLLXsxGKwALYVsGOfp3T/OwAK2swLBMDmHkKkhU4r3zL+yKOUvSz7aZdz9MAiewMC4MIYgszpV0zf+fP4y+PUTczWfaP5gQC4MOPfyrjQgLek6/cJntabM5TQQrsCAmDC7QC8JeyV45EIUwB7fc0i2XaiHtsWAmBSOgyGzY97mXe2BO7JCCXRErYGBMAjvgNg1+j9QMl8tXZ/sWp/w4Ix8W8JCGCfxfZuzeoDBDAQApy0Zx1qg2w4d/Plw+FwePNxefnl8W1ggW1gLd2Uv70hKvaI28Z7yayvuuoEGPfy/HC48H5x/enQtQDMZf8qY2BjIB9QOyn+dxVgflPHC7mg38r4/P/+j/O/iz7g6dChAOz2rmjIzYKIGSgxXrcVsOgBqrskHfQ7OV4jf1TAO+Pqy+OhSwHMTS6htZf7Z/kq2jhB6v3UNvQ7mUY6n88dwcRxjP5jfwKYYv+0POFch1Lxf6nLZ4H3U9uQ72R88l8H/88Pxhjo+PqXU7cCIA+gC1DMDqIARDglBeQbGcc6728/jEFv0p8ArJe6erghBs7bXXqhI68wBHCL+w0BvBrpwDNG1HfU0lRcN+wQQC9+SSoAVoHiuGwZXX9o9ybica35rjzSj4sggBvGjmk/rRvCffFrYweuHxfxJ8F9CsBq9m5aN4jbM+DiBt9Zun58FLkKdKYjASwffCoZrOHPtU9cJ+rFR5H7AGd6EIA52u2mbUNZ+MDtkV6cFLsTfOpMAIA4vunFY6yzQKMC1meBehBAk0bng3Z4KLsZRQg9DWocAW1XANY4F/DoxGeh7wP0IABJ593aoxOXJb+NdvwyLfgg/oPoxGd6BTBg2T+OPrymSQDr38mG+I/A77apay1oTDCKBGAFu3nes5ZBjbMhgMs/bXhWjwCs8Y5YKxvC60NjV72ULeEoFEArnbN4fF5sqndVIwDjpGcDzdIE3jfo7wnku1qNABD2qfGFd1u/QUWRAGob0B3u6LaCXr4C1AhAql0N4zkm2tYvkNAiAOnt0CROBawEINvzOgQgvBGaxbGR6Phc1iYmGgQgvAlaZq2AZcBLd37nAsCiZ2Zurw5bFxYpyhrEpW8BiB+BdsLWso/wBuhaAIj/Uph7X76vZNKxAHDQsxwbpx+EN0G/AkD8l2Tj3TrZjdCtABD/ZfG/Wye7FXoVAMK/OL5jtrLboVMBqIr/wUltq2bkWOKiUwF0v/q/H+pipFC7/m06FYAMK9ITFNS1ZSC6MfoUgAgj0pHkYV5PBtX7oC16FIBohzPIMYapIYP6o7ANOhRAfQsiKDONLRuSAuYhfroTgGBfr6i5dlO4LrGt0psAqjvavSYpcqWynBUCbtZHTwKo7GYRQR1ACaPluqYjAdTzcauhP5PferEe6kYAFRf5RDYsl9y3IVUBvQigkn9lNmogmW9Gpq/6EECdMYjMFo0iqyOH+ksUa7oQQOnwl7GIk4+MGhDntA4E0PECej2yuVSa89oXQNHw1xH9N/LcrDAPNi+Akns5wtquAFluWZQXWxeA5y2kpFWoDP2ZDPcuyZmN31yBtWtJrVWJ5E4QtB7UtgDyHpgU00gCSOwNOc5tWgCZ1inw3HeS0ilyXNyyANJWJeWMpmTSeUeMpxsWQJqaEPc8UnlKis9bFUDMNGowSWiTFhJ5TYb3mxRAWOQi5tORxI0i2qJBAfDDGHGfg3iXSmgVjgFfPhwOhzcft69lvyNu/AtwcrfE+lZA2zAMeH44XHi/ea3E1hSiXw7xGkhkSGj95JTjs/77P87/Gs97x7Xc71Twwj+jLWAiUgN1G4le+/Ea5WO0v9u6lvN2ePGP8C9HlAbq/ioDcsqnw9vL/5/PD33/tXw34/v1257ECP+yxHi8YluRqx6f8teB/vPDPN5xXRPxLhGivwrhGmA93JJCrvXl8RbsL4+vf9m4lut8Tq7EICnBGqi1JGpV+vcP380///Of36yEc4xbArCvvRpJfxfcP/WL8K9LYCRX2qtZCGD41y3s/5x/ukERwKrAJBZyfxl+agMAm6BGqKMAu8Y/RxN+HP//56dBiACYXkH4CyGkIaooYFHhOfK//v3TaMh3i4TzhNcIdte1DGeUGamTVg5iCD2ulcGUzSqXF/68xNzXvy+vV1kFwrp/0/BbpLwC1tWdFfCNI2WFfQDe4z9hxT1R+TdmszMUtndZ2zgPPvPVz6uU5XeC8fg3iFlebGOn9Za+rgA+XWbBZxWsOoHriZ/VWaDltbTvjZKTJqtVJpeNotCllbqdY8A4KIcZpMrOgX8d/f+6WgVanPy8DX4yngYlx7+CUw+D9R8r58U5lc+bsXuBLGYQ6hoF8OPtx7++XQnAOvs/jf4zvQ8wkPfG+49+4xZDJ5W1fcRtpIL22gL4t7H489+VAPgFhoGhv4XRFQZPKau7idlQ5exNv3Ebk/c8XsW6/wLTI9w4mtILcJTQ4yxyBMB+1VdH+FtzoYB3oacf0xoVAs/0bGbkriiswGHgxr+S8F8MCLmPCKPvSGhSKCzb85mRt57wk4AIfxcLr/D2RoQJgDe9y2lHxmpKnAPUE/7rgN/1lNVfuK9Xhdp4ygTASh1QRZu4ngw7zjKyLJWT0rIYqAooYrAEAXC2KhXset1x9ozbveX122uKwLFT/rMTpPILHeEQIABEvxPvtOh6usHjiXnhf5V1IC4ycxfjgpCjgPoCoGZQFf2uZ7jxnfdo0FbQ0FYa2OsRYVAqKKKA2gKg3WLlE42Z2ArWnYy+RLvDI4oCyvibpoDcVtQWALErDDNFOBvBSLvhdaqdwL0NgnbURSgoCYQaZOgwU4G+XnyRqoPoH+6sLnlyEAt21ESyxnFxUaaM8beQ2UiOAknjzB6i34p/O+69PiBPixw1BWSzJr7DfIloRAy7lRRYkapTIG02lsCc+qwD3/rOmYFadFhOpwBu/w5byTJQXQE1BECYi/US/aft9xrqCGCj5yi/d1z7OVhcAISliNh7thpxZ7SdmYDWZdi6SEnOSRXO5LmtlVVShSxr+Amy1p64wN1wjI5+M+K3hh8lIDwNHJfo6wgrAYSZFdwdp3Hr/kwgvo5yZVMEsPV1ZO32HNOWgJEorhayNbsJiNMCf/bFZ2K+XSto39vOjnBqRQWUHwJtfRdrzcaz3moqM0lSDyweyYT0zGDcys5Zgd40Yrsa8/LNl1v71jSLdi0IL3unZDEFRj+Xd0Y6t0aaR0bT5ZTOtU0grQesC+DVZ34iZ9sqZbca4+p1hn+/4QY7ASkCiI/C3YG+0VTzHOEU++iyLQiYdIRNY+/pPSWlrdSZIrL3WhcX931otSIKTDOV2vO/8fU18TwqYtSxVzoz/tdGcbBmNpx8i0II9VAuximgjgQkCCDRSgI/dub2WgSE+WGVZfHZkZAT/6d7IPHj35rZsLItCiFU46965xrLru0ZYg4F1BdAioFjSBnO0fq1Y7AS2RnMkPdKKMyWoAYOyzhsfPLUQrqWYCK3bUV6CdQuMPSOrMF2WBl2cM+lnkxdmSKZRk0rBbB7H59BQZnCxM+r1hPsqczZLfVeeHIFVBRAVOhGhb6zQMMga6psCMD4b0qV1IwQArsN81NYLe5sCXxRVgG1BBBxI9GP/q0yr5/u105zoN9lMeUxcqayowyWxSTbSwpgtxOIrsAqMGlpxALjbiJLyNmCGk7m/HLZJPbSUXPhf1qM/mg5CFeWJYdTUAHlBcC4AddzJ9cDd/FUtEf/q7S5VqULYc1kaDkIV6aiw2xalLLxVVLflxYAdXvIhpk7nj2ZNR3+J/P+qEPW3Qv3kkONIpWfusutvQrkLsOchd4lUPCp2964nsnkVfJ+3e6F3S+YbM4EEtWRtqg0BdqjC2c/UIK+w//EXr5ajQLpSYMpogBpAnC3SeeP40qwvDpsfiR+xWRrJpCsjlQFpSiwxSVFLQwbn7ZSnqJW7/MrQJAAKgx0AJlwAUQNYfNPNRKVE11gjYE+YGDNzKgpb8kjNJBbAVIEgOgXj7EXvt1SrulC+OMtswKECADh3wDzyimvBzC2zIOa2ZsjScDUE4B1qlLBumP7UIcyOwtGARJgXU5SdtYCF9u8CP1WoLbY3oQ54L0fzmVe0fFFsApE5LcNqdn2T1uz+3zP2zfxIVRRAKlrBlKwGtc3fuHGgPultOgoqiKA1HUCWViNvHFqjhkKbgXEHj2Iy16gQNAeZmD6lzH5ncBmRWFAACAD99je3jFgaiCDAjiZv3w4HA5vPi4vvzy+DSwQ9MsU2zsrptEKiJ0IMPI+PxwuvF9cfzpAAGAFdcmUF8DJp8L0rOPz//s/zv8u+oCnAwQAXFAjk/dbZZwKYOTfLc7H8Rr5owLeGVdfHg8QAIiF1QmQLkWU5mEa6Xw+dwQTxzH6jxAAiKaWAsg5xyf/dfD//GCMgY6vfzlBACABkVPh4GqpCcexzvvbD2PQm0AAIAnhbyi7L4UW5WaO+w0BvBqBAEAw5CNC6RSQVAARdgBwhroqmkwBEAAQBXVrzLkhEBB9uzmOt92veRIMAYCckI8Lu3eF2dXtJVgJwFoFuqaAAEBCqBJIcjIoch/gDAQAUnOL5J1wTqGA2J3gEwQAcsL8HcUJjlj7uJ4CWp8FggBAVu5/pcTxnSt57PlSH9ZpUOMIKAQA8uIPaddVngJC3weAAEBBWApgzQTwRhhoAZ4COAVH5s9fIACnjac6XooHKvAroNg7wXUKBOCCf3Jb6J3gSgUCcCOHAiAA0A4ZpsIQAGgJ34HP/G+EVSsQAIu0oyAIADRHSgVAAKA9EioAAgANkm5DAAIALZJsKgwBgCZxvwCc4ZXI6gUC4MS9J5DvlchaBQLgJM3ZIAgAtIp/X5gRhBAAaBb/ey9ZXomsVCAAPjbelcQbYUAB+CN5QDdF/0henQIB2KLcH8mrVCAAm0AAQDchvxTayJwYCACUB2+EAd3gjTCgG7wRBnSDN8KAbvBGGNBNnr8RVr1AAKhk/RNJtQoEgAr778NAAKArqH9k1ciR3ITUBQLAgakACAB0Rra/EVapQACY5PobYXUKBIAL/kYYADQgAKAaCACoBgIAqoEAgGogAKAaCACoBgIAqoEAgGogAKCa9AJw88pzXQiyzYN14fisyyYAD68K1ROIbPNgXTh71kEAF2SbB+vCgQBIyDYP1oUjRQAAiAQCAKqBAIBqIACgGggAqCa7AF4e39oXvnw4HA5vPuaul4LDlJfHw4XKBrqcJMdxcv12gxF02QXwdLBteX64eup97or3cZkyXavbkFuW1XecXL9NMIIutwCeDrYtoxS//+P8b31POU05LlxXBZdlchwn128TnKDLK4BLx2jZcrwaMRrzLmvNBJymPNW3y22ZHMfJ9dsVXtBlFcBxNGTxaJg6p89nTdbFZcqXD69/qWbQjMsyOY6T67cLzKDLK4DRK7Ytowiv47Dnh9pdudOUl8c3/xvHi3Vb02WZHMfJ9dsVZtBlnwTbtozd0/vbD7Wd5TRlmi1V7dBdlslxnFy/3WEEXXEB3Eyo3o5uU47XJnx+qGmdyzI5jpPrtzuMoIMALFOmUeLnmosaDQpAhN/uQAAENk051pxqNiiAiap+u1NXAEdr08EzH6nXjpN5m6ZUnWq6LBPgOIol1afoVxhBV0sA9Ty1EoDLFBkCaGcVaKK6dVfkrgIJWs52mTK7qm5X3tw+gBC/zUjZB3DYImdD02nK5Kq6G5vt7QTL8NsMI+hKC+B6IEPCkRanKc8Pl0fZsa55LsvkOE6u32YYQVdOALeHhJxDjbYpN/M+Xy9Vnmi6LJPjOLl+m2AEXXEBCDrWbpkymbc+SlUDl2VyHCfXbzcYQYc3woBqIACgGggAqAYCAKqBAIBqIACgGggAqAYCAKqBAIBqIACgGggAqAYCAKqBAETz9w/TXzX812+1bekTCEA0EEBuIIAW+PuHr36ubUOnQAAN8M9Pw4+1begVCEA+Y/x/V9uGboEA5PPr8E1tE/oFAhDPJ8R/RiAA6Xwavv69tg0dAwEI508sgGYFApDNX99iATQrEIBo/voWC6B5gQBE8+swAyFkAQIQDQSQGwgAqAYCAKqBAIBqIACgGggAqAYCAKqBAIBqIACgGggAqAYCAKqBAIBqIACgGggAqAYCAKqBAIBqIACgGggAqAYCAKqBAIBqIACgGggAqAYCAKqBAIBqIACgGggAqAYCAKqBAIBqIACgGggAqAYCAKqBAIBqIACgGggAqAYCAKqBAIBqIACgGggAqAYCAKqBAIBqIACgGggAqAYCAKqBAIBqIACgGggAqAYCAKqBAIBqIACgGggAqAYCAKqBAIBqIACgmv8D7e2Hx3DJyYAAAAAASUVORK5CYII=" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="co">#change the axis smoothing, taper smoothing and L/a</span>
+para$shape$L_a &lt;-<span class="st"> </span><span class="dv">20</span>
+para$shape$taper_sm &lt;-<span class="st"> </span><span class="dv">100</span>
+para$shape$axis_sm &lt;-<span class="st"> </span><span class="dv">200</span>
+krill_shape1 &lt;-<span class="st"> </span><span class="kw">buildpos</span>(para, <span class="dt">disp_prof=</span><span class="dv">1</span>)
+krill_shape1$plot
+<span class="co">#&gt; Warning in if (self$expand) {: the condition has length &gt; 1 and only the</span>
+<span class="co">#&gt; first element will be used</span>
+
+<span class="co">#&gt; Warning in if (self$expand) {: the condition has length &gt; 1 and only the</span>
+<span class="co">#&gt; first element will be used</span></code></pre></div>
+<p><img src="data:image/png;base64,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p1V2Jz7RXAiwTZVNTQF+w4EAtTwFuuJYAGdPgbw81TbCsGb9dhCWlxrzWmU3PH4PcKQXl5PvNa0wjFm/16a2b4IdVNmN+ETbVABr7u0NsMIwZv32EJaTGvNaZTfiE20jAax5trfDmgJ8OOu3i7Cc1JjXKrsSn2jbCuDl7XZrCvDhK1WrE5yZfEOcVtmF+ETjF2EgDQKANAgA0iAASIMAIA0CgDQIANIgAEiDACANAoA0CADSIABIgwAV8PG769yGn/+ydSytgQAVgADLgQD18PG7z37cOobmQIBq+POH3eutY2gPBKiFQ/5/vXUMDYIAtfDz7outQ2gRBKiE38j/RUCAOvht9+r3rWNoEgSogvc8AF0IBKiBP77iAehCIEAF/PEVD0CXAgEq4OfdDUQoDAJUAAIsBwKANAgA0iAASIMAIA0CgDQIANIgAEiDACANAoA0CADSIABIgwAgDQKANAgA0iAASIMAIA0CgDQIANIgAEiDACANAoA0CADSIABIgwAgDQKANAgA0iAASIMAIA0CgDQIANIgAEiDACANAoA0CADSIABIgwAgDQKANAgA0iAASIMAIA0CgDQIANIgAEiDACANAoA0CADSIABIgwAgDQKANAgA0iAASIMAIA0CgDQIANIgAEiDACANAoA0CADSIABIgwAgDQKANAgA0iAASIMAIA0CgDQIANIgAEiDACANAoA0CADSIABIgwAgDQKANAgA0iAASIMAIA0CgDQIANIgAEiDACANAoA0CADSIABIgwAgDQKANAgA0iAASIMAIA0CgDQIANIgAEiDACANAoA0CADSIABIgwAgDQKANAgA0iAASIMAIA0CgDQIANIgAEiDACANAoA0CADSIABI83/3v1NE6SUgHgAAAABJRU5ErkJggg==" /><!-- --></p>
+</div>
+<div id="changing-the-material-properties-and-soundspeed" class="section level2">
+<h2>Changing the material properties and soundspeed</h2>
+<p>Soundspeed and density contrast (h &amp; g) are important variables in the model. It has been suggested that the effects of varying g and h can be of the same order of magnitude as the orientation <span class="citation">(Stanton et al. 1993)</span>.<br />
+g &amp; h can be either obtained experimentally or taken from literature values. The list below in a non-exhaustive list of g &amp; h values found in literature. Large parts of the table are copied from Lavery et al. <span class="citation">(2007)</span> and Lawson et al. <span class="citation">(2004)</span>.</p>
+<p>Some taxa are represented more than once, where multiple literature recodrings have been found. It is recommended to throughly study the cited and other literature before using any of the presented values.</p>
+<p>It should also be noted that L/a values might be fluctuating largely due to:</p>
+<ul>
+<li>geographical location <span class="citation">(Køgeler et al. 1987; Lawson et al. 2004)</span></li>
+<li>life history traits of the taxon or seasonality <span class="citation">(Lawson et al. 2004; Køgeler et al. 1987)</span></li>
+</ul>
+<p>g and h in some species have been reported to fluctuate with:</p>
+<ul>
+<li>temperature <span class="citation">(Chu and Wiebe 2005)</span></li>
+<li>size classes <span class="citation">(Chu and Wiebe 2005; Lawson et al. 2004; Køgeler et al. 1987)</span><br />
+</li>
+<li>depth <span class="citation">(Chu and Wiebe 2005)</span><br />
+</li>
+<li>seasonality (for example due to changes in lipid content) <span class="citation">(Køgeler et al. 1987)</span></li>
+<li>state of the analysed individuals (preseverd or alive) <span class="citation">(Køgeler et al. 1987)</span>.</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Taxon</th>
+<th align="left">Length-to-girth ratio <span class="math inline">\(\frac{L}{a}\)</span></th>
+<th align="left">Orientation</th>
+<th align="left">Density Contrast g</th>
+<th align="left">Sound Speed Contrast h</th>
+<th align="left">Scattering model</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Euphausiids and Decapod Shrimp</td>
+<td align="left">10.5</td>
+<td align="left">N(20,20) <span class="citation">(Benfield, Davis, and Gallager 2000)</span>, average ~0 <span class="citation">(Lawson et al. 2006)</span></td>
+<td align="left"><span class="math display">\[\frac{5.485*L}{10^4}+1.002; L&gt;25\]</span> <span class="math display">\[1.016; L&lt;25\]</span> <span class="citation">(Lawson et al. 2004)</span></td>
+<td align="left"><span class="math display">\[\frac{5.94*2L}{10^ 4}; L&gt;25\]</span> <span class="math display">\[1.019; L&lt;25\]</span> <span class="citation">(Lawson et al. 2004)</span></td>
+<td align="left">DWBA uniformly-bent cylinder</td>
+</tr>
+<tr class="even">
+<td align="left">Larval Crustacean</td>
+<td align="left">2.55 <span class="citation">(Lawson et al. 2004)</span></td>
+<td align="left">N(0.30) <span class="citation">(Lawson et al. 2004)</span></td>
+<td align="left">1.058 <span class="citation">(Lawson et al. 2004)</span></td>
+<td align="left">1.058 <span class="citation">(Lawson et al. 2004)</span></td>
+<td align="left">DWBA uniformly-bent cylinder</td>
+</tr>
+<tr class="odd">
+<td align="left">Amphipods</td>
+<td align="left">3.00 <span class="citation">(Lawson et al. 2004)</span></td>
+<td align="left">N(0,30) <span class="citation">(Lawson et al. 2004)</span></td>
+<td align="left">1.058 <span class="citation">(Lawson et al. 2004)</span></td>
+<td align="left">1.058 <span class="citation">(Lawson et al. 2004)</span></td>
+<td align="left">DWBA uniformly-bent cylinder</td>
+</tr>
+<tr class="even">
+<td align="left">Ostracods</td>
+<td align="left">2.55</td>
+<td align="left">N(0,30)</td>
+<td align="left">1.03 <span class="citation">(pers. comm. Dezhang Chu in Lavery et al. 2007)</span></td>
+<td align="left">1.03 <span class="citation">(pers. comm. Dezhang Chu in Lavery et al. 2007)</span></td>
+<td align="left">DWBA uniformly-bent cylinder</td>
+</tr>
+<tr class="odd">
+<td align="left">Chaetognaths and Polychaetes</td>
+<td align="left">17.15</td>
+<td align="left">N(0,30)</td>
+<td align="left">1.03 <span class="citation">(pers. comm. Dezhang Chu in Lavery et al. 2007)</span></td>
+<td align="left">1.03 <span class="citation">(pers. comm. Dezhang Chu in Lavery et al. 2007)</span></td>
+<td align="left">DWBA uniformly-bent cylinder</td>
+</tr>
+<tr class="even">
+<td align="left">Gymnosome Pteropods (Clione)</td>
+<td align="left">1.83</td>
+<td align="left">N(0,30)</td>
+<td align="left">1.03 <span class="citation">(pers. comm. Dezhang Chu in Lavery et al. 2007)</span></td>
+<td align="left">1.03 <span class="citation">(pers. comm. Dezhang Chu in Lavery et al. 2007)</span></td>
+<td align="left">DWBA uniformly-bent cylinder</td>
+</tr>
+<tr class="odd">
+<td align="left">Salps</td>
+<td align="left">4</td>
+<td align="left">N(0,30)</td>
+<td align="left">1.004 <span class="citation">(Stanton et al. 1994)</span></td>
+<td align="left">1.004 <span class="citation">(Stanton et al. 1994)</span></td>
+<td align="left">DWBA uniformly-bent cylinder</td>
+</tr>
+<tr class="even">
+<td align="left">Copepods</td>
+<td align="left">2.55</td>
+<td align="left">N(90,30)</td>
+<td align="left">1.02 <span class="citation">(pers. comm. Dezhang Chu in Lavery et al. 2007)</span></td>
+<td align="left">1.058 <span class="citation">(Chu, Wiebe, and Copley 2000)</span></td>
+<td align="left">DWBA prolate spheroid</td>
+</tr>
+<tr class="odd">
+<td align="left">Medusae</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.02 <span class="citation">(inferred from Monger et al. 1998 as reported in <span class="citation">Lavery et al. (2007)</span>)</span></td>
+<td align="left">1.02 <span class="citation">(inferred from Monger et al. 1998 as reported in <span class="citation">Lavery et al. (2007)</span>)</span></td>
+<td align="left">DWBA two prolate spheroid surfaces</td>
+</tr>
+<tr class="even">
+<td align="left">Eggs</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">0.979 <span class="citation">(Chu et al. 2003)</span></td>
+<td align="left">1.017 <span class="citation">(Stanton 1989)</span></td>
+<td align="left">High-pass fluid sphere</td>
+</tr>
+<tr class="odd">
+<td align="left">Calanus finmarchicus</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.025 - 1.029 g/cm<sup>3</sup> depending on season <span class="citation">(Køgeler et al. 1987)</span></td>
+<td align="left">1.027 (mixture C. finmarchicus and C. hyperboreus) <span class="citation">(Køgeler et al. 1987)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Calanus hyperboreus</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.022 - 1.036 g/cm<sup>3</sup> depending on season <span class="citation">(Køgeler et al. 1987)</span></td>
+<td align="left">1.027 (mixture C. finmarchicus and C. hyperboreus) <span class="citation">(Køgeler et al. 1987)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Acartia clausi</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.04 g/cm<sup>3</sup> <span class="citation">(Greenlaw 1979)</span></td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Calanus marshallae</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.04 g/cm<sup>3</sup> <span class="citation">(Greenlaw 1979)</span></td>
+<td align="left">1.007 <span class="citation">(Køgeler et al. 1987)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Meganyctiphanes norvegica</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.057 g/cm<sup>3</sup> <span class="citation">(Kils 1981)</span></td>
+<td align="left">1.030 <span class="citation">(Køgeler et al. 1987)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Thysanoessa</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.052 - 1.074 g/cm<sup>3</sup> depending on season and species <span class="citation">(Køgeler et al. 1987)</span></td>
+<td align="left">1.026 <span class="citation">(Køgeler et al. 1987)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Calanus</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.022 - 1.036 g/cm<sup>3</sup> depending on season and species <span class="citation">(Køgeler et al. 1987)</span></td>
+<td align="left">1.027 <span class="citation">(Køgeler et al. 1987)</span>; 0.949 &amp; 1.013 - Depth dependent <span class="citation">(Chu and Wiebe 2005)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">General</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">0.9402 - 1.051 <span class="citation">(Chu and Wiebe 2005)</span></td>
+<td align="left">0.949 - 1.096 <span class="citation">(Chu and Wiebe 2005)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Euphausia superba</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.0241 <span class="citation">(Chu and Wiebe 2005)</span>, 1.0357 <span class="citation">(Foote 1990)</span></td>
+<td align="left">1.031 <span class="citation">(Chu and Wiebe 2005)</span>, 1.0279 <span class="citation">(Foote 1990)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Euphausia crystallorophias</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.009 &amp; 1.000 depth dependent <span class="citation">(Chu and Wiebe 2005)</span></td>
+<td align="left">1.025 &amp; 1.029 depth dependent <span class="citation">(Chu and Wiebe 2005)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Neocalanus cristatus</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">0.997 - 1.009 <span class="citation">(Matsukura et al. 2009)</span></td>
+<td align="left">1.013 - 1.025 <span class="citation">(Matsukura et al. 2009)</span></td>
+<td align="left">DWBA Deformed Cylinder</td>
+</tr>
+<tr class="even">
+<td align="left">Neocalanus plumchrus</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">0.995 - 1.009 <span class="citation">(Matsukura et al. 2009)</span></td>
+<td align="left">1.006 - 1.021 <span class="citation">(Matsukura et al. 2009)</span></td>
+<td align="left">DWBA Deformed Cylinder</td>
+</tr>
+<tr class="odd">
+<td align="left">Ammodytes personatus (juvenile)</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.021 <span class="citation">(Yasuma et al. 2009)</span></td>
+<td align="left">1.02 <span class="citation">(Yasuma et al. 2009)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Ammodytes personatus (adult)</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.032 <span class="citation">(Yasuma et al. 2009)</span></td>
+<td align="left">1.02 <span class="citation">(Yasuma et al. 2009)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Salpa thompsoni</td>
+<td align="left">10</td>
+<td align="left">Uniform [0, p]</td>
+<td align="left">1 - 1.0039 <span class="citation">(Wiebe et al. 2009)</span></td>
+<td align="left">1.006 - 1.0201 <span class="citation">(Wiebe et al. 2009)</span></td>
+<td align="left">DWBA</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="running-the-model" class="section level2">
+<h2>Running the model</h2>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<p>Once all the parameters have been set, the DWBA model can be run with the defined parameters</p>
+<div id="refs" class="references">
+<div id="ref-benfield_estimating_2000">
+<p>Benfield, Mark C., Cabell S. Davis, and Scott M. Gallager. 2000. “Estimating the in-Situ Orientation of Calanus Finmarchicus on Georges Bank Using the Video Plankton Recorder.” <em>Plankton Biol. Ecol</em> 47 (1): 69–72.</p>
+</div>
+<div id="ref-chu_measurements_2005">
+<p>Chu, Dezhang, and Peter H. Wiebe. 2005. “Measurements of Sound-Speed and Density Contrasts of Zooplankton in Antarctic Waters.” <em>ICES Journal of Marine Science</em> 62 (4): 818–31.</p>
+</div>
+<div id="ref-chu_material_2003">
+<p>Chu, Dezhang, Peter H. Wiebe, Nancy J. Copley, Gareth L. Lawson, and Velmurugu Puvanendran. 2003. “Material Properties of North Atlantic Cod Eggs and Early-Stage Larvae and Their Influence on Acoustic Scattering.” <em>ICES Journal of Marine Science</em> 60 (3): 508–15.</p>
+</div>
+<div id="ref-chu_inference_2000">
+<p>Chu, Dezhang, Peter Wiebe, and Nancy Copley. 2000. “Inference of Material Properties of Zooplankton from Acoustic and Resistivity Measurements.” <em>ICES Journal of Marine Science</em> 57 (4): 1128–42.</p>
+</div>
+<div id="ref-foote_speed_1990">
+<p>Foote, Kenneth G. 1990. “Speed of Sound in E Uphausiasuperba.” <em>The Journal of the Acoustical Society of America</em> 87 (4): 1405–8.</p>
+</div>
+<div id="ref-greenlaw_acoustical_1979">
+<p>Greenlaw, Charles F. 1979. “Acoustical Estimation of Zooplankton Populations.” <em>Limnology and Oceanography</em> 24 (2): 226–42.</p>
+</div>
+<div id="ref-kils_swimming_1981">
+<p>Kils, Uwe. 1981. <em>The Swimming Behavior, Swimming Performance and Energy Balance of Antarctic Krill, Euphausia Superba</em>. 3. SCAR; SCOR, Scott Polar Research Institute.</p>
+</div>
+<div id="ref-kogeler_density-and_1987">
+<p>Køgeler, Johannes W., Stig Falk-Petersen, \AAge Kristensen, Fritz Pettersen, and John Dalen. 1987. “Density-and Sound Speed Contrasts in Sub-Arctic Zooplankton.” <em>Polar Biology</em> 7 (4): 231–35.</p>
+</div>
+<div id="ref-lavery_determining_2007">
+<p>Lavery, Andone C., Peter H. Wiebe, Timothy K. Stanton, Gareth L. Lawson, Mark C. Benfield, and Nancy Copley. 2007. “Determining Dominant Scatterers of Sound in Mixed Zooplankton Populations.” <em>The Journal of the Acoustical Society of America</em> 122 (6): 3304–26.</p>
+</div>
+<div id="ref-lawson_improved_2006">
+<p>Lawson, Gareth L., Peter H. Wiebe, Carin J. Ashjian, Dezhang Chu, and Timothy K. Stanton. 2006. “Improved Parametrization of Antarctic Krill Target Strength Models.” <em>The Journal of the Acoustical Society of America</em> 119 (1): 232–42.</p>
+</div>
+<div id="ref-lawson_acoustically-inferred_2004">
+<p>Lawson, Gareth L., Peter H. Wiebe, Carin J. Ashjian, Scott M. Gallager, Cabell S. Davis, and Joseph D. Warren. 2004. “Acoustically-Inferred Zooplankton Distribution in Relation to Hydrography West of the Antarctic Peninsula.” <em>Deep Sea Research Part II: Topical Studies in Oceanography</em> 51 (17-19): 2041–72.</p>
+</div>
+<div id="ref-matsukura_measurements_2009">
+<p>Matsukura, Ryuichi, Hiroki Yasuma, Hiroto Murase, Shiroh Yonezaki, Tetsuichiro Funamoto, Satoshi Honda, and Kazushi Miyashita. 2009. “Measurements of Density Contrast and Sound-Speed Contrast for Target Strength Estimation of &lt;Emphasis Type=‘Italic’&gt;Neocalanus&lt;/Emphasis&gt; Copepods (&lt;Emphasis Type=‘Italic’&gt;Neocalanus Cristatus&lt;/Emphasis&gt; and &lt;Emphasis Type=‘Italic’&gt;Neocalanus Plumchrus&lt;/Emphasis&gt;) in the North Pacific Ocean.” <em>Fisheries Science</em> 75 (6): 1377. doi:<a href="https://doi.org/10.1007/s12562-009-0172-3">10.1007/s12562-009-0172-3</a>.</p>
+</div>
+<div id="ref-monger_sound_1998">
+<p>Monger, B. C., S. Chinniah-Chandy, E. Meir, S. Billings, C. H. Greene, and P. H. Wiebe. 1998. “Sound Scattering by the Gelatinous Zooplankters Aequorea Victoria and Pleurobrachia Bachei.” <em>Deep Sea Research Part II: Topical Studies in Oceanography</em> 45 (7): 1255–71.</p>
+</div>
+<div id="ref-stanton_simple_1989">
+<p>Stanton, Timothy K. 1989. “Simple Approximate Formulas for Backscattering of Sound by Spherical and Elongated Objects.” <em>The Journal of the Acoustical Society of America</em> 86 (4): 1499–1510.</p>
+</div>
+<div id="ref-stanton_average_1993">
+<p>Stanton, Timothy K., Dezhang Chu, Peter H. Wiebe, and Clarence S. Clay. 1993. “Average Echoes from Randomly Oriented Random-Length Finite Cylinders: Zooplankton Models.” <em>The Journal of the Acoustical Society of America</em> 94 (6): 3463–72.</p>
+</div>
+<div id="ref-stanton_acoustic_1994">
+<p>Stanton, Timothy K., Peter H. Wiebe, Dezhang Chu, Mark C. Benfield, Lori Scanlon, Linda Martin, and Robert L. Eastwood. 1994. “On Acoustic Estimates of Zooplankton Biomass.” <em>ICES Journal of Marine Science</em> 51 (4): 505–12.</p>
+</div>
+<div id="ref-wiebe_acoustic_2009">
+<p>Wiebe, Peter H., Dezhang Chu, Stein Kaartvedt, Anna Hundt, Webjorn Melle, Egil Ona, and Paola Batta-Lona. 2009. “The Acoustic Properties of Salpa Thompsoni.” <em>ICES Journal of Marine Science</em> 67 (3): 583–93.</p>
+</div>
+<div id="ref-yasuma_density_2009">
+<p>Yasuma, Hiroki, Ryo Nakagawa, Takashi Yamakawa, Kazushi Miyashita, and Ichiro Aoki. 2009. “Density and Sound-Speed Contrasts, and Target Strength of Japanese Sandeel Ammodytes Personatus.” <em>Fisheries Science</em> 75 (3): 545–52.</p>
+</div>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
