@@ -18,15 +18,10 @@ y vector of smoothed y points
 Smoother function used to build the shape of the targets when axis or taper smoothing is requested.
 }
 \examples{
-<<<<<<< HEAD
 yi <- sample(1:1000,100)
 n <- 4
-y <- smoother(yi,n)
-}
-=======
 y <- smoother(yi,n)
 }
 \author{
 Sven Gastauer
 }
->>>>>>> 96fcff5151d2be37a569b0de9bccf0f5ac743df4

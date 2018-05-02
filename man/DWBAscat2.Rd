@@ -17,12 +17,15 @@ DWBAscat2(para, misc, app = FALSE)
 list of \code{ka}, the wavelength \code{k * } the width \code{a}; f the square-root of the orientation aveaged scattering cross-section
 }
 \description{
-<<<<<<< HEAD
 Computes ka
-=======
-simulation average backscattering over orienation and length
 }
 \examples{
-
->>>>>>> 96fcff5151d2be37a569b0de9bccf0f5ac743df4
+#Get filename of the parameters file
+fname <- paste0(system.file(package = "ZooScat"),"/extdata/configs/config_0.dat")
+#Read in teh parameter
+para = read_para(fname)
+#Create list with soundspeed info
+misc <- list()
+misc$cw <- 1500
+DWBAscat2(para,misc)
 }

@@ -1,19 +1,33 @@
-<<<<<<< HEAD
-#' simulation average backscattering over orienation and length by euphausiid and copopod
-#' @param para Model Parameters
-#' @return list with all parameters for DWBA
-#' @import ggplot2
-=======
-#' @title Simulation average backscattering over orienation and length by euphausiid and copopod
-#' @param para Model Parameters
+#' Run the DWBA model for a given set of parameters
+#' @param para [list] A list containing all the model parameters (\url{../doc/parameters.html})
+#' @param misc [list] A list containing the soundspeed of the surrounding fluid
 #' @param app = FALSE [boolean] function call from shiny interface or command line
 #' @author Sven Gastauer
 #' @return list with all parameters for DWBA
 #' @import ggplot2
-#' @export
->>>>>>> 96fcff5151d2be37a569b0de9bccf0f5ac743df4
-#' @example
+#' @title Simulation average backscattering over orienation and length by euphausiid and copopod
+#' @import ggplot2
+#' @examples
+#' #Get filename of the parameters file
+#' fname <- paste0(system.file(package = "ZooScat"),"/extdata/configs/config_0.dat")
+#' #Read in teh parameter
+#' para = read_para(fname)
+#' #Create list with soundspeed info
+#' misc <- list()
+#' misc$cw <- 1500
+#' #Change some of the settings
+#' #Set starting frequency over which to run the model
+#' para$simu$var0 <- 38
+#' #Set end frequency over which to run te model
+#' para$simu$var1 <- 300
+#' # run DWBA based on the settings defined in the parameters file
+#' res <- bscat(para=para, misc=misc, app=FALSE)
+#' #plot the results of the model
+#' res$rplot
 #'
+#' @export
+
+
 bscat <- function(para, misc, app=FALSE){
   if(exists("status")==FALSE){status=list()}
   #print(misc)
@@ -117,11 +131,8 @@ if(is.null(para$shape$profile)){para$shape$profile = -1}
 if(is.null(para$phy$body_ih)){para$phy$body_ih = FALSE}
 
 #define if in script mode or app mode
-<<<<<<< HEAD
 if(exists('app')==FALSE){app=FALSE}
-=======
 if(exists('app')==FALSE){app="script"}
->>>>>>> 96fcff5151d2be37a569b0de9bccf0f5ac743df4
 dwba_out=DWBAscat2(para, misc, app)
 ka = dwba_out$ka
 ang = dwba_out$ang

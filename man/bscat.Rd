@@ -7,18 +7,37 @@
 bscat(para, misc, app = FALSE)
 }
 \arguments{
-\item{para}{Model Parameters}
+\item{para}{[list] A list containing all the model parameters (\url{../doc/parameters.html})}
+
+\item{misc}{[list] A list containing the soundspeed of the surrounding fluid}
 
 \item{app}{= FALSE [boolean] function call from shiny interface or command line}
 }
 \value{
 list with all parameters for DWBA
 }
+\description{
+Run the DWBA model for a given set of parameters
+}
 \examples{
+#Get filename of the parameters file
+fname <- paste0(system.file(package = "ZooScat"),"/extdata/configs/config_0.dat")
+#Read in teh parameter
+para = read_para(fname)
+#Create list with soundspeed info
+misc <- list()
+misc$cw <- 1500
+#Change some of the settings
+#Set starting frequency over which to run the model
+para$simu$var0 <- 38
+#Set end frequency over which to run te model
+para$simu$var1 <- 300
+# run DWBA based on the settings defined in the parameters file
+res <- bscat(para=para, misc=misc, app=FALSE)
+#plot the results of the model
+res$rplot
 
-<<<<<<< HEAD
-=======
+}
 \author{
 Sven Gastauer
->>>>>>> 96fcff5151d2be37a569b0de9bccf0f5ac743df4
 }

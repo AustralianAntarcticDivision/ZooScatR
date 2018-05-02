@@ -4,7 +4,15 @@
 #' @param misc misc parameters
 #' @param app TRUE or FALSE, defines if the function is used within a shiny app or not. If \code{app==TRUE} the progressbar inside the app will be updated.
 #' @return list of \code{ka}, the wavelength \code{k * } the width \code{a}; f the square-root of the orientation aveaged scattering cross-section
-#' @example
+#' @examples
+#' #Get filename of the parameters file
+#' fname <- paste0(system.file(package = "ZooScat"),"/extdata/configs/config_0.dat")
+#' #Read in teh parameter
+#' para = read_para(fname)
+#' #Create list with soundspeed info
+#' misc <- list()
+#' misc$cw <- 1500
+#' DWBAscat2(para,misc)
 #' @export
 
 DWBAscat2 <- function(para, misc, app=FALSE){

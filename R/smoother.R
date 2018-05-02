@@ -1,21 +1,15 @@
 #' @title Smoothing function
 #' @description Smoother function used to build the shape of the targets when axis or taper smoothing is requested.
-<<<<<<< HEAD
-#' @param yi Values to be smoothed
-#' @param n Number of points contained in the output y
-#' @return y Smoothed y points
-#' @examples
-#' yi <- sample(1:1000,100)
-#' n <- 4
-=======
 #' @author Sven Gastauer
 #' @param yi Vector of values to be smoothed
 #' @param n Number of points contained in the output y
 #' @return y vector of smoothed y points
 #' @export
 #' @examples
->>>>>>> 96fcff5151d2be37a569b0de9bccf0f5ac743df4
+#' yi <- sample(1:1000,100)
+#' n <- 4
 #' y <- smoother(yi,n)
+#' @export
 
 smoother <- function(yi,n){
   if(n <= 1){
