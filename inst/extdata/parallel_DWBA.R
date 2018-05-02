@@ -4,7 +4,7 @@
 #' @import foreach
 #' @import pracma
 #' @import doSNOW
-#' @param para Model Parameters
+#' @param para [list] A list containing all the model parameters (\url{../doc/parameters.html})
 #' @return list with all parameters for DWBA
 #' @examples
 #'
