@@ -1,6 +1,7 @@
 ---
 title: "Running a DWBA simulation programmatically"
 author: "Sven Gastauer"
+date: "4th of May 2018"
 bibliography: vignettes.bib
 output: 
         rmarkdown::html_vignette
@@ -568,6 +569,6 @@ knitr::kable(gh)
 ```
 
 ## Running the model  
-  
+  Once all the parameters have been set, the DWBA model can be run with the defined parameters
+
 ##References
-Once all the parameters have been set, the DWBA model can be run with the defined parameters
