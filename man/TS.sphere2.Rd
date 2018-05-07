@@ -21,8 +21,8 @@ TS.sphere2(f, r, a, c, h, g, rho)
 }
 \description{
 Scattered pressure from an incident plane wave upon a fluid sphere. Based on:
-Jech, J. M., Horne, J. K., Chu, D., Demer, D. A., Francis, D. T., Gorska, N., ... & Reeder, D. B. (2015). 
-"Comparisons among ten models of acoustic backscattering used in aquatic ecosystem research." 
+Jech, J. M., Horne, J. K., Chu, D., Demer, D. A., Francis, D. T., Gorska, N., ... & Reeder, D. B. (2015).
+"Comparisons among ten models of acoustic backscattering used in aquatic ecosystem research."
 The Journal of the Acoustical Society of America, 138(6), 3742-3764.
 modified from:
 Anderson, V. C. (1950). "Sound scattering from a fluid sphere."
@@ -30,7 +30,7 @@ The Journal of the Acoustical Society of America, 22(4), 426-431.
 }
 \examples{
 fs <- as.list(seq(10,400, by=1)*1000) #Frequencies
-r <- 10 #range 
+r <- 10 #range
 a <- 0.01 # radius
 c <- 1477.4 #soundspeed surrounding fluid
 rho <- 1026.8 #density surrounding fluid
