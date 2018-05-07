@@ -29,8 +29,8 @@ C:\Projects\ZBS\GUI_DWBA_scat_model\mfiles
 1.500000e-03		% standard deviation of h0 (meaningless for homogeneous body)
 20		% correlation length as a percentage of body length L
 %% simulation parameters
-200		% integration	points along body axis
-100		% number of output points
+2000		% integration	points along body axis
+1000		% number of output points
 3		% output variable index: 1-scatting amplitude, 2-cross section, 3-TS, 4-RTS
 1		% variable: 1-frequency (kHz), 2-ang(deg),  3-ka
 10		% start value for the variable
