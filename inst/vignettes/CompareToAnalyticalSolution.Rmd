@@ -27,7 +27,7 @@ with
 
 * the range ($r$ in [m])  
 * the acoustic wavenumber in the surrounding water($k_w$)  
-* $k=frac{2\pi}{\lambda}$  
+* $k=\frac{2\pi}{\lambda}$  
 * wavelength $\lambda=\frac{f}{c}$ in [m]  
 * $f$ is the frequency in $Hz =s^{-1}$  
 * $c$ is the soundspeed in $\frac{m}{s}$)  
@@ -114,7 +114,7 @@ para$phy$h0 <- h #set the soundspeed contrast
 para$simu$var0<-fmin #Set the minimum frequency
 para$simu$var1<-fmax #Set the maximum frequency
 para$simu$n=length(freqs) #Set the number of output points
-para$simu$ni=1000 #any high number
+para$simu$ni=2000 #any high number
 
 ```
 
