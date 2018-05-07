@@ -357,8 +357,8 @@ message(paste("L/a:",para$shape$L_a))
 message(paste("Tapering order:",para$shape$order))
 cyl$plot
 
-para$shape$order <- 2
-para$shape$L_a <- 1
+para$shape$order <- 200
+para$shape$L_a <- 3
 cyl <- buildpos(para)
 message(paste("Length:",para$shape$L))
 message(paste("L/a:",para$shape$L_a))
@@ -366,7 +366,8 @@ message(paste("Tapering order:",para$shape$order))
 cyl$plot
 
 para$shape$order <- 2
-para$shape$L_a <- 3
+para$shape$L_a <- 2
+para$shape$rhoL <- 200
 cyl <- buildpos(para)
 message(paste("Length:",para$shape$L))
 message(paste("L/a:",para$shape$L_a))
