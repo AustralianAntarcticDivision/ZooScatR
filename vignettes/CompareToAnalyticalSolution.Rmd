@@ -55,8 +55,8 @@ with
   with:  
   
   * $k_1$ the wavenumber inside the fluid-filled sphere  
-  * $g$ the density contrast for the density $[\frac{kg}{m^3}]$ inside the sphere ($\rho_t) and in the surrounding fluid ($\rho_w$)  
-  * $h$ the soundspeed contrast for the soundspped $[\frac{m}{s}]$ inside the sphere ($c_t) and in the surrounding fluid ($c_w$)  
+  * $g$ the density contrast for the density $[\frac{kg}{m^3}]$ inside the sphere ($\rho_t$) and in the surrounding fluid ($\rho_w$)  
+  * $h$ the soundspeed contrast for the soundspped $[\frac{m}{s}]$ inside the sphere ($c_t$) and in the surrounding fluid ($c_w$)  
   * $y$ is the spherical Neumann function  
   
   Letting $gh \rightarrow \infty$ results in a rigid sphere and:  
@@ -256,5 +256,6 @@ Compare the results:
 TS.compare <- TS.comp(TS.MJ,DWBA$y,freqs)
 ```  
    
-   The ZooScat DWBA model holds no validity for such strong scatterers.
+   The ZooScat DWBA model holds no validity for such strong scatterers.  
+   
 ##References

@@ -3,8 +3,10 @@ title: "Running a DWBA simulation programmatically"
 author: "Sven Gastauer"
 date: "4th of May 2018"
 bibliography: vignettes.bib
-output: 
-        rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 4
 vignette: >
   %\VignetteIndexEntry{Running a DWBA simulation programmatically}
   %\VignetteEngine{knitr::rmarkdown}
@@ -568,8 +570,49 @@ names(gh)<- c("Taxon",
 knitr::kable(gh)
 #datatable(gh)
 ```
+  
+### Calculating soundspeed in water
+  
+ZooScat includes routines to compute the soundspeed of the surrounding water following 3 methods:  
+* Coppens [-@coppens_simple_1981]  
+Calculates speed of sound in seawater based on Coppens (1981) The empirical equation generally holds validity for a temperature range between 0 and 35 degrees Celsius, Salinities between 0 and 45 parts per thousand and a depth range between 0 and 4000 m
+Uses Depth (D in m), Salinity (S in ppt) and Temperature (C in Celsius) as input.  
+  
+```{r}
+c_Coppens1981(D=100,S=35,T=10)
+```  
+
+* MacKenzie [-@mackenzie_nine-term_1981]  
+Calculate speed of sound in seawater based on MacKenzie (1981) The empirical equation generally holds validity for a temperature range between 2 and 30 degrees Celsius, Salinities between 25 and 40 parts per thousand and a depth range between 0 and 8000 m
+Uses Depth (D in meters), Salinity (S in parts per thousands) and Temperature (T in degrees Celsius)  
+
+```{r}
+c_Mackenzie1981(D=100,S=35,T=10)
+```  
+
+* Leroy (2008) [-@leroy_new_2008]  
+Returns the sound speed according to Leroy et al (2008). This "newer" equation should solve the sound speed within 0.2 m/s for all seas, including the Baltic and Black sea, based on Temperature, Salinity and Latitude. Exceptions are some seas with anomalities close to the bottom. The equation was specifically designed to be used in marine acoustics.
+
+Uses Depth (Z in m), Temperature (T in degrees Celsius), Salinity (S in parts per thousand) and Latitude (lat in degrees).  
+
+```{r}
+c_Leroy08(Z=100,T=10,S=35,30)
+```
 
 ## Running the model  
-  Once all the parameters have been set, the DWBA model can be run with the defined parameters
+  Once all the parameters have been set, the DWBA model can be run with the defined parameters:  
+  
+```{r}
+result <- bscat(para=para, misc=misc)
+```
+  
+This returns a list of 6 with:  
 
+* the variable values (var)  
+* the model results (y)  
+* a ggplot of the model output (rplot)  
+* the name of the variable (xlab)  
+* the caption of the y axis of the ggplot (ylab)  
+* a ggplot of the shape input (shplot)
+  
 ##References
