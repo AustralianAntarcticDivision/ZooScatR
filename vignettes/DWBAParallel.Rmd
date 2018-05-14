@@ -1,14 +1,14 @@
 ---
-title: "Parallelise DWBA sweeps"
+title: "Parallelise DWBA sweeps with ZooScat"
 author: "Sven Gastauer"
-date: "14th of May 2018"
+date: "`r Sys.Date()`"
 bibliography: vignettes.bib
 output:
   rmarkdown::html_vignette:
     toc: true
     toc_depth: 4
 vignette: >
-  %\VignetteIndexEntry{Running a DWBA simulation programmatically}
+  %\VignetteIndexEntry{Parallelise DWBA sweeps with ZooScat}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
