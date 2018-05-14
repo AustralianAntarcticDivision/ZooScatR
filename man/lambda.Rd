@@ -8,6 +8,8 @@ lambda(c, f)
 }
 \arguments{
 \item{c}{Soundspeed in m/s}
+
+\item{f}{frequency in Hz (s^-1)}
 }
 \description{
 Calculate the acoustic wave length lambda

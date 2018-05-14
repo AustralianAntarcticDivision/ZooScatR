@@ -1,6 +1,6 @@
 #'Calculate the acoustic wave length lambda
 #' @param c Soundspeed in m/s
-#' @para f frequency in Hz (s^-1)
+#' @param f frequency in Hz (s^-1)
 #' @examples
 #' lambda(c=1500,f=200000)
 #' @export
@@ -9,7 +9,7 @@ lambda <- function(c,f) {c/f}
 
 #'Calculate the acoustic wavenumber k
 #' @param c Soundspeed in m/s
-#' @para f frequency in Hz (s^-1)
+#' @param f frequency in Hz (s^-1)
 #' @examples
 #' k(c=1500,f=200000)
 #' @export
