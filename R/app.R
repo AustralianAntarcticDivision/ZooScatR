@@ -112,7 +112,7 @@ DWBAapp <- function(){
       shiny::titlePanel("ZooScat",
 
                  title=shiny::tags$div(
-                   shiny::tags$img(src="extdata/ZOOSCAT.png",
+                   shiny::tags$img(src="doc/ZOOSCAT.png",
                                    width=100,
                                    height=40), "ZooScat - Zooplankton Backscatter")
       ),
@@ -438,10 +438,10 @@ DWBAapp <- function(){
                       shiny::tabPanel(value="gh_tab",
                                title="Parameter Examples",
                                #shiny::h4("Blabla")
-                               #includeMarkdown(paste0(system.file(package="ZooScat"),"/extdata/gh.Rmd"))
-                               #includeshiny::HTML(paste0(system.file(package="ZooScat"),"/extdata/gh.shiny::HTML"))
-                               shiny::includeHTML(paste0(system.file(package="ZooScat"),"/extdata/gh2.HTML"))
-                               #includeshiny::HTML("./extdata/gh.shiny::HTML")
+                               #includeMarkdown(paste0(system.file(package="ZooScat"),"/doc/gh.Rmd"))
+                               #includeshiny::HTML(paste0(system.file(package="ZooScat"),"/doc/gh.shiny::HTML"))
+                               shiny::includeHTML(paste0(system.file(package="ZooScat"),"/doc/gh2.HTML"))
+                               #includeshiny::HTML("./doc/gh.shiny::HTML")
                       ),
 
 
@@ -528,13 +528,13 @@ DWBAapp <- function(){
                       shiny::tabPanel(value="pe_tab",
                                       title="Parameter Explanation",
                                       #shiny::h4("Blabla")
-                                      #includeMarkdown(paste0(system.file(package="ZooScat"),"/extdata/gh.Rmd"))
-                                      #includeshiny::HTML(paste0(system.file(package="ZooScat"),"/extdata/gh.shiny::HTML"))
-                                      shiny::includeHTML(paste0(system.file(package="ZooScat"),"/extdata/parameters.HTML"))
-                                      #includeshiny::HTML("./extdata/gh.shiny::HTML")
+                                      #includeMarkdown(paste0(system.file(package="ZooScat"),"/doc/gh.Rmd"))
+                                      #includeshiny::HTML(paste0(system.file(package="ZooScat"),"/doc/gh.shiny::HTML"))
+                                      shiny::includeHTML(paste0(system.file(package="ZooScat"),"/doc/parameters.HTML"))
+                                      #includeshiny::HTML("./doc/gh.shiny::HTML")
                       ),
                       shiny::tabPanel("About",
-                               shiny::tags$div(shiny::tags$img(src="extdata/ZOOSCAT.png"),style='text-align: center;'),
+                               shiny::tags$div(shiny::tags$img(src="doc/ZOOSCAT.png"),style='text-align: center;'),
                                shiny::h4("ZooScat – An R package for modelling the scattering properties of weak scattering targets using the Distorted Wave Born Approximation"),
                                shiny::hr(),
                                shiny::p("Version 0.2"),
@@ -569,7 +569,7 @@ DWBAapp <- function(){
       ####INITIALISATION
 
       #add path for data files
-      shiny::addResourcePath("extdata", system.file("extdata", package="ZooScat"))
+      shiny::addResourcePath("doc", system.file("doc", package="ZooScat"))
       #create a list of reactive values
       values <- shiny::reactiveValues()
       #if para is not available, create an empty list
