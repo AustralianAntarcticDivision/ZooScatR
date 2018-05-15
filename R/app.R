@@ -203,7 +203,7 @@ DWBAapp <- function(){
                                            shiny::actionLink("tapsm_info","Taper Smooth"),
                                            min=0,
                                            max=99999999,
-                                           value=0,
+                                           value=1,
                                            step=1)),
                      #axis smooth
                      shiny::tags$div(title="Smooth axis of the loaded shape, only considered if the Shape Profile checkbox is ticked",
@@ -211,7 +211,7 @@ DWBAapp <- function(){
                                            shiny::actionLink("axsm_info","Axis Smooth"),
                                            min=0,
                                            max=99999999,
-                                           value=0,
+                                           value=1,
                                            step=1))
             ),
 
@@ -369,14 +369,14 @@ DWBAapp <- function(){
                            shiny::actionLink("sp_info","Sample points:"),
                            min = 0,
                            max = 1000,
-                           value = 20,
+                           value = 200,
                            step= 1),
               # Integration points
               shiny::numericInput("int_p",
                            shiny::actionLink("ip_info","Integration Points:"),
                            min = 0,
                            max = 10000,
-                           value = 30,
+                           value = 300,
                            step = 1),
               # Variable start value
               shiny::numericInput("v_start",

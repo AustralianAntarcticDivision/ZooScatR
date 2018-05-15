@@ -2,9 +2,10 @@ Package: ZooScat
 Type: Package
 Title: ZooScat - Acoustic Scattering of zooplankton using DWBA
 Version: 0.2.1
-Author: Sven Gastauer, Dezhang Chu, Martin Cox
+Date: 2018-05-15
+Author: Sven Gastauer, Dezhang Chu, Martin J. Cox
 Maintainer: Sven Gastauer <sven.gastauer@utas.edu.au>; Martin J. Cox <martin.cox@aad.gov.au>
-Description: Modelling the acoustic scattering properties of weak scatterers using the Distorted Wave Born Approximation (DWBA).
+Description: Modelling the acoustic scattering properties of weak scatterers inside a fluid using the Distorted Wave Born Approximation (DWBA).
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
