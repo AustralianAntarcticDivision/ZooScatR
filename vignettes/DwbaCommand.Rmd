@@ -393,15 +393,15 @@ para$shape$prof_name <- profname
 krill_shape1 <- buildpos(para)
 krill_shape1$plot
 
-#change the taper smoothing to no smoothing
-para$shape$taper_sm <- 1
+#change the taper smoothing to some smoothing
+para$shape$taper_sm <- 100
 krill_shape1 <- buildpos(para)
 krill_shape1$plot
 
-#change the axis smoothing, taper smoothing and L/a
-para$shape$L_a <- 20
-para$shape$taper_sm <- 100
-para$shape$axis_sm <- 200
+#change the axis smoothing, taper smoothing to some extreme values and L/a to obtian a more slender body
+para$shape$L_a <- 30
+para$shape$taper_sm <- 2000
+para$shape$axis_sm <- 2000
 krill_shape1 <- buildpos(para, disp_prof=1)
 krill_shape1$plot
 ```

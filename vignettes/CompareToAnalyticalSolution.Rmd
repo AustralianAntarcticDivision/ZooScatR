@@ -3,8 +3,10 @@ title: "Compare the ZooScat DWBA to an analytical solution"
 author: "Sven Gastauer"
 date: "`r Sys.Date()`"
 bibliography: vignettes.bib
-output: 
-        rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 4
 vignette: >
   %\VignetteIndexEntry{Compare the ZooScat DWBA to an analytical solution}
   %\VignetteEngine{knitr::rmarkdown}

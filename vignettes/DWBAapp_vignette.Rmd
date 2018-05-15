@@ -2,61 +2,383 @@
 title: "The DWBAapp() in ZooScat"
 author: "Sven Gastauer"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 4
 vignette: >
   %\VignetteIndexEntry{The DWBAapp() in ZooScat}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+## The DWBA app vignette and prerequisites
+This vignette is a guide to the DWBA [shiny web application](https://shiny.rstudio.com/) `DWBAapp()`. The DWBAapp() has been specifically designed, to easily and quickly create ZooScat config files, and visualise the DWBA output of singular simulations. The availability of config files allows for quick and easy parametrisation of [one single core]("DwbaCommand.html") or [multiple parallelised DWBA simulations](Parallelise DWBA sweeps.html). More information on the DWBA model can be found in [this vignette]("DwbaCommand.html") and a validation of the model, comparing outcomes to an analytical model can be found in [this vignette]("CompareToAnalyticalSolution.html"). 
 
-This vignette is a guide to the DWBA [shinyweb application](https://shiny.rstudio.com/) DWBAapp(). The DWBAapp() has been specifically designed, to easily and quickly create ZooScat config files, and visualise the DWBA output of singular simulations. The availability of config files allows for quick and easy parametrisation of [one single core]("DwbaCommand.html") or [multiple parallelised DWBA simulations](Parallelise DWBA sweeps.html).  
+The `DWBAapp()` function is included in the ZooScat package and depends on:  
 
-## Overview
+* [shiny](https://shiny.rstudio.com/) - to build the shiny app
+* [shinyjs](https://cran.r-project.org/web/packages/shinyjs/index.html) - for some features like showing/hiding tabs inside the shiny app
+* [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html) - for nicer plots
+* [reshape2](https://cran.r-project.org/web/packages/reshape2/index.html) - for easy reshaping of datframes to be plotted in ggplot2
+* [pracma](https://cran.r-project.org/web/packages/pracma/index.html) - for some Matlab-like mathematical operations  
 
+The `ZooScat` package has to be loaded into R:
 
-
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
-
-## Vignette Info
-
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
-
-## Styles
-
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
-
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
-
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+```{r warning=FALSE}
+library(ZooScat)
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+## Starting the app  
+The easiest way to start the application is through:
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+```{r eval=FALSE}
+DWBAapp()
 ```
 
-Also a quote using `>`:
+This will launch an R preview window with the app. It is recommended to open the app in an independent browser such as [Chromium](https://www.chromium.org/), [Chrome](https://www.google.com/chrome/), [Opera](https://www.opera.com/) or [Firefox](https://www.mozilla.org/en-US/firefox/new/).  
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+![*DWBAapp on startup, with the parameters pane on the left and the results pane on the right*](appStart.png){width=700px}
+
+### Opening in a browser  
+Opening the app in a separate browser window can be achieved either though clicking Open in Browser in the R preview pane or by opening a ne browser Window and pasting the address and port at which the app is running. Running `DWBAapp()` will provide the address and port as `Listening on http://127.0.0.1:7411` where the address should correspond to the localhost and the last four digits represent the port. 
+
+### Running a first model  
+Clicking the Run Model button will run a DWBA model for a uniformly bent cylinder with generic shape, orientation, material and simulation settings.  
+
+![*Results of initial model run*](initial_run.png){width=400px align=centre}  
+
+## General app concept  
+The app is composed of two main panes:  
+The settings pane (left), where all model parameters can be set. Four different types of model input parameters an be defined:  
+
+1. Shape
+2. Orientation
+3. Orientation
+4. Simulation  
+
+![*Shape tabe of the settings pane*](shape_pane.png){width=200px align=centre}  
+
+The second pane is the results pane (right) where the model outputs will be shown or can be exported as csv file and where general config files can be loaded or the current settings be saved as config file. A detailed description of the config files can be found in the config file section of this vignette.  
+  
+![*Results pane with the initial model run*](res_pane.png){width=200px align=centre}  
+   
+The quickest way to run a specific model is through loading a configuration file into the app. All settings can then be adjusted through the app. Once the right settings have been set the config file can be saved for future use. If no config file is available, all settings can be adjusted from scratch.  
+
+To load a config file, hit the borwse button under `Load Parameter Configuration` within the `Results Tab` of the Results pane.  
+
+![*Top part of the results pane, where config files can be loaded or saved, the model can be run and the results can be exported as csv file*](load_config.png){width=400px align=centre}  
+
+  
+#### Getting additional information on the model input variables  
+Clicking on any of the input titles will open a little popup window in the lower right corner of the screen with some information on the selected variable. These popups are colour coded with blue = information, yellow = warning, red = error. Warnings will for example appear if the density or soundspeed contrast are set beyond the recommended limits.  
+
+![*Information popup for the shape profile option*](shape_prof_info.png){width=150px align=centre}
+
+
+A list of all parameters, the respective name in the app and the model code, the meaning, the unit and the influence on the model are explained in the table of the Parameter Explanation tab within the result pane.
+
+![*First entries of the parameter explanation table*](para_ex.png){width=600px align=centre}
+
+
+### The results plots  
+The first plot in the result pane shows the shape for which the model was run (generated by the `buildpos(para)` function), defined by the shape settings.  
+The second plot represents the model output, dependent on all the model parameters (generated by `bscat(para, misc)` function.  
+
+#### Getting values from the result plot  
+Moving the mouse over the second plot will display the current position of the mouse, the closest y-axis value and the euclidean distance to this value from the current mouse position.  
+
+![*Plot values closest to mouse cursor*](result_mover.png){width=200px align=center}
+
+#### Zooming into the result plot  
+Holding the left mouse button allows the drawing of a zoom box on the result plot. Double-clicking into the box will zoom into the selected area. This step can be repeated indefinetely. Double clicking into the plot without a box will zoom out back to to full plot extend.  
+
+![*Zoom into results plot*](zoom.png){width=700px align=center}
+
+### The results table  
+The results table shows the model outcome values.  
+The number of displayed items per page can be changed by changing the value of the `Show ... Entries` SelectBox at the top left corner of the table.  
+The table can be searched for any values in the search box.  
+The table can be sorted in increasing or decreasing order for the values of a given column by clicking on the column header.  
+The table values can be exported as comma-separated (csv) file by clicking the Export as csv button on top of the results page. This will open a file input menu where the output folder and filename can be set.  
+
+![*Top part of a table of results*](res_tab.png){width=400px align=centre}  
+
+
+## The config file
+
+### Config file template  
+
+Config file can be created outside of the app or be edited using a standard text editor. It is important though to keep the original format.  
+The code below is an example config file, which corresponds to the `config1.dat` in the package config example data folder (*`r paste0(system.file(package="ZooScat"),"/extdata/configs/")`*):  
+
+```
+%% home directory
+
+%% shape	parameters
+30		% length in mm
+3		% rho/L
+16		% L/a
+10		% tapering order
+0		% length average flag: 0-no average,	1-average
+1.000000e-01		% relative length standard deviation (meaningless for no average)
+1.000000e-02		% relative length increment(meaningless for no average)
+-1	 % shape profile name ( "-1" if profile is not specified)
+10		% number of points for axis smoothing (meaningless if profile is not specified)
+40		% number of points for tapering function smoothing (meaningless if profile is not specified)
+%% orientation parameters
+-60		% mean incident angle (deg)
+-60		% angle variation range - starting value (deg)
+-60		% angle variation range - ending value (deg)
+0		% average option flag: 0-no average,	1-average
+2		% PDF flag: 1-Uniform		2-Gaussian
+20		% PDF parameter: half range for Uniform PDF,
+%		% standard deviation for Gaussian (deg)
+%		% (meaningless for no average)
+1		% angle increment	(meaningless for no average)
+%% physical property parameters
+1.035700e+00		% mean density contrast (g0)
+1.027900e+00		% mean sound speed contrast (h0)
+1		% number of body segments (1-homogeneous body)
+1.600000e-03		% standard deviation of g0 (meaningless for homogeneous body)
+1.500000e-03		% standard deviation of h0 (meaningless for homogeneous body)
+20		% correlation length as a percentage of body length L
+%% simulation parameters
+2000		% integration	points along body axis
+1000		% number of output points
+3		% output variable index: 1-scatting amplitude, 2-cross section, 3-TS, 4-RTS
+1		% variable: 1-frequency (kHz), 2-ang(deg),  3-ka
+10		% start value for the variable
+600		% end value for the variable
+120		% frequency (kHz), enabled for available being angle only
+```  
+## The model parameters
+
+### Shape parameters
+
+```{r echo=FALSE} 
+para.df <- as.data.frame(cbind(Variable = c("Length(L)",
+                                      "ρc/L",
+                                      "L/a",
+                                      "Taper order",
+                                      "Length average",
+                                      "std(L)/L",
+                                      "Length increment",
+                                      "Shape profile",
+                                      "Taper smooth",
+                                      "Axis smooth"),
+                         Unit = c("mm",
+                                  "ratio",
+                                  "ratio",
+                                  "float",
+                                  "boolean",
+                                  "mm",
+                                  "mm",
+                                  "filepath",
+                                  "float",
+                                  "float"),
+                         Description = c("The total target body length",
+                                         "Ratio of the radius of curvature (ρc) and L",
+                                         "L/a with a the radius of the mid-point of the cylinder is the ratio of L to a",
+                                         "The taper order (n) controls the tapering.",
+                                         
+                                         "The average model over a range of lengths will be produced",
+                                         "The ratio of the standard deviation of length (std(L)) to the mean length (L)",
+                                         "This value has to be chosen with care, as it has to be possible to calculate the provided std(L)/mean(L) around the provided mean L with the given increment.",
+                                         "Path to a profile file containing 3 or 5 columns. (X, Z, R coordinates and optional Xupper Xlower). The profile file must contain at least 3 columns, containing the center coordinates (X, Z, R) of each circular segment",
+                                         "Filter length to smooth the radius (R)",
+                                         "Filter length to smooth the body axis (X, Z)"),
+                         Influence = c("Length of the target",
+                                       "Curvature of the bent cylinder, if no shape profile is loaded ( ∞ for straight cylinder)",
+                                       "Contains information about the width of the target.",
+                                       "For a straight cylinder (ρc/L -> infinity), n=2 results in a prolate spheroid if L>2a, or in an oblate spheroid for L<2a",
+                                       "1 = perform average; 0 = No average",
+                                       "Defines the variability of the target lengths, used to compute the input models for the averaged model output",
+                                       "Defines the length increment of the target lengths, used to compute the input models for the averaged model output",
+                                       "Defines the shape of the target, if no profile is selected a uniformly bent cylinder will be computed",
+                                       "1 = no smoothing, otherwise smoothes the tapering (reduces complexity)",
+                                       "1 = no smoothing, otherwise smoothens the axis (flatter)"),
+                         "Parameters name" =
+                           c("...shape$L",
+                             "...shape$rho_L",
+                             "...shape$L_a",
+                             "...shape$order",
+                             "",
+                             "...shape$Lstd",
+                             "...shape$dL",
+                             "...shape$prof_name",
+                             "...shape$taper_sm",
+                             "...shape$axis_sm")
+                         ))
+knitr::kable(para.df)
+``` 
+
+#### Shape profile files  
+Shape profile files are loaded into the `buildpos` function and generate a shape in combination with the other shape settings.  
+Shape profiles must contain at least three columns without headers, describing the X, Z coordinates and the radius R. Two additional columns, describing the upper and lower extend of the cylinder can be included.  
+The following is a minimal example, describing a generic krill:  
+
+```
+0.0000	38.3500	0.0000
+0.9149	36.8563	0.2147
+1.7924	34.0464	0.6525
+2.4552	29.4160	1.1296
+2.4365	26.6247	1.3537
+2.4552	23.5253	1.4470
+2.3059	20.6967	1.5964
+2.2498	17.7000	1.5497
+2.0538	15.1888	1.6524
+1.8484	12.8456	1.9044
+1.6897	10.5304	1.7551
+1.6897	8.46720	1.6524
+2.0631	6.64680	1.3816
+2.4739	2.96870	1.1016
+3.5568	0.00000	0.5508
+```  
+
+Some example shape profiles can be found in *`r paste0(system.file(package="ZooScat"),"/extdata/profiles/")`*  
+
+### Orientation parameters  
+
+```{r echo=FALSE} 
+
+orient.df <- as.data.frame(cbind(Variable = c("Mean Theta (θ)",
+                                      "Orientation Average",
+                                      "Theta Distribution (dθ)",
+                                      "Min. Theta (θmin)",
+                                      "Max. Theta (θmax)",
+                                      "Std.(θ)",
+                                      "Increment θ"),
+                         Unit = c("°",
+                                  "Boolean",
+                                  "distribution (Uniform or Gaussian)",
+                                  "°",
+                                  "°",
+                                  "°",
+                                  "°"),
+                         Description = c("Mean orientation angle",
+                                         "Defines if an orientation average should be considered",
+                                         "PDF of theta",
+                                         "Minimum theta for a uniform PDF",
+                                         
+                                         "Maximum theta for a uniform PDF",
+                                         "Standard deviation of theta for a Gaussian PDF",
+                                         "Incremental step of theta for a Gaussian PDF"),
+                         Influence = c("",
+                                       "",
+                                       "1) Uniform; 2) Gaussian","","","",""),
+                         "Parameters name" =
+                           c("...orient$angm",
+                             "...orient$ave_flag",
+                             "...orient$PDF",
+                             "...orient$ang0",
+                             "...orient$ang1",
+                             "...orient$PDF_para",
+                             "...orient$dang")
+                         ))
+knitr::kable(orient.df, keep.line.breaks = TRUE, style = 'grid', justify = 'left')
+```  
+
+### Material properties parameters
+   
+  
+```{r echo=FALSE} 
+
+mat.df <- as.data.frame(cbind(Variable = c("Density contrast (g)",
+                                      "Soundspeed contrast (h)",
+                                      "Ambient Soundspeed (c)",
+                                      "N body segment",
+                                      "std(g)",
+                                      "std(h)",
+                                      "Correlation Length"),
+                         Unit = c("ratio",
+                                  "ratio",
+                                  "m/s",
+                                  "Integer",
+                                  "std of ratio",
+                                  "std of ratio",
+                                  "% of L"),
+                         Description = c("the ratio of the density of the animal to the density of the surrounding fluid",
+                                         "the ratio of the sound speed in the animal to the sound speed in the surrounding fluid",
+                                         "Soundspeed in surrounding fluid",
+                                         "Defines the number of segments with different gi and hi along the body axis (>1 if an inhomogenous body should be computed).",
+                                         
+                                         "Standard deviation of the density (g), if an inhomogenous body should be computed",
+                                         "Standard deviation of the sound speed contrast (h), if an inhomogenous body should be computed",
+                                         "Controls the variability of g and h along the body axis (only xonsidered if the number of segments is >8)"),
+                         Influence = c("Influences acoustic impedance, should be within [0.95, 1.05]",
+                                       "Influences acoustic impedance, should be within [0.95, 1.05]",
+                                       "","","","",""),
+                         "Parameters name" =
+                           c("...phy$g0",
+                             "...phy$h0",
+                             "...misc$cw",
+                             "...phy$seg_no",
+                             "...phy$g_std",
+                             "...phy$h_std",
+                             "...phy$corrL")
+                         ))
+knitr::kable(mat.df, keep.line.breaks = TRUE, style = 'grid', justify = 'left')
+```  
+  
+#### Calculating soundspeed in water
+  
+  
+#### Calculating water density  
+  
+#### Getting some example values for g and h  
+
+#### Generating a body with multiple g and h values  
+
+### Simulation parameters  
+  
+```{r echo=FALSE} 
+
+simu.df <- as.data.frame(cbind(Variable = c("Output",
+                                      "Variable",
+                                      "Sample points",
+                                      "Integration Points",
+                                      "Variable start value",
+                                      "Variable end value",
+                                      "Frequency"),
+                         Unit = c("Selection",
+                                  "Selection",
+                                  "Integer",
+                                  "Integer",
+                                  "Float",
+                                  "Float",
+                                  "Float"),
+                         Description = c("Model variable",
+                                         "Number of output points along the variable maximum and minimum value",
+                                         "Number of integration points along the target body",
+                                         "Resolution of the model variable output",
+                                         "Minimum output value",
+                                         
+                                         "Maximum output value",
+                                         "Defines the discrete frequency for which the model is run if the variable is set to angle"),
+                         Influence = c("1) backscattering amplitude; 2) differential backscattering cross-section [m2]; 3) Reduced Target Strength [dB re m2]; 4) Reduced Target Strength [db re m2]",
+                                         "1) Frequency [kHz]; 2) Angle (°); 3) ka (wave number k * a)",
+                                         "Resolution of the model variable output",
+                                         "Resolution of the model shape input",
+                                         
+                                         "Range of the mdel output variable",
+                                         "Range of the mdel output variable",
+                                         "Center frequency of model variation around a range of theta"),
+                         "Parameters name" =
+                           c("...simu$out_indx",
+                             "...simu$var_indx",
+                             "...simu$n",
+                             "...simu$ni",
+                             "...simu$var0",
+                             "...simu$var1",
+                             "...simu$freq")
+                         ))
+knitr::kable(simu.df, keep.line.breaks = TRUE, style = 'grid', justify = 'left')
+```  
+
+#### Output selection
+
+#### Variable selection  
+
+
+
+
