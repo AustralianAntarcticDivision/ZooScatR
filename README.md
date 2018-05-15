@@ -119,10 +119,10 @@ It is recommended to view the app in a browser like Chromium, Chrome or Firefox 
 
 Currently the following vignettes are available:  
 
-* [A general introduction to the DWBA model, with examples on how to run the DWBA model inside ZooScat from the command](/vignettes/DwbaCommand.html)  
-* [A description of the DWBA web application](/vignettes/DWBAapp_vignette.html)
-* [A validation of the model implication within ZooScat through comparison with an analytical solution of the sphere case](/vignettes/CompareToAnalyticalSolution.html)  
-* [An a bit more advanced tutorial on how to run multiple DWBA instance in parallel using multiple cores](/vignettes/DWBAParallel.html)  
+* [A general introduction to the DWBA model, with examples on how to run the DWBA model inside ZooScat from the command](man/figures/DwbaCommand.html)  
+* [A description of the DWBA web application](man/figures/DWBAapp_vignette.html)
+* [A validation of the model implication within ZooScat through comparison with an analytical solution of the sphere case](man/figures/CompareToAnalyticalSolution.html)  
+* [An a bit more advanced tutorial on how to run multiple DWBA instance in parallel using multiple cores](man/figures/DWBAParallel.html)  
 
 ## Getting help  
 For ZooScat specific questions make a feature request or post an issue on [GitHub](https://github.com/AustralianAntarcticDivision/ZooScat).    
