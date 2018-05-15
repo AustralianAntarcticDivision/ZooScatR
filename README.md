@@ -117,12 +117,21 @@ It is recommended to view the app in a browser like Chromium, Chrome or Firefox 
 
 ## Available vignettes  
 
+We are constantly workin on new examples and vignettes.  
+A list of all currently integrated vignettes can be obtained through:
+
+``` r 
+vignette(package="ZooScat")
+```  
+
 Currently the following vignettes are available:  
 
-* [A general introduction to the DWBA model, with examples on how to run the DWBA model inside ZooScat from the command](man/html/DwbaCommand.html)  
-* [A description of the DWBA web application](man/html/DWBAapp_vignette.html)
-* [A validation of the model implication within ZooScat through comparison with an analytical solution of the sphere case](man/html/CompareToAnalyticalSolution.html)  
-* [An a bit more advanced tutorial on how to run multiple DWBA instance in parallel using multiple cores](man/html/DWBAParallel.html)  
+* A general introduction to the DWBA model, with examples on how to run the DWBA model inside ZooScat from the command ``` vignette("DwbaCommand", package="ZooScat") ```  
+* A description of the DWBA web application ``` vignette("DWBAapp_vignette", package="ZooScat") ```  
+* A validation of the model implication within ZooScat through comparison with an analytical solution of the sphere case ``` vignette("CompareToAnalyticalSolution", package="ZooScat") ```
+* An a bit more advanced tutorial on how to run multiple DWBA instance in parallel using multiple cores ``` vignette("DWBAParallel", package="ZooScat") ```  
+
+All vignettes are located in the vignettes folder in the package folder, available after isntallation of ZooScat. If you don't know the location of the package folder, this can be obtained through ``` system.file(package="ZooScat") ```. It is recommended to open the html files directly in a browser, rather than through the R preview, as formulas and otherfeatures might not be rendered correctly in the R preview window.  
 
 ## Getting help  
 For ZooScat specific questions make a feature request or post an issue on [GitHub](https://github.com/AustralianAntarcticDivision/ZooScat).    
