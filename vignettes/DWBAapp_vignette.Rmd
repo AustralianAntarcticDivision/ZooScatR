@@ -2,6 +2,7 @@
 title: "The DWBAapp() in ZooScat"
 author: "Sven Gastauer"
 date: "`r Sys.Date()`"
+bibliography: vignettes.bib
 output:
   rmarkdown::html_vignette:
     toc: true
@@ -321,13 +322,104 @@ knitr::kable(mat.df, keep.line.breaks = TRUE, style = 'grid', justify = 'left')
 ```  
   
 #### Calculating soundspeed in water
+
+Ambient soundspeed (c) is an import input into the model. Basic parameters, such as wavelength dependt directly on c. In combinaiton with the soundspeed contrast (ratio between the soundspeed inside and outside the scattering target), the soundspeed inside the target can be calculated. This underlines the importance of having good estimates of soundspeed contrast for similar targets at similar ambient conditions.  
+
+Inside DWBAapp, c can be computed by clicking on the `Calculate c based on Salinity, Temperature and Depth` link on the `Material properties` tab (located under the Ambient Soundspped input). This will open a new tab in the result pane.  
+
+![*Calculate the ambient soundspeed*](calc_c.png){width=700px align=centre}  
+
   
-  
+Three different methods of calculating ambient soundspeed are currently implementd in ZooScat:  
+
+* Coppens 1981 [@coppens_simple_1981] (`c_Coppens1981`)  
+Calculates speed of sound in seawater based on Coppens (1981) The empirical equation generally holds validity for a temperature range between 0 and 35 degrees Celsius, Salinities between 0 and 45 parts per thousand and a depth range between 0 and 4000 m. This empirical formula takes three input values (Depth (D) in m, Salinity (S) in ppt and Temperature (T) in degrees Celsius:
+
+$$t = T/10; D = D/1000 $$
+$$c_0 = 1449.05 + 45.7t - 5.21 t^2 + 0.23 t^3 + (1.333 - 0.126 t + 0.009 t^2) (S - 35) $$
+$$c = c_0 + (16.23 + 0.253t) D + (0.213 - 0.1t) * D^2 + (0.016 + 2e^{-04} (S - 35)) (S - 35)tD$$  
+
+* Mackenzie 1981 [@mackenzie_nine-term_1981] (`c_Mackenzie1981`)  
+Calculate speed of sound in seawater based on MacKenzie (1981) The empirical equation generally holds validity for a temperature range between 2 and 30 degrees Celsius, Salinities between 25 and 40 parts per thousand and a depth range between 0 and 8000 m. This empirical formula takes three input values (Depth (D) in m, Salinity (S) in ppt and Temperature (T) in degrees Celsius: 
+
+$$1448.96 + 4.591 T - 5.304 10^{-2} T^2 + 2.374 *10^{-4} T^3 +\\ 
+1.34 (S - 35) + 1.63 * 10^{-2}D + 1.675 * 10{^-7} D^2 - \\
+1.025 * 10^{-2} T (S -35)-7.139 * 10^{-13}  T  D^3$$
+
+* LeRoy 2008 [@leroy_new_2008] (`c_Leroy08`)  
+Returns the sound speed according to Leroy et al (2008). This "newer" equation should solve the sound speed within 0.2 m/s for all seas, including the Baltic and Black sea, based on Temperature, Salinity and Latitude. Exceptions are some seas with anomalities close to the bottom. The equation was specifically designed to be used in marine acoustics. This empirical formula takes three input values (Depth (D) in m, Salinity (S) in ppt, Temperature (T) in degrees Celsius, and Latitude (lat) in degrees:
+
+$$ 1402.5 + 5 T - 5.44 * 10^{-2} T^2 + 2.1 * 10^{-4} T^3 + 1.33 S -\\ 
+        1.23 * 10^{-2} S T + 8.7 * 10^{-5} S T^2 + \\
+        1.56 * 10^{-2} Z + 2.55 * 10^{-7} Z^2 - \\
+        7.3 * 10^{-12} Z^3 + 1.2 * 10^{-6} Z (lat - 45) -\\ 
+        9.5 * 10^{-13} T Z^3 + 3 * 10^{-7} T^2 Z + 1.43 10^{-5} S Z$$
+
 #### Calculating water density  
+  Depending on the method used to compute the density contrast of the target to the surrounding fluid, the density rather then the density contrast might be obtained. In order to get the density contrast at ambient conditions, it is important to know the density of the surrounding fluid. Within ZooScat the density of water can be calculated, following formulas found in the Tenth report of the joint panel on oceanographic tables and standards. UNESCO Technical Papers in Marine Science, Paris, 25p [@unesco_tenth_1981].  
   
+  Inside DWBAapp, $\rho$ can be computed by clicking on the `Calculate seawater density based on Salinity, Temperature and pressure` link on the `Material properties` tab (located under the Density Contrast input). This will open a new tab in the result pane, where Temperature, Salinity and Pressure can be entered.  
+  
+  ![*Calculate the density of the external fluid*](calc_rho.png){width=700px align=centre}  
+
+Following the UNESCO Standard, density is calculated in four steps:  
+  
+  First the density of Standard Mean Ocean Water ($\rho_smow$) with temperature (T) in degree Celsius:
+  $$a0 = 999.842594 \\
+    a1 = 6.793953 * 10^-2 \\
+    a2 = -9.09529 * 10^-3 \\
+    a3 = 1.001685 * 10^-4 \\
+    a4 = -1.120083 * 10^-6 \\
+    a5 = 6.536332 * 10^-9 \\
+    \rho_{smow}(T) = a0 + a1 * T + a2 * T^2 + a3 * T^3 + a4 * T^4 + a5 * T^5$$
+    
+  Density at depth is dependent on the compressibility ($\kappa$):  
+  $$ h_0 = 3.2399 \\
+    h_1 = 1.43713 * 10^{-3} \\
+    h_2 = 1.16092 * 10^{-4} \\
+    h_3 = -5.77905 * 10^{-7} \\
+    i_0 = 2.838 * 10^{-3} \\
+    i_1 = -1.0981 * 10^{-5} \\
+    i_2 = -1.6078 * 10^{-6} \\
+    j_0 = 1.91075 * 10^{-4} \\
+    k_0 = 8.50935 * 10^{-5} \\
+    k_1 = -6.12293 * 10^{-6} \\
+    k_2 = 5.2787 * 10^{-8} \\
+    m_0 = -9.9348 * 10^{-7} \\
+    m_1 = 2.0816 * 10^{-8} \\
+    m_2 = 9.1697 * 10^{-10} \\
+    B_w = k_0 + k_1 T + k_2 T^2 \\
+    B_2 = B_w + (m_0 + m_1 T + m_2 T^2) S \\
+    A_w = h_0 + h_1 T + h_2 T^2 + h_3 T^3 \\
+    A_1 = A_w + (i_0 + i_1 T + i_2T^2) S + j_0 S^{1.5} \\
+    K_{p0}(S, T) + A_1 p + B_2 * p^2 $$
+  
+  Then the density of seawater with Salinity (S in psu +/- ppm) at pressure (p in bar) = 0 is computed ($\rho_0$:  
+  
+  $$b_0 = 8.2449 * 10^-1 \\
+    b_1 = -4.0899 * 10^-3 \\
+    b_2 = 7.6438 * 10^-5 \\
+    b_3 = -8.2467 * 10^-7 \\
+    b_4 = 5.3875 * 10^-9 \\
+    c_0 = -5.7246 * 10^-3 \\
+    c_1 = 1.0227 * 10^-4 \\
+    c_2 = -1.6546 * 10^-6 \\
+    d_0 = 4.8314 * 10^-4 \\
+    B_1 = b_0 + b_1 T + b_2 T^2 + b_3 T^3 + b_4 T^4 \\
+    C_1 = c_0 + c_1 T + c_2 T^2 \\
+    \rho_0(S,T)=\rho_{smow}(T) + B_1 S + C_1 * S^{1.5} + d_0 S^2 $$
+    
+Density at a given pressure is then computed as:  
+$$ \rho = \frac{\rho_o(S,T)}{1-\frac{p}{K(S,T)}}$$
+
 #### Getting some example values for g and h  
 
+It is important to only use the DWBA model provided here for low density and soundspeed contrasts (within 5%). This is illustrated in the validation vignette (``). The DWBA performs very well for weak scatters, such as salps, euphausids, copepods, etc. but would perform very poorly if applied to an almost rigid target, such as a target sphere.  
+Some of the g and h found in literature are summarised in a table which can be accessed within DWBAapp through clicking on `how/hide some reported material properties ` the first link in the `Material properties` tab. This will open a new tab in the results pane.
+
 #### Generating a body with multiple g and h values  
+
+For more complex scatting targets, the internal g and h compard to the external fluid can be varied.
 
 ### Simulation parameters  
   
@@ -382,3 +474,4 @@ knitr::kable(simu.df, keep.line.breaks = TRUE, style = 'grid', justify = 'left')
 
 
 
+## References
