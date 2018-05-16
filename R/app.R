@@ -36,11 +36,11 @@
 #'
 #' Details about the model, the app and the different parameters are lined out in the vignettes:
 #' \enumerate{
-#'       \item A brief description of the DWBA model and an introduction on how to run it from the command line (\url{../doc/DWBAapp_vignette.html}
+#'       \item A brief description of the DWBA model and an introduction on how to run it from the command line (\url{../doc/DwbaCommand.html}
 #'       \item A validation of the used DWBA model, comparing results to the analytical solution of a weakly scattering sphere (\url{../doc/CompareToAnalyticalSolution.html}
 #'       \item An introduction to the app (\url{../doc/DWBAapp_vignette.html}
 #'       \item A table containing the parameters and a brief explanation (\url{../doc/parameters.html}
-#'       \item Some examples of model model parameters from literature#' (\url{../doc/gh2.htmll}
+#'       \item Some examples of model model parameters from literature#' (\url{../doc/gh2.html}
 #'       \item An introduction on how to run parallel instances of the DWBA model (\url{../doc/DWBAParallel.html}
 #'       }
 #' @import shiny
