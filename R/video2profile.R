@@ -2,7 +2,9 @@
 #' Keep standard dat format, as used in Matlab, to keep maximum compatibility with previous files
 #' @import ggplot2
 #' @import pracma
-#' @param fn Filename
+#' @param x x coordinates
+#' @param y y corrdinates
+#' @param z z coordinates
 #' @return shape
 #' @examples
 #' sub <- shapes[which(shapes$ID==unique(shapes$ID)[x]),]

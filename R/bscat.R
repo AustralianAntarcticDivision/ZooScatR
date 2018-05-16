@@ -1,11 +1,11 @@
-#' Run the DWBA model for a given set of parameters
+#' @title Backscattering model
+#' @description  Run the DWBA model for a given set of parameters. Visit the vignette for more details (\url{../doc/DwbaCommand.html})
 #' @param para [list] A list containing all the model parameters (\url{../doc/parameters.html})
-#' @param misc [list] A list containing the soundspeed of the surrounding fluid
+#' @param misc [list] A list containing the soundspeed (cw) of the surrounding fluid (to compute cw visit \code{\link{c_Coppens1981}} or \code{\link{c_Leroy08}} or \code{\link{c_Mackenzie1981}})
 #' @param app = FALSE [boolean] function call from shiny interface or command line
 #' @author Sven Gastauer
 #' @return list with all parameters for DWBA
 #' @import ggplot2
-#' @title Simulation average backscattering over orienation and length by euphausiid and copopod
 #' @import ggplot2
 #' @examples
 #' #Get filename of the parameters file

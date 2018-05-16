@@ -18,6 +18,10 @@ TS.sphere(f, r, a, c, h, g, rho, theta = pi)
 \item{h}{Soundspeed contrast inside/surrounding fluid}
 
 \item{g}{Density contrast inside/surrounding fluid}
+
+\item{rho}{Density of surrounding fluid}
+
+\item{theta}{Scattering angle}
 }
 \description{
 Scattered pressure from an incident plane wave upon a fluid sphere. Based on:

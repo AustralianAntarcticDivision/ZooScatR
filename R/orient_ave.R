@@ -8,7 +8,7 @@
 #' @author Sven Gastauer
 #' @return averaged y points
 #' @examples
-#' averaging over orientation
+#' #averaging over orientation
 #' paral = orient_ave_para
 #' f=f
 #' pdf_type = para$orient$PDF

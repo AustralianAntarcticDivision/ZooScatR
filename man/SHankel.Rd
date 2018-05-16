@@ -7,9 +7,9 @@
 SHankel(z, order)
 }
 \arguments{
-\item{order}{order of the bessel funciton}
+\item{z}{numeric data vector}
 
-\item{x}{numeric data vector}
+\item{order}{order of the bessel funciton}
 }
 \description{
 Spherical Hankel function

@@ -1,0 +1,94 @@
+<html>
+<body>
+<h3>ZooScat – An R package for modelling the scattering properties of weak scattering targets using the Distorted Wave Born Approximation</h2>
+<hr>
+<p>
+	<i>
+		Sven Gastauer<sup>1,2</sup>, Dezhang Chu<sup>3</sup>, Martin J. Cox<sup>2</sup>
+	</p>
+	<p>
+		<sup>1</sup>Antarctic Climate and Ecosystem Cooperative Research Centre, University of Tasmania, Private Bag 80, Hobart, Tasmania, 7001, sven.gastauer@utas.edu.au <br>
+		<sup>2</sup>Australian Antarctic Division, 203 Channel Highway, Kingston, TAS 7050, Australia <br>
+		<sup>3</sup>Northwest Fisheries Science Center, National Marine Fisheries Service, National Oceanic and Atmospheric Administration, 2725 Montlake Boulevard East, Seattle, Washington 98112, USA
+	</p>
+</i>
+<hr>
+<p>
+	Current version: <i>0.2.1</i><br>
+	Github site: <a href=https://github.com/AustralianAntarcticDivision/ZooScat>https://github.com/AustralianAntarcticDivision/ZooScat</a>
+</p>
+<hr>
+<b>TOC</b>
+<div id="TOC">
+	<ol>
+		<li><a href=#Overview>Overview</a></li>
+		<li><a href=#Copyright>Copyright</a></li>
+		<li><a href=#Vignettes>Available vignettes</a></li>
+		<li><a href=#Help>Additional help</a></li>
+	</ol>
+	<br>
+</div>
+<hr>
+<div id="Overview">
+	<h3>Overview</h3>
+	ZooScat is an implementation of the Distorted Wave Born Approximation (DWBA) model for the simulation of acoustic scattering by weak scattering targets inside a fluid.<br>
+	It includes a shiny web application called DWBAapp for easy model parametrisation and result visualisation as well as the option to run the DWBA model from the command line. Additional functions to compute soundspeed in water, water density and Spherical Bessel functions with their derivatives (as needed in the analytical solution of a weakly scattering sphere, e.g. Neumann and Hankel functions).
+	<br>
+</div>
+<hr>
+<div id="Copyright">
+	<h3>Copyright and Licence</h3>
+	<pre>Copyright (C) 2018 Sven Gastauer, Dezhang Chu, Martin Cox.<br>
+		This file is part of ZooScat.
+
+		ZooScat is free software: you can redistribute it and/or modify
+		it under the terms of the GNU General Public License as published by
+		the Free Software Foundation, either version 3 of the License, or
+		(at your option) any later version.
+
+		ZooScat is distributed in the hope that it will be useful,
+		but WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+		GNU General Public License for more details.
+
+		You should have received a copy of the GNU General Public License
+		along with ZooScat.  If not, see <a href=http://www.gnu.org/licenses>http://www.gnu.org/licenses</a>.
+	This package is open for community development and we encourage users to extend the 
+package as they need. We are not liable for any losses when using ZooScat.</pre>
+<br>
+If using ZooScat, please cite as:
+
+<pre>citation('ZooScat')</pre>
+<hr>
+<div id="Vignettes">
+	<h3>Available vignettes</h3>
+	We are constantly working on new examples and vignettes.<br>
+	A list of all currently integrated vignettes can be obtained through:<br>
+	<code>vignette(package="ZooScat")</code><br>
+	Currently the following vignettes are available:<br>
+
+	<li>A general introduction to the DWBA model, with examples on how to run the DWBA model inside ZooScat from the command <code>vignette("DwbaCommand", package="ZooScat")</code></li>
+
+	<li>A description of the DWBA web application <code>vignette("DWBAapp_vignette", package="ZooScat")</code></li>
+
+	<li>A validation of the model implication within ZooScat through comparison with an analytical solution of the sphere case <code>vignette("CompareToAnalyticalSolution", package="ZooScat"</code></li>
+
+	<li>An a bit more advanced tutorial on how to run multiple DWBA instance in parallel using multiple cores <code>vignette("DWBAParallel", package="ZooScat")</code></li>
+	<br>
+
+	All vignettes are stored as html files, located in the vignettes folder within the system package folder, available after installation of ZooScat.<br>
+	If you don't know the location of the package folder, this can be obtained through <code>system.file(package="ZooScat")</code>
+	It is recommended to open the html files directly in a browser, rather than through the R preview, as formulas and otherfeatures might not be rendered correctly in the R preview window.</li>
+	<br>
+</div>
+<hr>
+<div id="Help">
+	<h3>Getting help</h3>
+	For ZooScat specific questions make a feature request or post an issue on <a href=https://github.com/AustralianAntarcticDivision/ZooScat>GitHub</a>.<br>
+
+	For general R questions visit <a href=https://stackoverflow.com/questions/tagged/r>Stack Overflow</a>.<br>
+
+	If none of those options seem appropriate and you are getting really desperate, <a href="mailto:sven.gastauer@utas.edu.au">contact one the authors</a>.<br>
+<hr>
+</body>
+</html>

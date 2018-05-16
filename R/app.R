@@ -3,7 +3,6 @@
 #'
 #' @section General outputs:
 #'
-#'
 #' All Shape, Orientation, Material Property and Simulation settings that are used as model input can be changed manually or be defined through configuration and profile files.
 #'
 #' Whenever the model is run, two plots will be generated and a data table will be generated.
@@ -28,40 +27,22 @@
 #' \enumerate{
 #'       \item Shape
 #'       \item Orientation
-#'       \item Orientation
+#'       \item Material Properties
 #'       \item Simulation
 #'    }
 #'
 #' These different input types are organised in tabs.
 #' Predefined configuration files which can define all settings can be loaded by clicking the Browse button under the Load Config menu at the top of the right frame.
 #'
-#' \strong{Shape settings:}
-#'
-#' Arbitrary shapes can be loaded by clicking the Shape Profile checkbox and loading a .dat file containing at least three columns without headers. The first column contains x coordinates, the second column contains the y coordinates and the thrid column contains the tapering for each point describing the shape.
-#' The length (in mmm) and tapering of the shape can be defined through numeric inputs. The tapering of the shape and the x axis can be smoothed. Increasing the axis smoothing flattens the shape. Increasing the taper smooth smoothens (simplifies) the shape. If the taper smooth is set to above 0, the dashed line on the shape plot will represent the original input coordinates, while the solid line represents the smoothed, model input shape.
-#'
-#' If no shape profile is loaded, a uniformely bent cylinder can be generated with Length, radius of curvature girth (L/a) and tapering order information. If the radius of curvature is unknown, it can be computed for a given set of points by using
-#'
-#' If the model should be run over a range of lengths, a length average can be computed. If a length average should be calculated, the standard deviation and the increment need to be fixed.
-#'
-#' Changing the length
-#' \strong{Orientation settings:}
-#'
-#' On the orientation tab, the mean, minimum and maximum orientation angles (theta) can be defined. An average result over a range of orientation angles can be computed, following either a gaussian or uniform distribtuion. If an average should be calculated, the standard deviation and increment have to be fixed.
-#'
-#' \strong{Material Property settings:}
-#'
-#'
-#' \strong{Simulation settings:}
-#'
-#'#' Here the settings for the simulation and output plot settings are defined:
-#'
-#' \emph{Plot Output options are:}
-#' TS, Scattering Amplitude, Cross-Section and reduced TS
-#'
-#' \emph{Variable Options are:}
-#' Frequency [kHz], angle [degrees] and ka (wave number)
-#'
+#' Details about the model, the app and the different parameters are lined out in the vignettes:
+#' \enumerate{
+#'       \item A brief description of the DWBA model and an introduction on how to run it from the command line (\url{../doc/DWBAapp_vignette.html}
+#'       \item A validation of the used DWBA model, comparing results to the analytical solution of a weakly scattering sphere (\url{../doc/CompareToAnalyticalSolution.html}
+#'       \item An introduction to the app (\url{../doc/DWBAapp_vignette.html}
+#'       \item A table containing the parameters and a brief explanation (\url{../doc/parameters.html}
+#'       \item Some examples of model model parameters from literature#' (\url{../doc/gh2.htmll}
+#'       \item An introduction on how to run parallel instances of the DWBA model (\url{../doc/DWBAParallel.html}
+#'       }
 #' @import shiny
 #' @import shinyjs
 #' @import ggplot2
@@ -91,6 +72,7 @@ DWBAapp <- function(){
                               border-color: dark-gray;
                               border-style: inset;
                               border-width: 1px;
+
                               }
                              a:link {
                                     color: #181818;
@@ -104,18 +86,32 @@ DWBAapp <- function(){
                                 /* mouse over link */
                                 a:hover {
                                     color: #606060;
-                                }"
+                                }
+
+                                /* body color */
+                                body {
+                                    background-color: #F8F8F8;
+                                    color: black;
+                                    font-family: Helvetica;
+                                }
+
+                                /* h2 color */
+                                h2 {
+                                    text-shadow: 3px 3px #DCDCDC;
+                                    font-family: Helvetica;
+                                    border-style: solid;
+                                    border-width: 5px;
+                                    box-shadow: 5px 5px #888888;
+                                    text-align: center;
+                                }
+
+                                "
                              )
                         ),
 
-      # Application title
-      shiny::titlePanel("ZooScat",
 
-                 title=shiny::tags$div(
-                   shiny::tags$img(src="doc/ZOOSCAT.png",
-                                   width=100,
-                                   height=40), "ZooScat - Zooplankton Backscatter")
-      ),
+      # Application title
+      shiny::titlePanel("ZooScat ~ Zooplankton Backscatter"),
       # Sidebar
       shiny::sidebarLayout(
         shiny::sidebarPanel(
@@ -436,12 +432,8 @@ DWBAapp <- function(){
                                shiny::dataTableOutput("resIh")
                       ),
                       shiny::tabPanel(value="gh_tab",
-                               title="Parameter Examples",
-                               #shiny::h4("Blabla")
-                               #includeMarkdown(paste0(system.file(package="ZooScat"),"/doc/gh.Rmd"))
-                               #includeshiny::HTML(paste0(system.file(package="ZooScat"),"/doc/gh.shiny::HTML"))
-                               shiny::includeHTML(paste0(system.file(package="ZooScat"),"/doc/gh2.HTML"))
-                               #includeshiny::HTML("./doc/gh.shiny::HTML")
+                               title="g and h Examples",
+                               shiny::includeHTML(paste0(system.file(package="ZooScat"),"/extdata/doc/gh2.HTML"))
                       ),
 
 
@@ -527,37 +519,11 @@ DWBAapp <- function(){
                       ),
                       shiny::tabPanel(value="pe_tab",
                                       title="Parameter Explanation",
-                                      #shiny::h4("Blabla")
-                                      #includeMarkdown(paste0(system.file(package="ZooScat"),"/doc/gh.Rmd"))
-                                      #includeshiny::HTML(paste0(system.file(package="ZooScat"),"/doc/gh.shiny::HTML"))
-                                      shiny::includeHTML(paste0(system.file(package="ZooScat"),"/doc/parameters.HTML"))
-                                      #includeshiny::HTML("./doc/gh.shiny::HTML")
-                      ),
+                                      shiny::includeHTML(paste0(system.file(package="ZooScat"),"/extdata/doc/parameters.HTML"))
+                                      ),
                       shiny::tabPanel("About",
-                               shiny::tags$div(shiny::tags$img(src="doc/ZOOSCAT.png"),style='text-align: center;'),
-                               shiny::h4("ZooScat – An R package for modelling the scattering properties of weak scattering targets using the Distorted Wave Born Approximation"),
-                               shiny::hr(),
-                               shiny::p("Version 0.2"),
-                               shiny::hr(),
-                               shiny::p("developped by: "),
-                               shiny::br(),
-                               shiny::HTML("Dr Sven Gastauer<sup>1,2</sup>, "),
-                               shiny::HTML("Dr Dezhang Chu<sup>3</sup>, "),
-                               shiny::HTML("Dr Martin J. Cox<sup>2</sup>"),
-                               shiny::br(),shiny::br(),
-                               shiny::p(shiny::HTML("<i>1) Antarctic Climate and Ecosystem Cooperative Research Centre, University of Tasmania, Private Bag 80, Hobart, Tasmania, 7001, sven.gastauer@utas.edu.au</i>")),
-                               shiny::p(shiny::HTML("<i>2) Australian Antarctic Division, 203 Channel Highway, Kingston, TAS 7050, Australia</i>")),
-                               shiny::p(shiny::HTML("<i>3) Northwest Fisheries Science Center, National Marine Fisheries Service, National Oceanic and Atmospheric Administration, 2725 Montlake Boulevard East, Seattle, Washington 98112, USA</i>")),
-                               shiny::p(shiny::tags$div("Based on ZBS-DWBA developed by: Dr Dezhang Chu")),
-                               shiny::br(),shiny::br(),
-                               shiny::hr(),
-                               shiny::em(
-                                 shiny::span("Contact"),
-                                 shiny::a("Sven Gastauer", href = "mailto:sven.gastauer@utas.edu.au"),
-                                 shiny::br(), shiny::br()
-                               )
-
-
+                                      title="About",
+                                      shiny::includeHTML(paste0(system.file(package="ZooScat"),"/extdata/doc/about.HTML"))
                       )
           ))
       )),
@@ -569,7 +535,7 @@ DWBAapp <- function(){
       ####INITIALISATION
 
       #add path for data files
-      shiny::addResourcePath("doc", system.file("doc", package="ZooScat"))
+      #shiny::addResourcePath("doc", system.file("doc", package="ZooScat"))
       #create a list of reactive values
       values <- shiny::reactiveValues()
       #if para is not available, create an empty list

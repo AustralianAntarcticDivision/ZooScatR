@@ -8,7 +8,11 @@ Keep standard dat format, as used in Matlab, to keep maximum compatibility with 
 generate_pos(x = sub$x, y = sub$y, z = sub$z)
 }
 \arguments{
-\item{fn}{Filename}
+\item{x}{x coordinates}
+
+\item{y}{y corrdinates}
+
+\item{z}{z coordinates}
 }
 \value{
 shape

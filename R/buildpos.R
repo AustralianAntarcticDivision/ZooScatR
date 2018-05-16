@@ -7,11 +7,7 @@
 #' @import ggplot2
 #' @author Sven Gastauer
 #' @export
-#' @param para a list containining the shape parameters
-#' @param para$shape$ni Number of integration points
-#' @param para$shape$order Tapering order
-#' @param para$shape$rho_L rho = radius of curvature
-#' @param para$shape$prof_name Custom shape, -1 for regular shape, filename for custom shape
+#' @param para a list containining the shape parameters (used arguments: para$shape$ni - Number of integration points; para$shape$order - Tapering order; para$shape$rho_L - rho = radius of curvature; para$shape$prof_name - 0Custom shape, -1 for regular shape, filename for custom shape
 #' @param disp_prof = 1 if 1 a ggplot object of the shape is added to the output list, otherwise, no plot is produced
 #' @examples
 #' para$shape$L <-30

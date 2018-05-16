@@ -1,0 +1,403 @@
+<html>
+<head>
+
+</script>
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type="text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h3 class="title toc-ignore">Previoulsy reported material properties, shape and orientation parameters</h3>
+
+</div>
+
+
+<p>This is a non-exhaustive table with previously reported model parameter values. Large parts of the table are copied from Lavery et al. <span class="citation">(2007)</span> and Lawson et al. <span class="citation">(2004)</span>.</p>
+<p>Some taxa are repsented more than once, where multiple literature recodrings have been found. It is recommended to throughly study the cited and other literature before using any of the presented values.</p>
+<p>It should also be noted that L/a values might be fluctuating largely due to:</p>
+<ul>
+<li>geographical location <span class="citation">(Køgeler et al., 1987; Lawson et al., 2004)</span></li>
+<li>life history traits of the taxon or seasonality <span class="citation">(Køgeler et al., 1987; Lawson et al., 2004)</span></li>
+</ul>
+<p>g and h in some species have been reported to fluctuate with:</p>
+<ul>
+<li>temperature <span class="citation">(Chu and Wiebe, 2005)</span></li>
+<li>size classes <span class="citation">(Chu and Wiebe, 2005; Køgeler et al., 1987; Lawson et al., 2004)</span><br />
+</li>
+<li>depth <span class="citation">(Chu and Wiebe, 2005)</span><br />
+</li>
+<li>seasonality (for example due to changes in lipid content) <span class="citation">(Køgeler et al., 1987)</span></li>
+<li>state of the analysed individuals (preseverd or alive) <span class="citation">(Køgeler et al., 1987)</span>.</li>
+</ul>
+<p>g and h are important variables in the model. It has been suggested that the effects of varying g and h can be of the same order of magnitude as the orientation <span class="citation">(Stanton et al., 1993)</span>.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Taxon</th>
+<th align="left">Length-to-girth ratio <span class="math inline">\(\frac{L}{a}\)</span></th>
+<th align="left">Orientation</th>
+<th align="left">Density Contrast g</th>
+<th align="left">Sound Speed Contrast h</th>
+<th align="left">Scattering model</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Euphausiids and Decapod Shrimp</td>
+<td align="left">10.5</td>
+<td align="left">N(20,20) <span class="citation">(Benfield et al., 2000)</span>, average ~0 <span class="citation">(Lawson et al., 2006)</span></td>
+<td align="left"><span class="math display">\[\frac{5.485*L}{10^4}+1.002; L>25\]</span> <span class="math display">\[1.016; L<25\]</span> <span class="citation">(Lawson et al., 2004)</span></td>
+<td align="left"><span class="math display">\[\frac{5.94*2L}{10^ 4}; L>25\]</span> <span class="math display">\[1.019; L<25\]</span> <span class="citation">(Lawson et al., 2004)</span></td>
+<td align="left">DWBA uniformly-bent cylinder</td>
+</tr>
+<tr class="even">
+<td align="left">Larval Crustacean</td>
+<td align="left">2.55 <span class="citation">(Lawson et al., 2004)</span></td>
+<td align="left">N(0.30) <span class="citation">(Lawson et al., 2004)</span></td>
+<td align="left">1.058 <span class="citation">(Lawson et al., 2004)</span></td>
+<td align="left">1.058 <span class="citation">(Lawson et al., 2004)</span></td>
+<td align="left">DWBA uniformly-bent cylinder</td>
+</tr>
+<tr class="odd">
+<td align="left">Amphipods</td>
+<td align="left">3.00 <span class="citation">(Lawson et al., 2004)</span></td>
+<td align="left">N(0,30) <span class="citation">(Lawson et al., 2004)</span></td>
+<td align="left">1.058 <span class="citation">(Lawson et al., 2004)</span></td>
+<td align="left">1.058 <span class="citation">(Lawson et al., 2004)</span></td>
+<td align="left">DWBA uniformly-bent cylinder</td>
+</tr>
+<tr class="even">
+<td align="left">Ostracods</td>
+<td align="left">2.55</td>
+<td align="left">N(0,30)</td>
+<td align="left">1.03 <span class="citation">(pers. comm. Dezhang Chu in Lavery et al., 2007)</span></td>
+<td align="left">1.03 <span class="citation">(pers. comm. Dezhang Chu in Lavery et al., 2007)</span></td>
+<td align="left">DWBA uniformly-bent cylinder</td>
+</tr>
+<tr class="odd">
+<td align="left">Chaetognaths and Polychaetes</td>
+<td align="left">17.15</td>
+<td align="left">N(0,30)</td>
+<td align="left">1.03 <span class="citation">(pers. comm. Dezhang Chu in Lavery et al., 2007)</span></td>
+<td align="left">1.03 <span class="citation">(pers. comm. Dezhang Chu in Lavery et al., 2007)</span></td>
+<td align="left">DWBA uniformly-bent cylinder</td>
+</tr>
+<tr class="even">
+<td align="left">Gymnosome Pteropods (Clione)</td>
+<td align="left">1.83</td>
+<td align="left">N(0,30)</td>
+<td align="left">1.03 <span class="citation">(pers. comm. Dezhang Chu in Lavery et al., 2007)</span></td>
+<td align="left">1.03 <span class="citation">(pers. comm. Dezhang Chu in Lavery et al., 2007)</span></td>
+<td align="left">DWBA uniformly-bent cylinder</td>
+</tr>
+<tr class="odd">
+<td align="left">Salps</td>
+<td align="left">4</td>
+<td align="left">N(0,30)</td>
+<td align="left">1.004 <span class="citation">(Stanton et al., 1994)</span></td>
+<td align="left">1.004 <span class="citation">(Stanton et al., 1994)</span></td>
+<td align="left">DWBA uniformly-bent cylinder</td>
+</tr>
+<tr class="even">
+<td align="left">Copepods</td>
+<td align="left">2.55</td>
+<td align="left">N(90,30)</td>
+<td align="left">1.02 <span class="citation">(pers. comm. Dezhang Chu in Lavery et al., 2007)</span></td>
+<td align="left">1.058 <span class="citation">(Chu et al., 2000)</span></td>
+<td align="left">DWBA prolate spheroid</td>
+</tr>
+<tr class="odd">
+<td align="left">Medusae</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.02 <span class="citation">(inferred from Monger et al., 1998 as reported in <span class="citation">Lavery et al. (2007)</span>)</span></td>
+<td align="left">1.02 <span class="citation">(inferred from Monger et al., 1998 as reported in <span class="citation">Lavery et al. (2007)</span>)</span></td>
+<td align="left">DWBA two prolate spheroid surfaces</td>
+</tr>
+<tr class="even">
+<td align="left">Eggs</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">0.979 <span class="citation">(Chu et al., 2003)</span></td>
+<td align="left">1.017 <span class="citation">(Stanton, 1989)</span></td>
+<td align="left">High-pass fluid sphere</td>
+</tr>
+<tr class="odd">
+<td align="left">Calanus finmarchicus</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.025 - 1.029 g/cm<sup>3</sup> depending on season <span class="citation">(Køgeler et al., 1987)</span></td>
+<td align="left">1.027 (mixture C. finmarchicus and C. hyperboreus) <span class="citation">(Køgeler et al., 1987)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Calanus hyperboreus</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.022 - 1.036 g/cm<sup>3</sup> depending on season <span class="citation">(Køgeler et al., 1987)</span></td>
+<td align="left">1.027 (mixture C. finmarchicus and C. hyperboreus) <span class="citation">(Køgeler et al., 1987)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Acartia clausi</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.04 g/cm<sup>3</sup> <span class="citation">(Greenlaw, 1979)</span></td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Calanus marshallae</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.04 g/cm<sup>3</sup> <span class="citation">(Greenlaw, 1979)</span></td>
+<td align="left">1.007 <span class="citation">(Køgeler et al., 1987)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Meganyctiphanes norvegica</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.057 g/cm<sup>3</sup> <span class="citation">(Kils, 1981)</span></td>
+<td align="left">1.030 <span class="citation">(Køgeler et al., 1987)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Thysanoessa</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.052 - 1.074 g/cm<sup>3</sup> depending on season and species <span class="citation">(Køgeler et al., 1987)</span></td>
+<td align="left">1.026 <span class="citation">(Køgeler et al., 1987)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Calanus</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.022 - 1.036 g/cm<sup>3</sup> depending on season and species <span class="citation">(Køgeler et al., 1987)</span></td>
+<td align="left">1.027 <span class="citation">(Køgeler et al., 1987)</span>; 0.949 &amp; 1.013 - Depth dependent <span class="citation">(Chu and Wiebe, 2005)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">General</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">0.9402 - 1.051 <span class="citation">(Chu and Wiebe, 2005)</span></td>
+<td align="left">0.949 - 1.096 <span class="citation">(Chu and Wiebe, 2005)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Euphausia superba</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.0241 <span class="citation">(Chu and Wiebe, 2005)</span>, 1.0357 <span class="citation">(Foote, 1990)</span></td>
+<td align="left">1.031 <span class="citation">(Chu and Wiebe, 2005)</span>, 1.0279 <span class="citation">(Foote, 1990)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Euphausia crystallorophias</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.009 &amp; 1.000 depth dependent <span class="citation">(Chu and Wiebe, 2005)</span></td>
+<td align="left">1.025 &amp; 1.029 depth dependent <span class="citation">(Chu and Wiebe, 2005)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Neocalanus cristatus</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">0.997 - 1.009 <span class="citation">(Matsukura et al., 2009)</span></td>
+<td align="left">1.013 - 1.025 <span class="citation">(Matsukura et al., 2009)</span></td>
+<td align="left">DWBA Deformed Cylinder</td>
+</tr>
+<tr class="even">
+<td align="left">Neocalanus plumchrus</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">0.995 - 1.009 <span class="citation">(Matsukura et al., 2009)</span></td>
+<td align="left">1.006 - 1.021 <span class="citation">(Matsukura et al., 2009)</span></td>
+<td align="left">DWBA Deformed Cylinder</td>
+</tr>
+<tr class="odd">
+<td align="left">Ammodytes personatus (juvenile)</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.021 <span class="citation">(Yasuma et al., 2009)</span></td>
+<td align="left">1.02 <span class="citation">(Yasuma et al., 2009)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Ammodytes personatus (adult)</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">1.032 <span class="citation">(Yasuma et al., 2009)</span></td>
+<td align="left">1.02 <span class="citation">(Yasuma et al., 2009)</span></td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Salpa thompsoni</td>
+<td align="left">10</td>
+<td align="left">Uniform [0, π]</td>
+<td align="left">1 - 1.0039 <span class="citation">(Wiebe et al., 2009)</span></td>
+<td align="left">1.006 - 1.0201 <span class="citation">(Wiebe et al., 2009)</span></td>
+<td align="left">DWBA</td>
+</tr>
+</tbody>
+</table>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references">
+<div id="ref-benfield_estimating_2000">
+<p>Benfield, M. C., Davis, C. S., and Gallager, S. M. (<strong>2000</strong>). “Estimating the in-situ orientation of Calanus finmarchicus on Georges Bank using the Video Plankton Recorder,” Plankton Biol. Ecol, <strong>47</strong>, 69–72.</p>
+</div>
+<div id="ref-chu_measurements_2005">
+<p>Chu, D., and Wiebe, P. H. (<strong>2005</strong>). “Measurements of sound-speed and density contrasts of zooplankton in Antarctic waters,” ICES Journal of Marine Science, <strong>62</strong>, 818–831.</p>
+</div>
+<div id="ref-chu_material_2003">
+<p>Chu, D., Wiebe, P. H., Copley, N. J., Lawson, G. L., and Puvanendran, V. (<strong>2003</strong>). “Material properties of North Atlantic cod eggs and early-stage larvae and their influence on acoustic scattering,” ICES Journal of Marine Science, <strong>60</strong>, 508–515.</p>
+</div>
+<div id="ref-chu_inference_2000">
+<p>Chu, D., Wiebe, P., and Copley, N. (<strong>2000</strong>). “Inference of material properties of zooplankton from acoustic and resistivity measurements,” ICES Journal of Marine Science, <strong>57</strong>, 1128–1142.</p>
+</div>
+<div id="ref-foote_speed_1990">
+<p>Foote, K. G. (<strong>1990</strong>). “Speed of sound in E uphausiasuperba,” The Journal of the Acoustical Society of America, <strong>87</strong>, 1405–1408.</p>
+</div>
+<div id="ref-greenlaw_acoustical_1979">
+<p>Greenlaw, C. F. (<strong>1979</strong>). “Acoustical estimation of zooplankton populations,” Limnology and Oceanography, <strong>24</strong>, 226–242.</p>
+</div>
+<div id="ref-kils_swimming_1981">
+<p>Kils, U. (<strong>1981</strong>). <em>The swimming behavior, swimming performance and energy balance of Antarctic krill, Euphausia superba</em>, SCAR; SCOR, Scott Polar Research Institute.</p>
+</div>
+<div id="ref-kogeler_density-and_1987">
+<p>Køgeler, J. W., Falk-Petersen, S., Kristensen, \., Pettersen, F., and Dalen, J. (<strong>1987</strong>). “Density-and sound speed contrasts in sub-Arctic zooplankton,” Polar Biology, <strong>7</strong>, 231–235.</p>
+</div>
+<div id="ref-lavery_determining_2007">
+<p>Lavery, A. C., Wiebe, P. H., Stanton, T. K., Lawson, G. L., Benfield, M. C., and Copley, N. (<strong>2007</strong>). “Determining dominant scatterers of sound in mixed zooplankton populations,” The Journal of the Acoustical Society of America, <strong>122</strong>, 3304–3326.</p>
+</div>
+<div id="ref-lawson_improved_2006">
+<p>Lawson, G. L., Wiebe, P. H., Ashjian, C. J., Chu, D., and Stanton, T. K. (<strong>2006</strong>). “Improved parametrization of Antarctic krill target strength models,” The Journal of the Acoustical Society of America, <strong>119</strong>, 232–242.</p>
+</div>
+<div id="ref-lawson_acoustically-inferred_2004">
+<p>Lawson, G. L., Wiebe, P. H., Ashjian, C. J., Gallager, S. M., Davis, C. S., and Warren, J. D. (<strong>2004</strong>). “Acoustically-inferred zooplankton distribution in relation to hydrography west of the Antarctic Peninsula,” Deep Sea Research Part II: Topical Studies in Oceanography, <strong>51</strong>, 2041–2072.</p>
+</div>
+<div id="ref-matsukura_measurements_2009">
+<p>Matsukura, R., Yasuma, H., Murase, H., Yonezaki, S., Funamoto, T., Honda, S., and Miyashita, K. (<strong>2009</strong>). “Measurements of density contrast and sound-speed contrast for target strength estimation of <i>Neocalanus</i> copepods (<i>Neocalanus cristatus</i> and <i>Neocalanus plumchrus</i>) in the North Pacific Ocean,” Fisheries Science, <strong>75</strong>, 1377. doi:<a href="https://doi.org/10.1007/s12562-009-0172-3">10.1007/s12562-009-0172-3</a></p>
+</div>
+<div id="ref-monger_sound_1998">
+<p>Monger, B. C., Chinniah-Chandy, S., Meir, E., Billings, S., Greene, C. H., and Wiebe, P. H. (<strong>1998</strong>). “Sound scattering by the gelatinous zooplankters Aequorea victoria and Pleurobrachia bachei,” Deep Sea Research Part II: Topical Studies in Oceanography, <strong>45</strong>, 1255–1271.</p>
+</div>
+<div id="ref-stanton_simple_1989">
+<p>Stanton, T. K. (<strong>1989</strong>). “Simple approximate formulas for backscattering of sound by spherical and elongated objects,” The Journal of the Acoustical Society of America, <strong>86</strong>, 1499–1510.</p>
+</div>
+<div id="ref-stanton_average_1993">
+<p>Stanton, T. K., Chu, D., Wiebe, P. H., and Clay, C. S. (<strong>1993</strong>). “Average echoes from randomly oriented random-length finite cylinders: Zooplankton models,” The Journal of the Acoustical Society of America, <strong>94</strong>, 3463–3472.</p>
+</div>
+<div id="ref-stanton_acoustic_1994">
+<p>Stanton, T. K., Wiebe, P. H., Chu, D., Benfield, M. C., Scanlon, L., Martin, L., and Eastwood, R. L. (<strong>1994</strong>). “On acoustic estimates of zooplankton biomass,” ICES Journal of Marine Science, <strong>51</strong>, 505–512.</p>
+</div>
+<div id="ref-wiebe_acoustic_2009">
+<p>Wiebe, P. H., Chu, D., Kaartvedt, S., Hundt, A., Melle, W., Ona, E., and Batta-Lona, P. (<strong>2009</strong>). “The acoustic properties of Salpa thompsoni,” ICES Journal of Marine Science, <strong>67</strong>, 583–593.</p>
+</div>
+<div id="ref-yasuma_density_2009">
+<p>Yasuma, H., Nakagawa, R., Yamakawa, T., Miyashita, K., and Aoki, I. (<strong>2009</strong>). “Density and sound-speed contrasts, and target strength of Japanese sandeel Ammodytes personatus,” Fisheries Science, <strong>75</strong>, 545–552.</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -2,14 +2,14 @@
 % Please edit documentation in R/bscat.R
 \name{bscat}
 \alias{bscat}
-\title{Simulation average backscattering over orienation and length by euphausiid and copopod}
+\title{Backscattering model}
 \usage{
 bscat(para, misc, app = FALSE)
 }
 \arguments{
 \item{para}{[list] A list containing all the model parameters (\url{../doc/parameters.html})}
 
-\item{misc}{[list] A list containing the soundspeed of the surrounding fluid}
+\item{misc}{[list] A list containing the soundspeed (cw) of the surrounding fluid (to compute cw visit \code{\link{c_Coppens1981}} or \code{\link{c_Leroy08}} or \code{\link{c_Mackenzie1981}})}
 
 \item{app}{= FALSE [boolean] function call from shiny interface or command line}
 }
@@ -17,7 +17,7 @@ bscat(para, misc, app = FALSE)
 list with all parameters for DWBA
 }
 \description{
-Run the DWBA model for a given set of parameters
+Run the DWBA model for a given set of parameters. Visit the vignette for more details (\url{../doc/DwbaCommand.html})
 }
 \examples{
 #Get filename of the parameters file

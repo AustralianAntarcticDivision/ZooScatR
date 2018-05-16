@@ -15,7 +15,6 @@ This is a Shiny web application for the DWBA model.
 \section{General outputs}{
 
 
-
 All Shape, Orientation, Material Property and Simulation settings that are used as model input can be changed manually or be defined through configuration and profile files.
 
 Whenever the model is run, two plots will be generated and a data table will be generated.
@@ -46,39 +45,22 @@ Four different types of model input parameters an be defined:
 \enumerate{
       \item Shape
       \item Orientation
-      \item Orientation
+      \item Material Properties
       \item Simulation
    }
 
 These different input types are organised in tabs.
 Predefined configuration files which can define all settings can be loaded by clicking the Browse button under the Load Config menu at the top of the right frame.
 
-\strong{Shape settings:}
-
-Arbitrary shapes can be loaded by clicking the Shape Profile checkbox and loading a .dat file containing at least three columns without headers. The first column contains x coordinates, the second column contains the y coordinates and the thrid column contains the tapering for each point describing the shape.
-The length (in mmm) and tapering of the shape can be defined through numeric inputs. The tapering of the shape and the x axis can be smoothed. Increasing the axis smoothing flattens the shape. Increasing the taper smooth smoothens (simplifies) the shape. If the taper smooth is set to above 0, the dashed line on the shape plot will represent the original input coordinates, while the solid line represents the smoothed, model input shape.
-
-If no shape profile is loaded, a uniformely bent cylinder can be generated with Length, radius of curvature girth (L/a) and tapering order information. If the radius of curvature is unknown, it can be computed for a given set of points by using
-
-If the model should be run over a range of lengths, a length average can be computed. If a length average should be calculated, the standard deviation and the increment need to be fixed.
-
-Changing the length
-\strong{Orientation settings:}
-
-On the orientation tab, the mean, minimum and maximum orientation angles (theta) can be defined. An average result over a range of orientation angles can be computed, following either a gaussian or uniform distribtuion. If an average should be calculated, the standard deviation and increment have to be fixed.
-
-\strong{Material Property settings:}
-
-
-\strong{Simulation settings:}
-
-#' Here the settings for the simulation and output plot settings are defined:
-
-\emph{Plot Output options are:}
-TS, Scattering Amplitude, Cross-Section and reduced TS
-
-\emph{Variable Options are:}
-Frequency [kHz], angle [degrees] and ka (wave number)
+Details about the model, the app and the different parameters are lined out in the vignettes:
+\enumerate{
+      \item A brief description of the DWBA model and an introduction on how to run it from the command line (\url{../doc/DWBAapp_vignette.html}
+      \item A validation of the used DWBA model, comparing results to the analytical solution of a weakly scattering sphere (\url{../doc/CompareToAnalyticalSolution.html}
+      \item An introduction to the app (\url{../doc/DWBAapp_vignette.html}
+      \item A table containing the parameters and a brief explanation (\url{../doc/parameters.html}
+      \item Some examples of model model parameters from literature#' (\url{../doc/gh2.htmll}
+      \item An introduction on how to run parallel instances of the DWBA model (\url{../doc/DWBAParallel.html}
+      }
 }
 
 \examples{

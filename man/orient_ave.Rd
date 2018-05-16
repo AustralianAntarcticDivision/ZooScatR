@@ -22,7 +22,7 @@ averaged y points
 averaging over orientation
 }
 \examples{
-averaging over orientation
+#averaging over orientation
 paral = orient_ave_para
 f=f
 pdf_type = para$orient$PDF

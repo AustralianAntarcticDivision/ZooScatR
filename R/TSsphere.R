@@ -4,7 +4,6 @@
 #' @examples
 #' lambda(c=1500,f=200000)
 #' @export
-
 lambda <- function(c,f) {c/f}
 
 #'Calculate the acoustic wavenumber k
@@ -13,7 +12,6 @@ lambda <- function(c,f) {c/f}
 #' @examples
 #' k(c=1500,f=200000)
 #' @export
-
 k <- function(c,f){2 * pi / lambda(c,f)}
 
 #' Spherical bessel function first kind
@@ -93,7 +91,7 @@ besselH <- function(k,n,z){
 
 
 #' Spherical Hankel function
-#' @param x numeric data vector
+#' @param z numeric data vector
 #' @param order order of the bessel funciton
 #' @examples
 #' SHankel(x=1:10,order=1)
@@ -176,6 +174,8 @@ LegPoly <- function(degree, coeffs){
 #' @param c Soundspeed in surrounding fluid m/s
 #' @param h Soundspeed contrast inside/surrounding fluid
 #' @param g Density contrast inside/surrounding fluid
+#' @param rho Density of surrounding fluid
+#' @param theta Scattering angle
 #' @examples
 #' f <- 200000
 #' r <- 10
@@ -189,7 +189,6 @@ LegPoly <- function(degree, coeffs){
 #' #For a range of frequencies
 #' ts<- TS.sphere(f=seq(10,400)*1000,r,a,c,h,g, rho, theta=pi)
 #' plot(ts~seq(10,400),xlab="Frequency [kHz]", ylab="TS [dB re m2]", type="l",ylim=c(-160,-80))
-
 TS.sphere <- function(f,r,a,c,h,g, rho, theta = pi){
 
   ###Basic calculations
@@ -280,6 +279,7 @@ TS.sphere <- function(f,r,a,c,h,g, rho, theta = pi){
 #' @param c Soundspeed in surrounding fluid m/s
 #' @param h Soundspeed contrast inside/surrounding fluid
 #' @param g Density contrast inside/surrounding fluid
+#' @param rho Density of surrounding fluid
 #' @examples
 #' fs <- as.list(seq(10,400, by=1)*1000) #Frequencies
 #' r <- 10 #range
@@ -290,8 +290,6 @@ TS.sphere <- function(f,r,a,c,h,g, rho, theta = pi){
 #' h <- 1480.3/c #soundspeed contrast
 #' TS <- sapply(fs,TS.sphere2,r=r,a=a,c=c,h=h,g=g,rho=rho)
 #' plot(fs,TS, type="l", xlab="Frequency [Hz]",ylab="TS [dB re m2]")
-
-
 TS.sphere2 <- function(f,r,a,c,h,g, rho){
 
   ###Basic calculations

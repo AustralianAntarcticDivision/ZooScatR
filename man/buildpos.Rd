@@ -7,17 +7,9 @@
 buildpos(para, disp_prof = 1)
 }
 \arguments{
-\item{para}{a list containining the shape parameters}
+\item{para}{a list containining the shape parameters (used arguments: para$shape$ni - Number of integration points; para$shape$order - Tapering order; para$shape$rho_L - rho = radius of curvature; para$shape$prof_name - 0Custom shape, -1 for regular shape, filename for custom shape}
 
 \item{disp_prof}{= 1 if 1 a ggplot object of the shape is added to the output list, otherwise, no plot is produced}
-
-\item{para$shape$ni}{Number of integration points}
-
-\item{para$shape$order}{Tapering order}
-
-\item{para$shape$rho_L}{rho = radius of curvature}
-
-\item{para$shape$prof_name}{Custom shape, -1 for regular shape, filename for custom shape}
 }
 \description{
 Builds all the coordinate vectors related to the shape positions of the target

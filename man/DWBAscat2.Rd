@@ -7,11 +7,11 @@
 DWBAscat2(para, misc, app = FALSE)
 }
 \arguments{
+\item{para}{[list] A list containing all the model parameters (\url{../doc/parameters.html})}
+
 \item{misc}{[list] A list with misc parameters, containing at least the soundspeed of the surrounding fluid cw}
 
 \item{app}{TRUE or FALSE, defines if the function is used within a shiny app or not. If \code{app==TRUE} the progressbar inside the app will be updated.}
-
-\item{[list]}{A list containing all the model parameters (\url{../doc/parameters.html})}
 }
 \value{
 list of \code{ka}, the wavelength \code{k * } the width \code{a}; f the square-root of the orientation aveaged scattering cross-section

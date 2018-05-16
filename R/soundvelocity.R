@@ -48,6 +48,7 @@ c_Coppens1981 <- function(D,S,T){
 #' @description Returns the sound speed according to Leroy et al (2008). This "newer" equation should solve the sound speed within 0.2 m/s for all seas, including the Baltic and Black sea, based on Temperature, Salinity and Latitude. Exceptions are some seas with anomalities close to the bottom. The equation was specifically designed to be used in marine acoustics.
 #' @param Z Depth in m
 #' @param S Salinity in parts per thousand
+#' @param T Temperature in degrees Celsius
 #' @param lat Latitude in degrees
 #' @source Leroy, C. C., Robinson, S. P., & Goldsmith, M. J. (2008).
 #' A new equation for the accurate calculation of sound speed in all oceans. The Journal of the Acoustical Society of America, 124(5), 2774-2782.

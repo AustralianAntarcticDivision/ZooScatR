@@ -14,6 +14,8 @@ c_Leroy08(Z, T, S, lat)
 \arguments{
 \item{Z}{Depth in m}
 
+\item{T}{Temperature in degrees Celsius}
+
 \item{S}{Salinity in parts per thousand}
 
 \item{lat}{Latitude in degrees}
