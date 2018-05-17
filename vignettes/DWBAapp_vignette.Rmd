@@ -17,11 +17,11 @@ This vignette is a guide to the DWBA [shiny web application](https://shiny.rstud
 
 The `DWBAapp()` function is included in the ZooScat package and depends on:  
 
-* [shiny](https://shiny.rstudio.com/) - to build the shiny app
-* [shinyjs](https://cran.r-project.org/web/packages/shinyjs/index.html) - for some features like showing/hiding tabs inside the shiny app
-* [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html) - for nicer plots
-* [reshape2](https://cran.r-project.org/web/packages/reshape2/index.html) - for easy reshaping of datframes to be plotted in ggplot2
-* [pracma](https://cran.r-project.org/web/packages/pracma/index.html) - for some Matlab-like mathematical operations  
+* [shiny](https://shiny.rstudio.com/) - to build the shiny app [@shiny]
+* [shinyjs](https://cran.r-project.org/web/packages/shinyjs/index.html) - for some features like  showing/hiding tabs inside the shiny app [@shinyjs]
+* [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html) - for nicer plots [@ggplot]
+* [reshape2](https://cran.r-project.org/web/packages/reshape2/index.html) - for easy reshaping of datframes to be plotted in ggplot2 [@reshape2]
+* [pracma](https://cran.r-project.org/web/packages/pracma/index.html) - for some Matlab-like mathematical operations [@pracma]  
 
 The `ZooScat` package has to be loaded into R:
 

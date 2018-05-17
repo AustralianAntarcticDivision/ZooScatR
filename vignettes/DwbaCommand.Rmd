@@ -66,10 +66,13 @@ where:
 * the subscript $s$ refers to the surrounding fluid, the subscribt $b$ refers to the scattering body,  
 * $\vec{r_{pos}}$ is the position vector along the body axis,  
 * $v$ in the general model is the integration vloume of the body with the position vector $\vec{r_{pos}}$  
-* $\gamma_k$ and $\gamma_{rho}$ are related to the body material properties $g$ - the density contrast and $h$ the soundspeed contrast. Both contrast are the ratio of the density ($\frac{\rho_b}{\rho_s}$) or soundspeed ($\frac{c_b}{c_s}$) inside the body and the surrounding fluid.  
+* $\gamma_k$ and $\gamma_{\rho}$ are related to the body material properties $g$ - the density contrast and $h$ the soundspeed contrast. Both contrast are the ratio of the density ($\frac{\rho_b}{\rho_s}$) or soundspeed ($\frac{c_b}{c_s}$) inside the body and the surrounding fluid.  
     + $\gamma_k = \frac{(1 - gh2)}{gh2}$ is the compressibility  
 
-    + $\gamma_{\rho} = \frac{(g - 1)}{g}$  is related to the density contrast  
+    + $\gamma_{\rho} = \frac{(g - 1)}{g}$  is related to the density contrast 
+The term $\gamma_{\kappa} - \gamma_{\rho}$ is equal to the plane wave / plane interface reflection coefficient ($\Re_{s,b}$)where the wave is initially in medium $s$ and incident upon medium $b$:  
+$$\Re_{s,b}=\frac{\rho_} $$
+
 * $J_1$ is a Bessel function of the first kind and first order  
 * $\beta_{tilt}$ is the angle between the incident wave and the target axis.  
   
