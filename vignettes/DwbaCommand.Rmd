@@ -66,12 +66,11 @@ where:
 * the subscript $s$ refers to the surrounding fluid, the subscribt $b$ refers to the scattering body,  
 * $\vec{r_{pos}}$ is the position vector along the body axis,  
 * $v$ in the general model is the integration vloume of the body with the position vector $\vec{r_{pos}}$  
-* $\gamma_k$ and $\gamma_{\rho}$ are related to the body material properties $g$ - the density contrast and $h$ the soundspeed contrast. Both contrast are the ratio of the density ($\frac{\rho_b}{\rho_s}$) or soundspeed ($\frac{c_b}{c_s}$) inside the body and the surrounding fluid.  
+* $\gamma_k$ and $\gamma_{\rho}$ are related to the body material properties with $g$ - the density contrast and $h$ the soundspeed contrast. Both contrasts are the ratio of the density ($\frac{\rho_b}{\rho_s}$) or soundspeed ($\frac{c_b}{c_s}$) inside the body and the surrounding fluid.  
     + $\gamma_k = \frac{(1 - gh2)}{gh2}$ is the compressibility  
 
-    + $\gamma_{\rho} = \frac{(g - 1)}{g}$  is related to the density contrast 
-The term $\gamma_{\kappa} - \gamma_{\rho}$ is equal to the plane wave / plane interface reflection coefficient ($\Re_{s,b}$)where the wave is initially in medium $s$ and incident upon medium $b$:  
-$$\Re_{s,b}=\frac{\rho_} $$
+    + $\gamma_{\rho} = \frac{(g - 1)}{g}$  is related to the density contrast  
+    
 
 * $J_1$ is a Bessel function of the first kind and first order  
 * $\beta_{tilt}$ is the angle between the incident wave and the target axis.  
@@ -577,31 +576,124 @@ knitr::kable(gh)
 ### Calculating soundspeed in water
   
 ZooScat includes routines to compute the soundspeed of the surrounding water following 3 methods:  
+
 * Coppens [-@coppens_simple_1981]  
 Calculates speed of sound in seawater based on Coppens (1981) The empirical equation generally holds validity for a temperature range between 0 and 35 degrees Celsius, Salinities between 0 and 45 parts per thousand and a depth range between 0 and 4000 m
 Uses Depth (D in m), Salinity (S in ppt) and Temperature (C in Celsius) as input.  
+
+$$t = T/10; D = D/1000 \\
+c_0 = 1449.05 + 45.7t - 5.21 t^2 + 0.23 t^3 + (1.333 - 0.126 t + 0.009 t^2) (S - 35) \\
+c = c_0 + (16.23 + 0.253t) D + (0.213 - 0.1t) * D^2 + (0.016 + 2e^{-04} (S - 35)) (S - 35)tD$$  
+
+Within ZooScat:  
   
 ```{r}
 c_Coppens1981(D=100,S=35,T=10)
 ```  
-
+  
+  
 * MacKenzie [-@mackenzie_nine-term_1981]  
 Calculate speed of sound in seawater based on MacKenzie (1981) The empirical equation generally holds validity for a temperature range between 2 and 30 degrees Celsius, Salinities between 25 and 40 parts per thousand and a depth range between 0 and 8000 m
 Uses Depth (D in meters), Salinity (S in parts per thousands) and Temperature (T in degrees Celsius)  
 
+$$1448.96 + 4.591 T - 5.304 10^{-2} T^2 + 2.374 *10^{-4} T^3 +\\ 
+1.34 (S - 35) + 1.63 * 10^{-2}D + 1.675 * 10{^-7} D^2 - \\
+1.025 * 10^{-2} T (S -35)-7.139 * 10^{-13}  T  D^3$$
+  
+Within ZooScat:  
+
 ```{r}
 c_Mackenzie1981(D=100,S=35,T=10)
 ```  
-
-* Leroy (2008) [-@leroy_new_2008]  
+  
+  
+* Leroy [-@leroy_new_2008]  
 Returns the sound speed according to Leroy et al (2008). This "newer" equation should solve the sound speed within 0.2 m/s for all seas, including the Baltic and Black sea, based on Temperature, Salinity and Latitude. Exceptions are some seas with anomalities close to the bottom. The equation was specifically designed to be used in marine acoustics.
 
 Uses Depth (Z in m), Temperature (T in degrees Celsius), Salinity (S in parts per thousand) and Latitude (lat in degrees).  
+$$ 1402.5 + 5 T - 5.44 * 10^{-2} T^2 + 2.1 * 10^{-4} T^3 + 1.33 S -\\ 
+        1.23 * 10^{-2} S T + 8.7 * 10^{-5} S T^2 + \\
+        1.56 * 10^{-2} Z + 2.55 * 10^{-7} Z^2 - \\
+        7.3 * 10^{-12} Z^3 + 1.2 * 10^{-6} Z (lat - 45) -\\ 
+        9.5 * 10^{-13} T Z^3 + 3 * 10^{-7} T^2 Z + 1.43 10^{-5} S Z$$
+  
+Within ZooScat:  
 
 ```{r}
 c_Leroy08(Z=100,T=10,S=35,30)
 ```
 
+### Calculating water density  
+
+  Depending on the method used to compute the density contrast of the target to the surrounding fluid, the density rather then the density contrast might be obtained. In order to get the density contrast at ambient conditions, it is important to know the density of the surrounding fluid. Within ZooScat the density of water can be calculated, following formulas found in the Tenth report of the joint panel on oceanographic tables and standards. UNESCO Technical Papers in Marine Science, Paris, 25p [@unesco_tenth_1981].  
+
+Following the UNESCO Standard, density is calculated in four steps:  
+  
+  First the density of Standard Mean Ocean Water ($\rho_smow$) with temperature (T) in degree Celsius:
+  $$a0 = 999.842594 \\
+    a1 = 6.793953 * 10^-2 \\
+    a2 = -9.09529 * 10^-3 \\
+    a3 = 1.001685 * 10^-4 \\
+    a4 = -1.120083 * 10^-6 \\
+    a5 = 6.536332 * 10^-9 \\
+    \rho_{smow}(T) = a0 + a1 * T + a2 * T^2 + a3 * T^3 + a4 * T^4 + a5 * T^5$$
+    
+  Density at depth is dependent on the compressibility ($\kappa$):  
+  $$ h_0 = 3.2399 \\
+    h_1 = 1.43713 * 10^{-3} \\
+    h_2 = 1.16092 * 10^{-4} \\
+    h_3 = -5.77905 * 10^{-7} \\
+    i_0 = 2.838 * 10^{-3} \\
+    i_1 = -1.0981 * 10^{-5} \\
+    i_2 = -1.6078 * 10^{-6} \\
+    j_0 = 1.91075 * 10^{-4} \\
+    k_0 = 8.50935 * 10^{-5} \\
+    k_1 = -6.12293 * 10^{-6} \\
+    k_2 = 5.2787 * 10^{-8} \\
+    m_0 = -9.9348 * 10^{-7} \\
+    m_1 = 2.0816 * 10^{-8} \\
+    m_2 = 9.1697 * 10^{-10} \\
+    B_w = k_0 + k_1 T + k_2 T^2 \\
+    B_2 = B_w + (m_0 + m_1 T + m_2 T^2) S \\
+    A_w = h_0 + h_1 T + h_2 T^2 + h_3 T^3 \\
+    A_1 = A_w + (i_0 + i_1 T + i_2T^2) S + j_0 S^{1.5} \\
+    K_{p0}(S, T) + A_1 p + B_2 * p^2 $$
+  
+  Then the density of seawater with Salinity (S in psu +/- ppm) at pressure (p in bar) = 0 is computed ($\rho_0$:  
+  
+  $$b_0 = 8.2449 * 10^-1 \\
+    b_1 = -4.0899 * 10^-3 \\
+    b_2 = 7.6438 * 10^-5 \\
+    b_3 = -8.2467 * 10^-7 \\
+    b_4 = 5.3875 * 10^-9 \\
+    c_0 = -5.7246 * 10^-3 \\
+    c_1 = 1.0227 * 10^-4 \\
+    c_2 = -1.6546 * 10^-6 \\
+    d_0 = 4.8314 * 10^-4 \\
+    B_1 = b_0 + b_1 T + b_2 T^2 + b_3 T^3 + b_4 T^4 \\
+    C_1 = c_0 + c_1 T + c_2 T^2 \\
+    \rho_0(S,T)=\rho_{smow}(T) + B_1 S + C_1 * S^{1.5} + d_0 S^2 $$
+    
+Density at a given pressure is then computed as:  
+$$ \rho = \frac{\rho_o(S,T)}{1-\frac{p}{K(S,T)}}$$
+
+Within ZooScat thde nsity can be computed through:  
+
+```{r} rho(S=35,T=0.5,p=10) ```
+
+or for surface density:   
+
+```{r} 
+rho(S=35, T=10)
+#which is equal to:
+rho_p0(S=35,T=10)
+```  
+  
+The density of Standard Mean Ocean Water at a given temperature can be obtained through:  
+
+```{r}
+rho_smow(T=10)
+```
 ## Running the model  
   Once all the parameters have been set, the DWBA model can be run with the defined parameters:  
   

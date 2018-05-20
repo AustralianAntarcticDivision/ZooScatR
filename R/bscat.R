@@ -29,19 +29,18 @@
 
 
 bscat <- function(para, misc, app=FALSE){
-  if(exists("status")==FALSE){status=list()}
-  #print(misc)
-  #print(para)
-  status$stop = 0
+  # if(exists("status")==FALSE){status=list()}
+  # status$stop = 0
+
   # limits of angle variation
-  if (para$simu$var_indx == 2){
-    if(para$orient$ave_flag == 1){
+  if (para$simu$var_indx == 2){ #If output is vs angles
+    if(para$orient$ave_flag == 1){ #if average should be computed
       if(para$orient$PDF == 1){	# uniform PDF
-        ang_max=para$simu$var1+para$orient$PDF_para
-        ang_min=para$simu$var0-para$orient$PDF_para
+        ang_max=para$orient$ang1 #para$simu$var1+para$orient$PDF_para
+        ang_min=para$orient$ang0 #para$simu$var0-para$orient$PDF_para
       }else{								# Gaussian PDF
-        ang_max=para$simu$var1+3*para$orient$PDF_para
-        ang_min=para$simu$var0-3*para$orient$PDF_para
+        ang_max=para$simu$var1+3.1*para$orient$PDF_para
+        ang_min=para$simu$var0-3.1*para$orient$PDF_para
       }
       if(ang_min < para$orient$ang0){
         para$orient$ang0 = ang_min
@@ -53,23 +52,24 @@ bscat <- function(para, misc, app=FALSE){
         #h=findobj(gcf,'Tag','EditTextTheta1')
         #set(h,'String',num2str(para$orient$ang1))################### To be fixed
       }
-      ang = seq(ang_min, ang_max, by = para$orient$dang)
-    }else{
+      ang = seq(ang_min, ang_max, by = para$orient$dang) # get anular range
+    }else{ #if no average for vs angles should be calculated
       ang_min = para$simu$var0
       ang_max = para$simu$var1
       ang=seq(ang_min,ang_max,length=para$simu$n)
     }
-  }else{
-      if(para$orient$ave_flag == 1){
+  }else{ #if output is not vs angles (but frequency or ka)
+      if(para$orient$ave_flag == 1){ #average over angles should be computed
       if(para$orient$PDF == 1){		# uniform PDF
-        ang_min = para$orient$angm - para$orient$PDF_para
-        ang_max = para$orient$angm + para$orient$PDF_para
+        ang_min = para$orient$ang0
+        ang_max = para$orient$ang1
+        print(ang_min)
     }else{								# Gaussian PDF
       ang_min = para$orient$angm - 3.1 * para$orient$PDF_para
       ang_max = para$orient$angm + 3.1 * para$orient$PDF_para
     }
       ang = seq(ang_min,ang_max, by = para$orient$dang)
-    }else{
+    }else{ #no average should be computed
       ang_min=para$orient$angm
       ang_max=para$orient$angm
       ang=ang_min
@@ -138,9 +138,9 @@ ka = dwba_out$ka
 ang = dwba_out$ang
 f = dwba_out$f
 
-if(status$stop == 1){
-  return()
-}
+ # if(status$stop == 1){
+ #   return()
+ # }
 
 if(para$simu$var_indx == 2){
   angm = seq(para$simu$var0, para$simu$var1, length=Npts)	# mean incident angle

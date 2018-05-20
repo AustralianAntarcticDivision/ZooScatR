@@ -335,9 +335,9 @@ Three different methods of calculating ambient soundspeed are currently implemen
 * Coppens 1981 [@coppens_simple_1981] (`c_Coppens1981`)  
 Calculates speed of sound in seawater based on Coppens (1981) The empirical equation generally holds validity for a temperature range between 0 and 35 degrees Celsius, Salinities between 0 and 45 parts per thousand and a depth range between 0 and 4000 m. This empirical formula takes three input values (Depth (D) in m, Salinity (S) in ppt and Temperature (T) in degrees Celsius:
 
-$$t = T/10; D = D/1000 $$
-$$c_0 = 1449.05 + 45.7t - 5.21 t^2 + 0.23 t^3 + (1.333 - 0.126 t + 0.009 t^2) (S - 35) $$
-$$c = c_0 + (16.23 + 0.253t) D + (0.213 - 0.1t) * D^2 + (0.016 + 2e^{-04} (S - 35)) (S - 35)tD$$  
+$$t = T/10; D = D/1000 \\
+c_0 = 1449.05 + 45.7t - 5.21 t^2 + 0.23 t^3 + (1.333 - 0.126 t + 0.009 t^2) (S - 35) \\
+c = c_0 + (16.23 + 0.253t) D + (0.213 - 0.1t) * D^2 + (0.016 + 2e^{-04} (S - 35)) (S - 35)tD$$
 
 * Mackenzie 1981 [@mackenzie_nine-term_1981] (`c_Mackenzie1981`)  
 Calculate speed of sound in seawater based on MacKenzie (1981) The empirical equation generally holds validity for a temperature range between 2 and 30 degrees Celsius, Salinities between 25 and 40 parts per thousand and a depth range between 0 and 8000 m. This empirical formula takes three input values (Depth (D) in m, Salinity (S) in ppt and Temperature (T) in degrees Celsius: 
@@ -347,7 +347,7 @@ $$1448.96 + 4.591 T - 5.304 10^{-2} T^2 + 2.374 *10^{-4} T^3 +\\
 1.025 * 10^{-2} T (S -35)-7.139 * 10^{-13}  T  D^3$$
 
 * LeRoy 2008 [@leroy_new_2008] (`c_Leroy08`)  
-Returns the sound speed according to Leroy et al (2008). This "newer" equation should solve the sound speed within 0.2 m/s for all seas, including the Baltic and Black sea, based on Temperature, Salinity and Latitude. Exceptions are some seas with anomalities close to the bottom. The equation was specifically designed to be used in marine acoustics. This empirical formula takes three input values (Depth (D) in m, Salinity (S) in ppt, Temperature (T) in degrees Celsius, and Latitude (lat) in degrees:
+Returns the sound speed according to Leroy et al (2008). This "newer" equation should solve the sound speed within 0.2 m/s for all seas, including the Baltic and Black sea, based on Temperature, Salinity and Latitude. Exceptions are some seas with anomalities close to the bottom. The equation was specifically designed to be used in marine acoustics. This empirical formula takes three input values (Depth (Z) in m, Salinity (S) in ppt, Temperature (T) in degrees Celsius, and Latitude (lat) in degrees:
 
 $$ 1402.5 + 5 T - 5.44 * 10^{-2} T^2 + 2.1 * 10^{-4} T^3 + 1.33 S -\\ 
         1.23 * 10^{-2} S T + 8.7 * 10^{-5} S T^2 + \\
