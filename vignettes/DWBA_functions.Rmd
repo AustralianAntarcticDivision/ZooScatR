@@ -16,7 +16,7 @@ vignette: >
 
 #### Getting the orientation angles
   
-If no orientaiton angle should be computed on ly the mean orientation will be considered (`para$orient$angm`).  
+If no orientaiton angle should be computed only the mean orientation will be considered (`para$orient$angm`).  
 
 If an average orientation should be computed (`para$orient$ave_flag = 1`), either a Uniform (`para$orient$PDF = 1`) or a Gaussian (`para$orient$PDF = 2`) probability density function (PDF) can be applied.  
 

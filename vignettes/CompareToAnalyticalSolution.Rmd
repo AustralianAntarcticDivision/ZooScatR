@@ -9,10 +9,10 @@ output:
     toc_depth: 4
 vignette: >
   %\VignetteIndexEntry{Compare the ZooScat DWBA to an analytical solution}
-  %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
-This document compares the results of the the DWBA implementation in ZooScat to an anlytical scattering model of a sphere [@anderson_sound_1950-2], following routines described in Jech et al. [-@jech_comparisons_2015].
+This document compares the results of the the DWBA implementation in ZooScat to an anlytical scattering model of a sphere [@anderson_sound_1950], following routines described in Jech et al. [-@jech_comparisons_2015].
 
 This vignette requires the ZooScat package for the implementation of the DWBA model, ggplot2 for plotting, viridis for nicer colors.
 
@@ -23,7 +23,7 @@ library(viridis)
 ```
 ## The analytical model of a sphere  
 
-For the purpose of this example we will build the general anlytical model for a scattered wave by a sphere [@anderson_sound_1950-2]:  
+For the purpose of this example we will build the general anlytical model for a scattered wave by a sphere [@anderson_sound_1950]:  
 $$p_{scat}=p_0\sum^{\infty}_{n=0}A_n(2n+1)P_n (cos\theta)h^1_n (k_w r)$$  
 with   
 
@@ -34,20 +34,27 @@ with
 * $f$ is the frequency in $Hz =s^{-1}$  
 * $c$ is the soundspeed in $\frac{m}{s}$)  
 * $p_0$ is the incident pressure  
-* $A_n$ is defined by the boundary conditions [@anderson_sound_1950-2]. For $A_n$, definitions following [@jech_comparisons_2015] were used, rather than [@anderson_sound_1950-2].  
+* $A_n$ is defined by the boundary conditions [@anderson_sound_1950]. For $A_n$, definitions following [@jech_comparisons_2015] were used, rather than [@anderson_sound_1950].  
 * $P_n$ is the Legendre polynomial with degree $n$  
 * $h^1_n$ is the spherical Hankel function of the first kind or the spherical Bessel function of thrid the kind  
 * $\theta$ is the scattering angle  
   
   For backscatter $\theta=\pi$; therefore $P_n$ becomes $P_n(-1)=(-1)^n$.  
   
-  In the farfield $k_wr \gg 1, h^1_n(k_wr) \xrightarrow[k_wr\gg1]{} \frac{[(-i)^{n+1}]}{(k_wr)}e^{ik_wr} $  the acoustic backscatter pressure $p_{bs}$ can be expressed as a function of backscattering amplitude ($f_{bs}$, incident pressure, phase and range:  
+  In the farfield 
+  $$
+  \begin{aligned}
+  k_wr \gg 1, \\
+  h^1_n(k_wr) \xrightarrow[k_wr\gg1]{} \frac{[(-i)^{n+1}]}{(k_wr)}e^{ik_wr}
+  \end{aligned}
+  $$  
+  the acoustic backscatter pressure $p_{bs}$ can be expressed as a function of backscattering amplitude ($f_{bs}$, incident pressure, phase and range:  
   $$p_{bs}=p_0 \frac{e^{ik_w r}}{r}f_{bs}$$  
   with the simplified $f_bs$ becoming:  
   $$f_{bs}=-\frac{i}{k_w}\sum^{\infty}_{n=0}(-1)^n(2n+1)A_n $$
   following Jech et al. [-@jech_comparisons_2015], $n$ was limited to the nearest integer of $||k_wa||+20$, providing a precision of 0.1 dB.  
   
-  From $f_bs$, target strength $TS$ in $dB \text{ re }m^2$ can be computed as [@anderson_sound_1950-2]:  
+  From $f_bs$, target strength $TS$ in $dB \text{ re }m^2$ can be computed as [@anderson_sound_1950]:  
   $$TS = 10log_{10}(|f_bs|^2)$$  
     
   For a fluid filled sphere, the coefficient, the coefficient $A_n$ can be computed as:  
@@ -96,7 +103,7 @@ h <- 1480.3/c #soundspeed contrast
 #Frequency range
 fmin=12
 fmax=400
-freqs <- seq(fmin,fmax, by=0.5)
+freqs <- seq(fmin,fmax, by=1)
 ```
 
 Set the settings inside ZooScat:  
@@ -229,7 +236,18 @@ Compare the results:
 ```{r warning=FALSE,fig.width=8,fig.height=4}  
 TS.compare <- TS.comp(TS.MJ,DWBA$y,freqs)
 ```  
-   
+
+
+Compare for TS > -80:   
+
+```{r warning=FALSE}
+th <- - 80
+tmp1 <- TS.MJ
+tmp1[which(tmp1 < th)] <- th
+tmp2 <- DWBA$y
+tmp2[which(tmp2 < th)] <- th
+Ts.compare2 <- TS.comp(tmp1,tmp2,freqs)
+```
    The ZooScat DWBA model performs well for the material preperties of krill, when compared to the analytical model.
 
   
