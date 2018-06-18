@@ -3,16 +3,15 @@
 #' @author Sven Gastauer
 #' @export
 #' @param TS.test Dataframe with TS values, where column names are the frequencies
-#' @param TS.mod Dataframe with modelled TS values, where each row is a sample and column names are the frequencies, the last columns contain the parameters
+#' @param TS.sim Dataframe with modelled TS values, where each row is a sample and column names are the frequencies, the last columns contain the parameters
 #' @param n.nf number of factors contained within the data frame
 #' @examples
 #' #load data
-#' setwd('C:\\Users\\sveng\\Nextcloud\\ts keras\\')
-#' TS.mod <- readRDS("data\\TS_sim.RDS")
+#' data(TS_sim)
 #' #select random row
-#' rr<-sample(1:nrow(TS.mod),1)
-#' TS.inv <- TS.inverse.simple(TS.test=TS.mod[rr,1:(length(TS.mod)-3)],
-#'                            TS.mod=TS.mod,n.nf=3)
+#' rr<-sample(1:nrow(TS.sim),1)
+#' TS.inv <- TS.inverse.simple(TS.test=TS.sim[rr,1:(length(TS.sim)-3)],
+#'                            TS.sim=TS.sim,n.nf=3)
 #'  ##########################################################
 #' ## CREATE PLOTS
 #' ##########################################################
@@ -28,16 +27,15 @@
 #'         axis.title = element_text(size=18),
 #'         legend.position = "top")
 
-TS.inverse.simple <- function(TS.test,TS.mod,n.nf=3){
+TS.inverse.simple <- function(TS.test,TS.sim,n.nf=3){
 
   #########################################################
   # PREPARE THE MODELLED DATA
   #########################################################
 
   #split model into data and target
-  #TS.mod <- TS.mod[sample(1:nrow(TS.mod),1000),]
-  TS.dat <- TS.mod[,1:(length(TS.mod)-n.nf)]
-  TS.target <- TS.mod[,(length(TS.mod)-(n.nf-1)):length(TS.mod)]
+  TS.dat <- TS.sim[,1:(length(TS.sim)-n.nf)]
+  TS.target <- TS.sim[,(length(TS.sim)-(n.nf-1)):length(TS.sim)]
 
   ##########################################################
   ## CHECK IF THE SAME FREQUENCIES ARE AVAILABBLE
