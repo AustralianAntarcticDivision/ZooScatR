@@ -3,7 +3,6 @@
 #' @param f complex form function as a function of frequency, ka or orient. angle
 #' @param pdf_type distribution type       1: uniform  2: Gaussian
 #' @param paral PDF parameters: paral[1] = angle; paral[2] = range for uniform, = std for Gaussian
-#' @import pracma
 #' @export
 #' @author Sven Gastauer
 #' @return averaged y points
@@ -21,8 +20,8 @@ orient_ave <- function(ang,f,pdf_type,paral){
   # f   =       complex form function   # freq.  x  # orient. angle
   # pdf_type =  distribution type       1: uniform  2: Gaussian
   # paral =      PDF parameters:
-  #         para(1) = <angle>
-  #         para(2) = range          for uniform
+  #         paral(1) = <angle>
+  #         paral(2) = range          for uniform
   #		  = std(angle)     for Gaussian
   #
 
@@ -35,7 +34,7 @@ orient_ave <- function(ang,f,pdf_type,paral){
     return(outy)
   }
   if(pdf_type == 1){
-    PDF=pracma::ones(m,1)/m
+    PDF=matrix(1,m,1)/m
   }else{
     dang=ang[2]-ang[1]
     angm=paral[1]
