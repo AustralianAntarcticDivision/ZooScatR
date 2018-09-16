@@ -39,7 +39,8 @@ ZooScat can be installed form GitHub. This requires the [devtools](https://cran.
 ``` r
 # The package can be installed from Github:
 # install.packages("devtools")
-devtools::install_github("AustralianAntarcticDivision/ZooScat")
+#Install the package from github with vignettes
+devtools::install_github("AustralianAntarcticDivision/ZooScat", build_vignettes = TRUE)
 ```
 ### Dependencies  
 
@@ -123,6 +124,10 @@ A list of all currently integrated vignettes can be obtained through:
 ``` r 
 vignette(package="ZooScat")
 ```  
+The best way to view vignettes is in your web browse:  
+``` r
+browseVignettes("ZooScat")
+```
 
 Currently the following vignettes are available:  
 
