@@ -40,7 +40,7 @@ ZooScat can be installed form GitHub. This requires the [devtools](https://cran.
 # The package can be installed from Github:
 # install.packages("devtools")
 #Install the package from github with vignettes
-devtools::install_github("AustralianAntarcticDivision/ZooScat", build_vignettes = TRUE)
+devtools::install_github("AustralianAntarcticDivision/ZooScat", build_vignettes = TRUE, force_deps=TRUE)
 ```
 ### Dependencies  
 
@@ -50,12 +50,15 @@ ZooScat currently depends on:
 * [shinyjs](https://cran.r-project.org/web/packages/shinyjs/index.html) - for some features like showing/hiding tabs inside the shiny app
 * [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html) - for nicer plots
 * [reshape2](https://cran.r-project.org/web/packages/reshape2/index.html) - for easy reshaping of datframes to be plotted in ggplot2
-* [pracma](https://cran.r-project.org/web/packages/pracma/index.html) - for some Matlab-like mathematical operations  
-
+* [pracma](https://cran.r-project.org/web/packages/pracma/index.html) - for some Matlab-like mathematical operations
+* [doSNOW](https://cran.r-project.org/web/packages/doSNOW/index.html) - for running the model in Parallel (multiple cores)
+* [tcltk2](https://cran.r-project.org/web/packages/tcltk2/index.html) - got system independent progressbar window
+* [viridis](https://cran.r-project.org/web/packages/viridis/index.html) - For improved colour scheme  
+  
 These dependencies should be installed automatically, if unavailable when ZooScat is installed. If not, the missing libraries can be installed through:  
 
 ``` r
-packages <- c("shiny","shinyjs","ggplot2", "reshape2","pracma")
+packages <- c("shiny","shinyjs","ggplot2", "reshape2","pracma","doSNOW","tcltk2","viridis")
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(packages, rownames(installed.packages())))}
 ```
