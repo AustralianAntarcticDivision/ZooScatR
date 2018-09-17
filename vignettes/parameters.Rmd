@@ -8,7 +8,7 @@ output:
     toc: true
     toc_depth: 4
 vignette: >
-  %\VignetteIndexEntry{The DWBAapp() in ZooScat}
+  %\VignetteIndexEntry{DWBA Input Parameters}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
