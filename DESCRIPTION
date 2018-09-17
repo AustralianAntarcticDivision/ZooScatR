@@ -17,7 +17,10 @@ Imports:
 	shiny,
 	shinyjs,
 	reshape2,
-	dplyr
+	dplyr,
+	doSNOW,
+	tcltk2,
+	viridis
 RdMacros: Rdpack
 RoxygenNote: 6.0.1
 Suggests: testthat,
