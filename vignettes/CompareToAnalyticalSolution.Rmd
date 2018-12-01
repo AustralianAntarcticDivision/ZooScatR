@@ -1,5 +1,5 @@
 ---
-title: "Compare the ZooScat DWBA to an analytical solution"
+title: "Compare the ZooScatR DWBA to an analytical solution"
 author: "Sven Gastauer"
 date: "`r Sys.Date()`"
 bibliography: vignettes.bib
@@ -8,16 +8,16 @@ output:
     toc: true
     toc_depth: 4
 vignette: >
-  %\VignetteIndexEntry{Compare the ZooScat DWBA to an analytical solution}
+  %\VignetteIndexEntry{Compare the ZooScatR DWBA to an analytical solution}
   %\usepackage[utf8]{inputenc}
   %\VignetteEngine{knitr::rmarkdown}
 ---
-This document compares the results of the the DWBA implementation in ZooScat to an anlytical scattering model of a sphere [@anderson_sound_1950], following routines described in Jech et al. [-@jech_comparisons_2015].
+This document compares the results of the the DWBA implementation in ZooScatR to an anlytical scattering model of a sphere [@anderson_sound_1950], following routines described in Jech et al. [-@jech_comparisons_2015].
 
-This vignette requires the ZooScat package for the implementation of the DWBA model, ggplot2 for plotting, viridis for nicer colors.
+This vignette requires the ZooScatR package for the implementation of the DWBA model, ggplot2 for plotting, viridis for nicer colors.
 
 ```{r warning=FALSE}
-library(ZooScat)
+library(ZooScatR)
 library(ggplot2)
 library(viridis)
 ```
@@ -73,9 +73,10 @@ with
   Similarly, letting $gh \rightarrow 0$ results in a pressure release sphere and:
   $$A_n=-\frac{j_n(k_wa)}{h_n(k_wa)}$$  
   
-  These functions have been implemented within ZooScat and can be called using:  
+  These functions have been implemented within ZooScatR and can be called using:  
   
 ```{r}
+library(ZooScatR)
 r <- 10 #range 
 a <- 0.01 # radius
 c <- 1477.4 #soundspeed surrounding fluid
@@ -83,6 +84,7 @@ rho <- 1026.8 #density surrounding fluid
 g <- 1028.9/rho #density contrast
 h <- 1480.3/c #soundspeed contrast
 f <- 200 * 1000 #Frequency in Hz
+
 TS.sphere2(f=f,r=r,a=a,c=c,h=h,g=g,rho=rho)
 ```
   
@@ -106,10 +108,10 @@ fmax=400
 freqs <- seq(fmin,fmax, by=1)
 ```
 
-Set the settings inside ZooScat:  
+Set the settings inside ZooScatR:  
 
 ```{r}
-fname <- paste0(system.file(package="ZooScat"),"/extdata/configs/config_0.dat") #Loacation of the parameters file
+fname <- paste0(system.file(package="ZooScatR"),"/extdata/configs/config_0.dat") #Loacation of the parameters file
 para = read_para(fname) #Read parameters file
 
 #Create list with soundspeed info
@@ -127,7 +129,7 @@ para$simu$ni=2000 #any high number
 
 ```
 
-## Building a sphere inside ZooScat
+## Building a sphere inside ZooScatR
 
 ```{r warning=FALSE,fig.width=8,fig.height=4}
 #Set the shape parameters
@@ -150,7 +152,7 @@ fs <- as.list(freqs*1000) #Create a list of frequencies
 TS.MJ <- sapply(fs,TS.sphere2,r=r,a=a,c=c,h=h,g=g,rho=rho) #Apply frequency list to the analytical model
 ```
   
-Run the ZooScat DWBA:  
+Run the ZooScatR DWBA:  
 
 ```{r warning=FALSE,fig.width=8,fig.height=4}
 #Run DWBA based on config file
@@ -218,7 +220,7 @@ g <- 1.0357 #density contrast
 h <- 1.0279 #soundspeed contrast
 c <- 1456
 
-#Set the material properties in ZooScat
+#Set the material properties in ZooScatR
 para$shape$L <- 2*1000*a # 2 * the radius in m to get length in mm
 para$phy$g0 <- g #set the density contrast
 para$phy$h0 <- h #set the soundspeed contrast
@@ -227,7 +229,7 @@ misc$cw <- c
 #Run the analytical model
 TS.MJ <- sapply(fs,TS.sphere2,r=r,a=a,c=c,h=h,g=g,rho=rho) #Apply frequency list to the analytical model
 
-#Run the ZooScat DWBA:  
+#Run the ZooScatR DWBA:  
 DWBA <- bscat(para=para, misc=misc)
 ```
   
@@ -248,7 +250,7 @@ tmp2 <- DWBA$y
 tmp2[which(tmp2 < th)] <- th
 Ts.compare2 <- TS.comp(tmp1,tmp2,freqs)
 ```
-   The ZooScat DWBA model performs well for the material preperties of krill, when compared to the analytical model.
+   The ZooScatR DWBA model performs well for the material preperties of krill, when compared to the analytical model.
 
   
 Running the model for very strong scatterer like a 38.1 mm tungsten-carbide sphere:  
@@ -258,7 +260,7 @@ a <- 0.0381
 g <- 14900/rho #density contrast
 h <- 6853/c #soundspeed contrast
 
-#Set the material properties in ZooScat
+#Set the material properties in ZooScatR
 para$shape$L <- 2*1000*a # 2 * the radius in m to get length in mm
 para$phy$g0 <- g #set the density contrast
 para$phy$h0 <- h #set the soundspeed contrast
@@ -266,7 +268,7 @@ para$phy$h0 <- h #set the soundspeed contrast
 #Run the analytical model
 TS.MJ <- sapply(fs,TS.sphere2,r=r,a=a,c=c,h=h,g=g,rho=rho) #Apply frequency list to the analytical model
 
-#Run the ZooScat DWBA:  
+#Run the ZooScatR DWBA:  
 DWBA <- bscat(para=para, misc=misc)
 ```
   
@@ -276,6 +278,6 @@ Compare the results:
 TS.compare <- TS.comp(TS.MJ,DWBA$y,freqs)
 ```  
    
-   The ZooScat DWBA model holds no validity for such strong scatterers.  
+   The ZooScatR DWBA model holds no validity for such strong scatterers.  
    
 ##References

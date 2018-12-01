@@ -26,17 +26,17 @@ For a Gaussian PDF, the limits are defined as $\bar\theta \pm std(\theta)$ (`par
 
 The angles for which the model should be computed are then optained as the sequence of values within the limits of the minimum and maximum orientation angles by the incremental step (`para$orient$dang`).
 
-Within ZooScat the orientations are added to the misc list as `misc$ang`for further use in the DWBA funciton.  
+Within ZooScatR the orientations are added to the misc list as `misc$ang`for further use in the DWBA funciton.  
 
 ### Getting the limits of the ka variation
 
 First the width of the radius of the mid-point of each cylinder ($a$) is obtained through combinaiton of information on the target Length ($L$) and the ratio $\frac{L}{a}$.  
 
-The next step is to get the initial and final ka (the wavenumber ($k$, which equals the 2$\pi$ divided by the wavelength ($\lambda=c/f$ with $c$ = soundspeed [m/s] and $f$ the frequency [Hz])), multiplied by the radius): $ka = 2\pi \frac{f}{c_w}a = \frac{2\pi}{\lambda}a$ (in ZooScat this equals `k(c,f)*a` or `2*pi*a/lambda(c,f)`).  
+The next step is to get the initial and final ka (the wavenumber ($k$, which equals the 2$\pi$ divided by the wavelength ($\lambda=c/f$ with $c$ = soundspeed [m/s] and $f$ the frequency [Hz])), multiplied by the radius): $ka = 2\pi \frac{f}{c_w}a = \frac{2\pi}{\lambda}a$ (in ZooScatR this equals `k(c,f)*a` or `2*pi*a/lambda(c,f)`).  
 
 If the output model variable is frequency (`para$simu$var_indx=1`), the range of ka depends on the maximum (`para$simu$var1`) and minimum input (`para$simu$var0`) frequencies. If the output variable is angles (`para$simu$var_indx=2`), only the simulation frequency will be considered (`para$simu$freq`). If the output variable is ka (`para$simu$var_indx=3`) the the limits of ka are directly defined through the variable start and end values (`para$simu$var0`, `para$simu$var1`).  
   
-In ZooScat, ka values are stored in the misc list for further use in the DWBA simulation (`misc$ka`)  
+In ZooScatR, ka values are stored in the misc list for further use in the DWBA simulation (`misc$ka`)  
 
 ### DWBA simulation parameters
 Get the number of ka points ($n$): `length(misc$ka`  

@@ -1,5 +1,5 @@
 ---
-title: "The DWBAapp() in ZooScat"
+title: "The DWBAapp() in ZooScatR"
 author: "Sven Gastauer"
 date: "`r Sys.Date()`"
 bibliography: vignettes.bib
@@ -8,14 +8,14 @@ output:
     toc: true
     toc_depth: 4
 vignette: >
-  %\VignetteIndexEntry{The DWBAapp() in ZooScat}
+  %\VignetteIndexEntry{The DWBAapp() in ZooScatR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 ## The DWBA app vignette and prerequisites
-This vignette is a guide to the DWBA [shiny web application](https://shiny.rstudio.com/) `DWBAapp()`. The DWBAapp() has been specifically designed, to easily and quickly create ZooScat config files, and visualise the DWBA output of singular simulations. The availability of config files allows for quick and easy parametrisation of [one single core]("DwbaCommand.html") or [multiple parallelised DWBA simulations](Parallelise DWBA sweeps.html). More information on the DWBA model can be found in [this vignette]("DwbaCommand.html") and a validation of the model, comparing outcomes to an analytical model can be found in [this vignette]("CompareToAnalyticalSolution.html"). 
+This vignette is a guide to the DWBA [shiny web application](https://shiny.rstudio.com/) `DWBAapp()`. The DWBAapp() has been specifically designed, to easily and quickly create ZooScatR config files, and visualise the DWBA output of singular simulations. The availability of config files allows for quick and easy parametrisation of [one single core]("DwbaCommand.html") or [multiple parallelised DWBA simulations](Parallelise DWBA sweeps.html). More information on the DWBA model can be found in [this vignette]("DwbaCommand.html") and a validation of the model, comparing outcomes to an analytical model can be found in [this vignette]("CompareToAnalyticalSolution.html"). 
 
-The `DWBAapp()` function is included in the ZooScat package and depends on:  
+The `DWBAapp()` function is included in the ZooScatR package and depends on:  
 
 * [shiny](https://shiny.rstudio.com/) - to build the shiny app [@shiny]
 * [shinyjs](https://cran.r-project.org/web/packages/shinyjs/index.html) - for some features like  showing/hiding tabs inside the shiny app [@shinyjs]
@@ -23,10 +23,10 @@ The `DWBAapp()` function is included in the ZooScat package and depends on:
 * [reshape2](https://cran.r-project.org/web/packages/reshape2/index.html) - for easy reshaping of datframes to be plotted in ggplot2 [@reshape2]
 * [pracma](https://cran.r-project.org/web/packages/pracma/index.html) - for some Matlab-like mathematical operations [@pracma]  
 
-The `ZooScat` package has to be loaded into R:
+The `ZooScatR` package has to be loaded into R:
 
 ```{r warning=FALSE}
-library(ZooScat)
+library(ZooScatR)
 ```
 
 ## Starting the app  
@@ -110,7 +110,7 @@ The table values can be exported as comma-separated (csv) file by clicking the E
 ### Config file template  
 
 Config file can be created outside of the app or be edited using a standard text editor. It is important though to keep the original format.  
-The code below is an example config file, which corresponds to the `config1.dat` in the package config example data folder (*`r paste0(system.file(package="ZooScat"),"/extdata/configs/")`*):  
+The code below is an example config file, which corresponds to the `config1.dat` in the package config example data folder (*`r paste0(system.file(package="ZooScatR"),"/extdata/configs/")`*):  
 
 ```
 %% home directory
@@ -236,7 +236,7 @@ The following is a minimal example, describing a generic krill:
 3.5568	0.00000	0.5508
 ```  
 
-Some example shape profiles can be found in *`r paste0(system.file(package="ZooScat"),"/extdata/profiles/")`*  
+Some example shape profiles can be found in *`r paste0(system.file(package="ZooScatR"),"/extdata/profiles/")`*  
 
 ### Orientation parameters  
 
@@ -330,7 +330,7 @@ Inside DWBAapp, c can be computed by clicking on the `Calculate c based on Salin
 ![*Calculate the ambient soundspeed*](calc_c.png){width=700px align=centre}  
 
   
-Three different methods of calculating ambient soundspeed are currently implementd in ZooScat:  
+Three different methods of calculating ambient soundspeed are currently implementd in ZooScatR:  
 
 * Coppens 1981 [@coppens_simple_1981] (`c_Coppens1981`)  
 Calculates speed of sound in seawater based on Coppens (1981) The empirical equation generally holds validity for a temperature range between 0 and 35 degrees Celsius, Salinities between 0 and 45 parts per thousand and a depth range between 0 and 4000 m. This empirical formula takes three input values (Depth (D) in m, Salinity (S) in ppt and Temperature (T) in degrees Celsius:
@@ -356,7 +356,7 @@ $$ 1402.5 + 5 T - 5.44 * 10^{-2} T^2 + 2.1 * 10^{-4} T^3 + 1.33 S -\\
         9.5 * 10^{-13} T Z^3 + 3 * 10^{-7} T^2 Z + 1.43 10^{-5} S Z$$
 
 #### Calculating water density  
-  Depending on the method used to compute the density contrast of the target to the surrounding fluid, the density rather then the density contrast might be obtained. In order to get the density contrast at ambient conditions, it is important to know the density of the surrounding fluid. Within ZooScat the density of water can be calculated, following formulas found in the Tenth report of the joint panel on oceanographic tables and standards. UNESCO Technical Papers in Marine Science, Paris, 25p [@unesco_tenth_1981].  
+  Depending on the method used to compute the density contrast of the target to the surrounding fluid, the density rather then the density contrast might be obtained. In order to get the density contrast at ambient conditions, it is important to know the density of the surrounding fluid. Within ZooScatR the density of water can be calculated, following formulas found in the Tenth report of the joint panel on oceanographic tables and standards. UNESCO Technical Papers in Marine Science, Paris, 25p [@unesco_tenth_1981].  
   
   Inside DWBAapp, $\rho$ can be computed by clicking on the `Calculate seawater density based on Salinity, Temperature and pressure` link on the `Material properties` tab (located under the Density Contrast input). This will open a new tab in the result pane, where Temperature, Salinity and Pressure can be entered.  
   

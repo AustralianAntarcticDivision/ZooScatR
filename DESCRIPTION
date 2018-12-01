@@ -1,6 +1,6 @@
-Package: ZooScat
+Package: ZooScatR
 Type: Package
-Title: ZooScat - Acoustic Scattering of zooplankton using DWBA
+Title: ZooScatR - Acoustic Scattering of zooplankton using DWBA
 Version: 0.2.1
 Date: 2018-05-15
 Author: Sven Gastauer, Dezhang Chu, Martin J. Cox

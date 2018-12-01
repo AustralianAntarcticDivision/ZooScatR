@@ -3,12 +3,12 @@
 #'
 #' .dat files are standard text files.
 #'
-#' Some example config files can be found in the extdata/configs folder: (\code{system.file(package="ZooScat")}), contained within the package directory.
+#' Some example config files can be found in the extdata/configs folder: (\code{system.file(package="ZooScatR")}), contained within the package directory.
 #'
 #' @param fn Filename
 #' @return list with all parameters for DWBA
 #' @examples
-#' fn <- paste0(system.file(package="ZooScat"),"/extdata/configs/config_0.dat")
+#' fn <- paste0(system.file(package="ZooScatR"),"/extdata/configs/config_0.dat")
 #' para <- read_para(fn)
 
 read_para <- function(fn){

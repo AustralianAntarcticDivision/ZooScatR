@@ -1,4 +1,4 @@
-citHeader("To cite ZooScat in publications use:")
+citHeader("To cite ZooScatR in publications use:")
 
 citEntry(entry = "Article",
          title        = "An R package for the implementation of the Distorted Wave Born Approximation for acoustic scattering of weak targets inside a fluid medium",

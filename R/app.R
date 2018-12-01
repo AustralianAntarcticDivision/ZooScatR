@@ -111,7 +111,7 @@ DWBAapp <- function(){
 
 
       # Application title
-      shiny::titlePanel("ZooScat ~ Zooplankton Backscatter"),
+      shiny::titlePanel("ZooScatR ~ Zooplankton Backscatter"),
       # Sidebar
       shiny::sidebarLayout(
         shiny::sidebarPanel(
@@ -433,7 +433,7 @@ DWBAapp <- function(){
                       ),
                       shiny::tabPanel(value="gh_tab",
                                title="g and h Examples",
-                               shiny::includeHTML(paste0(system.file(package="ZooScat"),"/extdata/doc/gh2.HTML"))
+                               shiny::includeHTML(paste0(system.file(package="ZooScatR"),"/extdata/doc/gh2.HTML"))
                       ),
 
 
@@ -519,11 +519,11 @@ DWBAapp <- function(){
                       ),
                       shiny::tabPanel(value="pe_tab",
                                       title="Parameter Explanation",
-                                      shiny::includeHTML(paste0(system.file(package="ZooScat"),"/extdata/doc/parameters.HTML"))
+                                      shiny::includeHTML(paste0(system.file(package="ZooScatR"),"/extdata/doc/parameters.HTML"))
                                       ),
                       shiny::tabPanel("About",
                                       title="About",
-                                      shiny::includeHTML(paste0(system.file(package="ZooScat"),"/extdata/doc/about.HTML"))
+                                      shiny::includeHTML(paste0(system.file(package="ZooScatR"),"/extdata/doc/about.HTML"))
                       )
           ))
       )),
@@ -535,7 +535,7 @@ DWBAapp <- function(){
       ####INITIALISATION
 
       #add path for data files
-      #shiny::addResourcePath("doc", system.file("doc", package="ZooScat"))
+      #shiny::addResourcePath("doc", system.file("doc", package="ZooScatR"))
       #create a list of reactive values
       values <- shiny::reactiveValues()
       #if para is not available, create an empty list

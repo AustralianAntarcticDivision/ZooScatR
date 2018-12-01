@@ -65,7 +65,7 @@ generate_pos <- function(x=sub$x,y=sub$y,z=sub$z){
 
 #
 #
-# # setwd("/Users/sveng/ZooScat/ZooScat/")
+# # setwd("/Users/sveng/ZooScatR/ZooScatR/")
 # # source("DWBAbscat.R")
 # # source("smoother.R")
 # # source("read_para.R")

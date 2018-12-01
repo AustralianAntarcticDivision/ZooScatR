@@ -1,11 +1,11 @@
 ## ----setup, echo = FALSE, message = FALSE--------------------------------
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 4L, tibble.print_max = 4L)
-library(ZooScat)
+library(ZooScatR)
 set.seed(1014)
 
 ## ----fig.width=8,fig.height=4--------------------------------------------
-fname <- paste0(system.file(package="ZooScat"),"/extdata/configs/config_0.dat") #Loacation of the parameters file
+fname <- paste0(system.file(package="ZooScatR"),"/extdata/configs/config_0.dat") #Loacation of the parameters file
 para = read_para(fname) #Read parameters file
 #Create list with soundspeed info
 misc <- list(cw=1500)
@@ -32,7 +32,7 @@ res$rplot #Show the result plot
 
 ## ------------------------------------------------------------------------
 # filenmae of an example configuration
-fname <- paste0(system.file(package="ZooScat"),"/extdata/configs/config_0.dat")
+fname <- paste0(system.file(package="ZooScatR"),"/extdata/configs/config_0.dat")
 #Read the parameter file
 para <- read_para(fname)
 
@@ -61,7 +61,7 @@ para.df <- as.data.frame(cbind(Variable = c("Length(L)",
                                          "Ratio of the radius of curvature (<U+03C1>c) and L",
                                          "L/a with a the radius of the mid-point of the cylinder is the ratio of L to a",
                                          "The taper order (n) controls the tapering.",
-                                         
+
                                          "The average model over a range of lengths will be produced",
                                          "The ratio of the standard deviation of length (std(L)) to the mean length (L)",
                                          "This value has to be chosen with care, as it has to be possible to calculate the provided std(L)/mean(L) around the provided mean L with the given increment.",
@@ -101,18 +101,18 @@ orient.df <- as.data.frame(cbind(Variable = c("Mean Theta (<U+03B8>)",
                                       "Max. Theta (<U+03B8>max)",
                                       "Std.(<U+03B8>)",
                                       "Increment <U+03B8>"),
-                         Unit = c("°",
+                         Unit = c("?",
                                   "Boolean",
                                   "distribution (Uniform or Gaussian)",
-                                  "°",
-                                  "°",
-                                  "°",
-                                  "°"),
+                                  "?",
+                                  "?",
+                                  "?",
+                                  "?"),
                          Description = c("Mean orientation angle",
                                          "Defines if an orientation average should be considered",
                                          "PDF of theta",
                                          "Minimum theta for a uniform PDF",
-                                         
+
                                          "Maximum theta for a uniform PDF",
                                          "Standard deviation of theta for a Gaussian PDF",
                                          "Incremental step of theta for a Gaussian PDF"),
@@ -150,7 +150,7 @@ mat.df <- as.data.frame(cbind(Variable = c("Density contrast (g)",
                                          "the ratio of the sound speed in the animal to the sound speed in the surrounding fluid",
                                          "Soundspeed in surrounding fluid",
                                          "Defines the number of segments with different gi and hi along the body axis (>1 if an inhomogenous body should be computed).",
-                                         
+
                                          "Standard deviation of the density (g), if an inhomogenous body should be computed",
                                          "Standard deviation of the sound speed contrast (h), if an inhomogenous body should be computed",
                                          "Controls the variability of g and h along the body axis (only xonsidered if the number of segments is >8)"),
@@ -189,14 +189,14 @@ simu.df <- as.data.frame(cbind(Variable = c("Output",
                                          "Number of integration points along the target body",
                                          "Resolution of the model variable output",
                                          "Minimum output value",
-                                         
+
                                          "Maximum output value",
                                          "Defines the discrete frequency for which the model is run if the variable is set to angle"),
                          Influence = c("1) backscattering amplitude; 2) differential backscattering cross-section [m2]; 3) Reduced Target Strength [dB re m2]; 4) Reduced Target Strength [db re m2]",
-                                         "1) Frequency [kHz]; 2) Angle (°); 3) ka (wave number k * a)",
+                                         "1) Frequency [kHz]; 2) Angle (?); 3) ka (wave number k * a)",
                                          "Resolution of the model variable output",
                                          "Resolution of the model shape input",
-                                         
+
                                          "Range of the mdel output variable",
                                          "Range of the mdel output variable",
                                          "Center frequency of model variation around a range of theta"),
@@ -259,11 +259,11 @@ cyl$plot
 
 ## ----fig.width=8,fig.height=4--------------------------------------------
 # filenmae of an example configuration
-fname <- paste0(system.file(package="ZooScat"),"/extdata/configs/config_0.dat")
+fname <- paste0(system.file(package="ZooScatR"),"/extdata/configs/config_0.dat")
 #Read the parameter file
 para <- read_para(fname)
 #set the profile filename
-profname <- paste0(system.file(package="ZooScat"),"/extdata/profiles/euphaus1.dat") #krill example
+profname <- paste0(system.file(package="ZooScatR"),"/extdata/profiles/euphaus1.dat") #krill example
 para$shape$prof_name <- profname
 krill_shape1 <- buildpos(para)
 krill_shape1$plot
@@ -416,7 +416,7 @@ gh <- as.data.frame(cbind(taxa,La,Orientation,g,h,model))
 names(gh)<- c("Taxon",
               "Length-to-girth ratio $\\frac{L}{a}$",
               "Orientation",
-              "Density Contrast g", 
+              "Density Contrast g",
               "Sound Speed Contrast h",
               "Scattering model")
 knitr::kable(gh)

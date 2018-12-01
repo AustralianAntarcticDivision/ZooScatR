@@ -1,5 +1,5 @@
 ---
-title: "Parallelise DWBA sweeps with ZooScat"
+title: "Parallelise DWBA sweeps with ZooScatR"
 author: "Sven Gastauer"
 date: "`r Sys.Date()`"
 bibliography: vignettes.bib
@@ -8,7 +8,7 @@ output:
     toc: true
     toc_depth: 4
 vignette: >
-  %\VignetteIndexEntry{Parallelise DWBA sweeps with ZooScat}
+  %\VignetteIndexEntry{Parallelise DWBA sweeps with ZooScatR}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
@@ -16,13 +16,13 @@ vignette: >
 ```{r setup, echo = FALSE, message = FALSE}
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 4L, tibble.print_max = 4L)
-library(ZooScat)
+library(ZooScatR)
 set.seed(1014)
 ```
   
-This vignette will provide an introduction and one way of parallelising numerous DWBA simulations using ZooScat and [doSNOW]("https://cran.r-project.org/web/packages/doSNOW/index.html") as a [foreach](https://cran.r-project.org/web/packages/foreach/index.html) implementation within the [snow](https://cran.r-project.org/web/packages/snow/index.html) package (Alternatively [doParallel](https://cran.r-project.org/web/packages/doParallel/index.html) can be used, but this will make the progress bars malfunction). The vignette depends on ZooScat, [doSNOW]("https://cran.r-project.org/web/packages/doSNOW/index.html"), and [Tcltk2]("https://cran.r-project.org/web/packages/tcltk2/index.html). For plotting purposes [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html), [viridis](https://cran.r-project.org/web/packages/viridis/index.html) and [reshape2](https://cran.r-project.org/web/packages/reshape2/index.html) are loaded.  
+This vignette will provide an introduction and one way of parallelising numerous DWBA simulations using ZooScatR and [doSNOW]("https://cran.r-project.org/web/packages/doSNOW/index.html") as a [foreach](https://cran.r-project.org/web/packages/foreach/index.html) implementation within the [snow](https://cran.r-project.org/web/packages/snow/index.html) package (Alternatively [doParallel](https://cran.r-project.org/web/packages/doParallel/index.html) can be used, but this will make the progress bars malfunction). The vignette depends on ZooScatR, [doSNOW]("https://cran.r-project.org/web/packages/doSNOW/index.html"), and [Tcltk2]("https://cran.r-project.org/web/packages/tcltk2/index.html). For plotting purposes [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html), [viridis](https://cran.r-project.org/web/packages/viridis/index.html) and [reshape2](https://cran.r-project.org/web/packages/reshape2/index.html) are loaded.  
 
-This vignettes assumes that the user is familiar with the ZooScat package and knows how to run the DWBA model from the command line within ZooScat ([see the general DWBA command line tutorial](DwbaCommand.html)) and that a suitable config file for the model is available. If no config file is available, the easiest way to generate one is to use [DWBAapp()](DWBAapp_vignette.html).
+This vignettes assumes that the user is familiar with the ZooScatR package and knows how to run the DWBA model from the command line within ZooScatR ([see the general DWBA command line tutorial](DwbaCommand.html)) and that a suitable config file for the model is available. If no config file is available, the easiest way to generate one is to use [DWBAapp()](DWBAapp_vignette.html).
 
 For the purpose of this vignette we will run a DWBA simulation of a single hypothetical krill over a range of frequencies (13 - 400 kHz with 1 kHz intervals), for a number of lengths (30 - 60 mm with 1 mm interval) and orientations (-90 - +90 with 1 degree interval).
 
@@ -44,7 +44,7 @@ libcheck <- function(x){
   }
 }
 #list of packages needed
-libs = c("ZooScat",
+libs = c("ZooScatR",
          "doSNOW", #for paralled process
          "tcltk2", #for os independent progressbar without RMarkdown output
          "ggplot2", #for plotting
@@ -61,7 +61,7 @@ If no custom config file has been created yet, some example config files can be 
 
 ```{r}
 #Set filename for preset config file
-fname = paste0(system.file(package="ZooScat"),"/extdata/configs/config_krill.dat")
+fname = paste0(system.file(package="ZooScatR"),"/extdata/configs/config_krill.dat")
 #Read configuration from file
 para = read_para(fname) 
 #Define the soundspeed in the surrounding fluid
@@ -86,10 +86,10 @@ lmin = 30; lmax = 60; lincr = 1
 Sometimes, a model config file was generated but should be run for a different shape or maybe the model should run for various shapes:
 ```{r fig.width=7,fig.height=3, warning=FALSE}
 #For a range of example profiles
-profiles = paste0(paste0(system.file(package = "ZooScat"),"/extdata/profiles/"),list.files(paste0(system.file(package = "ZooScat"),"/extdata/profiles/"), pattern=".dat"))
+profiles = paste0(paste0(system.file(package = "ZooScatR"),"/extdata/profiles/"),list.files(paste0(system.file(package = "ZooScatR"),"/extdata/profiles/"), pattern=".dat"))
 
 #For this example we will only select a generic, hypothetical krill shape but set the parallel process to be able to cope with numerous profiles
-profiles = paste0(paste0(system.file(package = "ZooScat"),"/extdata/profiles/euphaus0.dat"))
+profiles = paste0(paste0(system.file(package = "ZooScatR"),"/extdata/profiles/euphaus0.dat"))
 
 #Check if the correct shape profile is selected:
 para$shape$prof_name = profiles #Update the parameters (not necessary for the parallel process)
@@ -135,7 +135,7 @@ message(paste("The total number of simulations is:", total))
 Based on the number of simulations, we can initialise the progressbar:  
 
 ```{r}
-pb <- tkProgressBar("ZooScat - DWBA", "Initialising Model...", 0, total)
+pb <- tkProgressBar("ZooScatR - DWBA", "Initialising Model...", 0, total)
 progress <- function(n) {
   info <- sprintf("Model progress: %d%% completed", round(n/total*100))
   setTkProgressBar(pb, n, sprintf("test (%s)", info), info)
@@ -171,7 +171,7 @@ TS.df <- foreach(p=1:length(profiles), .combine=rbind) %:% #loop through profile
   
   foreach(theta = seq(t_min,t_max,by=tincr), #loop through orientations
           .combine=rbind, # make a rowbind of the results
-          .packages=c("ZooScat"), # bind ZooScat to the loop
+          .packages=c("ZooScatR"), # bind ZooScatR to the loop
           .options.snow = opts) %dopar% { # uncomment to show progress bar (commented for vignette)
             para$shape$prof_name = profiles[p] #load a preset shape
             para$shape$L <- l #set length
