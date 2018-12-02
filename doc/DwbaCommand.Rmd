@@ -1,10 +1,30 @@
-## ----setup, echo = FALSE, message = FALSE--------------------------------
+---
+title: "Running a DWBA simulation programmatically"
+author: "Sven Gastauer"
+date: "`r Sys.Date()`"
+bibliography: vignettes.bib
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 4
+vignette: >
+  %\VignetteIndexEntry{Running a DWBA simulation programmatically}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+```{r setup, echo = FALSE, message = FALSE}
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 library(ZooScatR)
 set.seed(1014)
+```
+This vignette will provide a brief description of the DWBA model used within the ZooScatR package, explain the needed input parameters and provide a few examples.  
 
-## ----fig.width=8,fig.height=4--------------------------------------------
+## Quick Start
+
+For a quick start, a minimal example:  
+```{r fig.width=8,fig.height=4}
 fname <- paste0(system.file(package="ZooScatR"),"/extdata/configs/config_0.dat") #Loacation of the parameters file
 para = read_para(fname) #Read parameters file
 #Create list with soundspeed info
@@ -29,16 +49,68 @@ para$simu$var_indx <- 1 #Set output variable to Frequency
 #Run DWBA based on config file
 res <- bscat(para=para, misc=misc)
 res$rplot #Show the result plot
+```
 
-## ------------------------------------------------------------------------
+## The DWBA model - a brief explanation
+A detailed description of the DWBA model and its application to the scattering properties of zooplankton can be found in  
+The DWBA for a body of an arbitrary shape and size for an arbitrary frequency can be written as:
+$$f_{bs} = \frac{k_s}{4}\int\int\int_v(\gamma_k - \gamma_{\rho})e^{2i\vec{k_b}\vec{r_v}}dv $$  
+
+or under the simplified form for a deformed cylinder:    
+$$f_{bs} = \frac{k_s}{4}\int_{\vec{r_{pos}}}a_c(\gamma_\kappa - \gamma_{\rho})e^{2i\vec{k_b}\vec{r_{pos}}}\frac{J_1(2k_ba_{c}cos\beta_{tilt})}{cos\beta_{tilt}} $$
+where:  
+
+* $f_{bs}$ is the scattering amplitude,  
+* $k$ is the wavenumber defined as $\frac{2\pi}{\lambda}$ where $\lambda$ is the acoustic wavelength [m].  
+* $\lambda = \frac{f}{c}$ with freqency $f$ in [Hz] and $c$ the soundspeed in the surrounding fluid [m/s]),  
+* the subscript $s$ refers to the surrounding fluid, the subscribt $b$ refers to the scattering body,  
+* $\vec{r_{pos}}$ is the position vector along the body axis,  
+* $v$ in the general model is the integration vloume of the body with the position vector $\vec{r_{pos}}$  
+* $\gamma_k$ and $\gamma_{\rho}$ are related to the body material properties with $g$ - the density contrast and $h$ the soundspeed contrast. Both contrasts are the ratio of the density ($\frac{\rho_b}{\rho_s}$) or soundspeed ($\frac{c_b}{c_s}$) inside the body and the surrounding fluid.  
+    + $\gamma_k = \frac{(1 - gh^2)}{gh^2}$ is the compressibility  
+
+    + $\gamma_{\rho} = \frac{(g - 1)}{g}$  is related to the density contrast  
+    
+
+* $J_1$ is a Bessel function of the first kind and first order  
+* $\beta_{tilt}$ is the angle between the incident wave and the target axis.  
+  
+The equation part inside the shape integral for the DWBA can be split up into three parts:  
+
+* The material properties $\gamma_k - \gamma_{\rho}$
+* The phase $e^{2i\vec{k_b}\vec{r_v}}dv$
+* The shape (rest)
+
+## Loading parameters into ZooScatR
+  
+Before the DWBA model can be run several parameters have to be set.  
+Some example configuration files containing all parameters can be found in: `r  paste0(system.file(package="ZooScatR"),"/extdata/configs")`
+Parameters (config files) can be loaded into ZooScatR:
+```{r}
 # filenmae of an example configuration
 fname <- paste0(system.file(package="ZooScatR"),"/extdata/configs/config_0.dat")
 #Read the parameter file
 para <- read_para(fname)
+```
+  
+the read_para function will load the model parameters as a list of 5:  
 
-## ----echo=FALSE----------------------------------------------------------
+* ...$fname - Can be ignored in the scripting version but can be used within the DWBAapp()  
+* ...$shape - Contains all the shape parameters  
+* ...$orient - Contains the orientation parameters  
+* ...$phy - Contains the material properties  
+* ...$simu - Contains the simulation settings  
+
+## The input parameters  
+Based on the previously discussed parts of the equation and the structure of the parameters file, the DWBA takes four different categories of input parameters (shape, orientation, material properties and modelling parameters).  
+  
+A brief description, the input format, the influence of the parameter and its name within the parameter list are outlined below:  
+
+###Shape parameters  
+
+```{r echo=FALSE} 
 para.df <- as.data.frame(cbind(Variable = c("Length(L)",
-                                      "<U+03C1>c/L",
+                                      "ρc/L",
                                       "L/a",
                                       "Taper order",
                                       "Length average",
@@ -58,7 +130,7 @@ para.df <- as.data.frame(cbind(Variable = c("Length(L)",
                                   "float",
                                   "float"),
                          Description = c("The total target body length",
-                                         "Ratio of the radius of curvature (<U+03C1>c) and L",
+                                         "Ratio of the radius of curvature (ρc) and L",
                                          "L/a with a the radius of the mid-point of the cylinder is the ratio of L to a",
                                          "The taper order (n) controls the tapering.",
                                          
@@ -69,9 +141,9 @@ para.df <- as.data.frame(cbind(Variable = c("Length(L)",
                                          "Filter length to smooth the radius (R)",
                                          "Filter length to smooth the body axis (X, Z)"),
                          Influence = c("Length of the target",
-                                       "Curvature of the bent cylinder, if no shape profile is loaded ( 8 for straight cylinder)",
+                                       "Curvature of the bent cylinder, if no shape profile is loaded ( ∞ for straight cylinder)",
                                        "Contains information about the width of the target.",
-                                       "For a straight cylinder (<U+03C1>c/L -> infinity), n=2 results in a prolate spheroid if L>2a, or in an oblate spheroid for L<2a",
+                                       "For a straight cylinder (ρc/L -> infinity), n=2 results in a prolate spheroid if L>2a, or in an oblate spheroid for L<2a",
                                        "1 = perform average; 0 = No average",
                                        "Defines the variability of the target lengths, used to compute the input models for the averaged model output",
                                        "Defines the length increment of the target lengths, used to compute the input models for the averaged model output",
@@ -91,23 +163,26 @@ para.df <- as.data.frame(cbind(Variable = c("Length(L)",
                              "...shape$axis_sm")
                          ))
 knitr::kable(para.df)
+```  
+   
+### Orientation parameters:  
 
-## ----echo=FALSE----------------------------------------------------------
+```{r echo=FALSE} 
 
-orient.df <- as.data.frame(cbind(Variable = c("Mean Theta (<U+03B8>)",
+orient.df <- as.data.frame(cbind(Variable = c("Mean Theta (θ)",
                                       "Orientation Average",
-                                      "Theta Distribution (d<U+03B8>)",
-                                      "Min. Theta (<U+03B8>min)",
-                                      "Max. Theta (<U+03B8>max)",
-                                      "Std.(<U+03B8>)",
-                                      "Increment <U+03B8>"),
-                         Unit = c("�",
+                                      "Theta Distribution (dθ)",
+                                      "Min. Theta (θmin)",
+                                      "Max. Theta (θmax)",
+                                      "Std.(θ)",
+                                      "Increment θ"),
+                         Unit = c("°",
                                   "Boolean",
                                   "distribution (Uniform or Gaussian)",
-                                  "�",
-                                  "�",
-                                  "�",
-                                  "�"),
+                                  "°",
+                                  "°",
+                                  "°",
+                                  "°"),
                          Description = c("Mean orientation angle",
                                          "Defines if an orientation average should be considered",
                                          "PDF of theta",
@@ -129,8 +204,12 @@ orient.df <- as.data.frame(cbind(Variable = c("Mean Theta (<U+03B8>)",
                              "...orient$dang")
                          ))
 knitr::kable(orient.df, keep.line.breaks = TRUE, style = 'grid', justify = 'left')
-
-## ----echo=FALSE----------------------------------------------------------
+```  
+  
+### Material properties parameters
+   
+  
+```{r echo=FALSE} 
 
 mat.df <- as.data.frame(cbind(Variable = c("Density contrast (g)",
                                       "Soundspeed contrast (h)",
@@ -167,8 +246,11 @@ mat.df <- as.data.frame(cbind(Variable = c("Density contrast (g)",
                              "...phy$corrL")
                          ))
 knitr::kable(mat.df, keep.line.breaks = TRUE, style = 'grid', justify = 'left')
+```  
 
-## ----echo=FALSE----------------------------------------------------------
+### Simulation parameters  
+  
+```{r echo=FALSE} 
 
 simu.df <- as.data.frame(cbind(Variable = c("Output",
                                       "Variable",
@@ -193,7 +275,7 @@ simu.df <- as.data.frame(cbind(Variable = c("Output",
                                          "Maximum output value",
                                          "Defines the discrete frequency for which the model is run if the variable is set to angle"),
                          Influence = c("1) backscattering amplitude; 2) differential backscattering cross-section [m2]; 3) Reduced Target Strength [dB re m2]; 4) Reduced Target Strength [db re m2]",
-                                         "1) Frequency [kHz]; 2) Angle (�); 3) ka (wave number k * a)",
+                                         "1) Frequency [kHz]; 2) Angle (°); 3) ka (wave number k * a)",
                                          "Resolution of the model variable output",
                                          "Resolution of the model shape input",
                                          
@@ -210,8 +292,13 @@ simu.df <- as.data.frame(cbind(Variable = c("Output",
                              "...simu$freq")
                          ))
 knitr::kable(simu.df, keep.line.breaks = TRUE, style = 'grid', justify = 'left')
+```  
 
-## ----echo=TRUE-----------------------------------------------------------
+## Changing the configuration parameters  
+
+The configuration files can be changed either within a text editor or the different parameters can be directly changed within R:  
+
+```{r echo=TRUE}
 #Changing the length of the scattering target
 message(paste("Old length:", para$shape$L))
 para$shape$L <- 40
@@ -232,8 +319,42 @@ message(paste("New output start value:", para$simu$var0))
 message(paste("Old output end value:", para$simu$var1))
 para$simu$var0 <- 200
 message(paste("New output end value:", para$simu$var1))
+```
+  
+  Alternatively, the settings can be loaded into the DWBAapp(), changed and saved from within the shiny app.  
+  
+## Using shape profiles or uniformely bent cylinder 
+  
+  Shape profiles can be used to define arbitrary shapes of the scattering target.  
+  
+The buildpos(para = list of parameters, disp_prof = 1 (include or exclude ggplot element) function can be used to generate shapes. Buildpos builds the coordinate vectors related to the shape positions along the z-axis. 
+The buildpos function takes the following parameters from the parameters list:  
 
-## ----fig.width=6,fig.height=3--------------------------------------------
+* shape$L - Length of the shape  
+* shape$ni - Number of integration points  
+* shape$order - Tapering order (ignored if prof_name is given)  
+* shape$rho_L rho - L/radius of curvature (ignored if prof_name is given)  
+* shape$prof_name - Custom shape, -1 for regular shape, filename for custom shape  
+* shape$axis_sm - smoothing along the x axis (uses smooth function)
+* shape$taper_sm - smooths the tapering (simplifies the shape)
+  
+The function outputs a list of 8:  
+
+* r_pos  - Position vector   
+* th_tilt - Angular information  
+* dr  - distance vector  
+* gamma_t - atan2(z, x)  
+* taper - tapering  
+* x - x coordinates (normalised by rho and L for unifomly bent cylinder, normalised for the number of integration points and L if a shape profile is loaded)  
+* z - z coordinates (normalised by rho and L for unifomly bent cylinder, normalised for the number of integration points and L if a shape profile is loaded)  
+* plot - a ggplot of the generated shape, included if disp_prof is set to 1  
+  
+  If no shape input is given, a uniformly bent cylinder with regular tapering will be used. Input parameters length (L), length/radius of curvature (rho_L), radius (a, taken from L/a -> L_a) and the tapering order (order)  are used to compute the cylinder. The tapering order (n) is defined through: 
+$r(z)=a\sqrt{1-(\frac{2z}{L})^n}$  
+with $z=\{-L/2│L/2\}$. For a prolate spheroid, $n=2$ with $L>2a$ while $L<2a$ results in an oblate spheroid.  
+Some examples of prolate spheroids:  
+
+```{r fig.width=6,fig.height=3}
 cyl <- buildpos(para)
 message(paste("Length:",para$shape$L))
 message(paste("L/a:",para$shape$L_a))
@@ -256,8 +377,14 @@ message(paste("Length:",para$shape$L))
 message(paste("L/a:",para$shape$L_a))
 message(paste("Tapering order:",para$shape$order))
 cyl$plot
+```
+  
+  Input shape profiles must contain at least three columns with the center coordinates of each circular segment (X, Z) and radius of the circular segment (R). Two additional optional columns can be added to a shape file, the upper (Xupper -> X+R) and lower (Xlower -> X-R).  
+  Some example shape profiles can be found in `r paste0(system.file(package="ZooScatR"),"/extdata/profiles")`  
+  
+Shape profiles can be loaded and the altered:  
 
-## ----fig.width=8,fig.height=4--------------------------------------------
+```{r fig.width=8,fig.height=4}
 # filenmae of an example configuration
 fname <- paste0(system.file(package="ZooScatR"),"/extdata/configs/config_0.dat")
 #Read the parameter file
@@ -279,8 +406,31 @@ para$shape$taper_sm <- 2000
 para$shape$axis_sm <- 2000
 krill_shape1 <- buildpos(para, disp_prof=1)
 krill_shape1$plot
+```
 
-## ---- echo=FALSE---------------------------------------------------------
+##Changing the material properties and soundspeed  
+  
+  Soundspeed and density contrast (h & g) are important variables in the model. It has been suggested that the effects of varying g and h can be of the same order of magnitude as the orientation [@stanton_average_1993].  
+  The DWBA model has been reported to perform well for g & h values within 1 +/- 5% (0.95 - 1.05), i.e. weak scatterers.  
+  g & h can be either obtained experimentally or taken from literature values. The list below in a non-exhaustive list of g & h values found in literature. Large parts of the table are copied from Lavery et al. [-@lavery_determining_2007] and Lawson et al. [-@lawson_acoustically-inferred_2004].  
+  
+Some taxa are represented more than once, where multiple literature recodrings have been found. It is recommended to throughly study the cited and other literature before using any of the presented values.  
+  
+It should also be noted that L/a values might be fluctuating largely due to:
+
+* geographical location [@kogeler_density-and_1987; @lawson_acoustically-inferred_2004]
+* life history traits of the taxon or seasonality [@lawson_acoustically-inferred_2004; @kogeler_density-and_1987] 
+  
+  
+g and h in some species have been reported to fluctuate with:  
+
+* temperature [@chu_measurements_2005] 
+* size classes [@chu_measurements_2005; @lawson_acoustically-inferred_2004; @kogeler_density-and_1987]  
+* depth [@chu_measurements_2005]   
+* seasonality (for example due to changes in lipid content) [@kogeler_density-and_1987]
+* state of the analysed individuals (preseverd or alive) [@kogeler_density-and_1987].  
+
+```{r, echo=FALSE}
 taxa <- c("Euphausiids and Decapod Shrimp",
           "Larval Crustacean",
           "Amphipods",
@@ -351,7 +501,7 @@ Orientation <- c("N(20,20) [@benfield_estimating_2000], average ~0 [@lawson_impr
                  NA,
                  NA,
                  NA,
-                 NA,"Uniform [0, p]")
+                 NA,"Uniform [0, π]")
 
 
 g <- c("$$\\frac{5.485*L}{10^4}+1.002; L>25$$ $$1.016; L<25$$ [@lawson_acoustically-inferred_2004]",
@@ -421,24 +571,143 @@ names(gh)<- c("Taxon",
               "Scattering model")
 knitr::kable(gh)
 #datatable(gh)
+```
+  
+### Calculating soundspeed in water
+  
+ZooScatR includes routines to compute the soundspeed of the surrounding water following 3 methods:  
 
-## ------------------------------------------------------------------------
+* Coppens [-@coppens_simple_1981]  
+Calculates speed of sound in seawater based on Coppens (1981) The empirical equation generally holds validity for a temperature range between 0 and 35 degrees Celsius, Salinities between 0 and 45 parts per thousand and a depth range between 0 and 4000 m
+Uses Depth (D in m), Salinity (S in ppt) and Temperature (C in Celsius) as input.  
+
+$$t = T/10; D = D/1000 \\
+c_0 = 1449.05 + 45.7t - 5.21 t^2 + 0.23 t^3 + (1.333 - 0.126 t + 0.009 t^2) (S - 35) \\
+c = c_0 + (16.23 + 0.253t) D + (0.213 - 0.1t) * D^2 + (0.016 + 2e^{-04} (S - 35)) (S - 35)tD$$  
+
+Within ZooScatR:  
+  
+```{r}
 c_Coppens1981(D=100,S=35,T=10)
+```  
+  
+  
+* MacKenzie [-@mackenzie_nine-term_1981]  
+Calculate speed of sound in seawater based on MacKenzie (1981) The empirical equation generally holds validity for a temperature range between 2 and 30 degrees Celsius, Salinities between 25 and 40 parts per thousand and a depth range between 0 and 8000 m
+Uses Depth (D in meters), Salinity (S in parts per thousands) and Temperature (T in degrees Celsius)  
 
-## ------------------------------------------------------------------------
+$$1448.96 + 4.591 T - 5.304 10^{-2} T^2 + 2.374 *10^{-4} T^3 +\\ 
+1.34 (S - 35) + 1.63 * 10^{-2}D + 1.675 * 10{^-7} D^2 - \\
+1.025 * 10^{-2} T (S -35)-7.139 * 10^{-13}  T  D^3$$
+  
+Within ZooScatR:  
+
+```{r}
 c_Mackenzie1981(D=100,S=35,T=10)
+```  
+  
+  
+* Leroy [-@leroy_new_2008]  
+Returns the sound speed according to Leroy et al (2008). This "newer" equation should solve the sound speed within 0.2 m/s for all seas, including the Baltic and Black sea, based on Temperature, Salinity and Latitude. Exceptions are some seas with anomalities close to the bottom. The equation was specifically designed to be used in marine acoustics.
 
-## ------------------------------------------------------------------------
+Uses Depth (Z in m), Temperature (T in degrees Celsius), Salinity (S in parts per thousand) and Latitude (lat in degrees).  
+$$ 1402.5 + 5 T - 5.44 * 10^{-2} T^2 + 2.1 * 10^{-4} T^3 + 1.33 S -\\ 
+        1.23 * 10^{-2} S T + 8.7 * 10^{-5} S T^2 + \\
+        1.56 * 10^{-2} Z + 2.55 * 10^{-7} Z^2 - \\
+        7.3 * 10^{-12} Z^3 + 1.2 * 10^{-6} Z (lat - 45) -\\ 
+        9.5 * 10^{-13} T Z^3 + 3 * 10^{-7} T^2 Z + 1.43 10^{-5} S Z$$
+  
+Within ZooScatR:  
+
+```{r}
 c_Leroy08(Z=100,T=10,S=35,30)
+```
 
-## ------------------------------------------------------------------------
+### Calculating water density  
+
+  Depending on the method used to compute the density contrast of the target to the surrounding fluid, the density rather then the density contrast might be obtained. In order to get the density contrast at ambient conditions, it is important to know the density of the surrounding fluid. Within ZooScatR the density of water can be calculated, following formulas found in the Tenth report of the joint panel on oceanographic tables and standards. UNESCO Technical Papers in Marine Science, Paris, 25p [@unesco_tenth_1981].  
+
+Following the UNESCO Standard, density is calculated in four steps:  
+  
+  First the density of Standard Mean Ocean Water ($\rho_smow$) with temperature (T) in degree Celsius:
+  $$a0 = 999.842594 \\
+    a1 = 6.793953 * 10^-2 \\
+    a2 = -9.09529 * 10^-3 \\
+    a3 = 1.001685 * 10^-4 \\
+    a4 = -1.120083 * 10^-6 \\
+    a5 = 6.536332 * 10^-9 \\
+    \rho_{smow}(T) = a0 + a1 * T + a2 * T^2 + a3 * T^3 + a4 * T^4 + a5 * T^5$$
+    
+  Density at depth is dependent on the compressibility ($\kappa$):  
+  $$ h_0 = 3.2399 \\
+    h_1 = 1.43713 * 10^{-3} \\
+    h_2 = 1.16092 * 10^{-4} \\
+    h_3 = -5.77905 * 10^{-7} \\
+    i_0 = 2.838 * 10^{-3} \\
+    i_1 = -1.0981 * 10^{-5} \\
+    i_2 = -1.6078 * 10^{-6} \\
+    j_0 = 1.91075 * 10^{-4} \\
+    k_0 = 8.50935 * 10^{-5} \\
+    k_1 = -6.12293 * 10^{-6} \\
+    k_2 = 5.2787 * 10^{-8} \\
+    m_0 = -9.9348 * 10^{-7} \\
+    m_1 = 2.0816 * 10^{-8} \\
+    m_2 = 9.1697 * 10^{-10} \\
+    B_w = k_0 + k_1 T + k_2 T^2 \\
+    B_2 = B_w + (m_0 + m_1 T + m_2 T^2) S \\
+    A_w = h_0 + h_1 T + h_2 T^2 + h_3 T^3 \\
+    A_1 = A_w + (i_0 + i_1 T + i_2T^2) S + j_0 S^{1.5} \\
+    K_{p0}(S, T) + A_1 p + B_2 * p^2 $$
+  
+  Then the density of seawater with Salinity (S in psu +/- ppm) at pressure (p in bar) = 0 is computed ($\rho_0$:  
+  
+  $$b_0 = 8.2449 * 10^-1 \\
+    b_1 = -4.0899 * 10^-3 \\
+    b_2 = 7.6438 * 10^-5 \\
+    b_3 = -8.2467 * 10^-7 \\
+    b_4 = 5.3875 * 10^-9 \\
+    c_0 = -5.7246 * 10^-3 \\
+    c_1 = 1.0227 * 10^-4 \\
+    c_2 = -1.6546 * 10^-6 \\
+    d_0 = 4.8314 * 10^-4 \\
+    B_1 = b_0 + b_1 T + b_2 T^2 + b_3 T^3 + b_4 T^4 \\
+    C_1 = c_0 + c_1 T + c_2 T^2 \\
+    \rho_0(S,T)=\rho_{smow}(T) + B_1 S + C_1 * S^{1.5} + d_0 S^2 $$
+    
+Density at a given pressure is then computed as:  
+$$ \rho = \frac{\rho_o(S,T)}{1-\frac{p}{K(S,T)}}$$
+
+Within ZooScatR thde nsity can be computed through:  
+
+```{r} rho(S=35,T=0.5,p=10) ```
+
+or for surface density:   
+
+```{r} 
 rho(S=35, T=10)
 #which is equal to:
 rho_p0(S=35,T=10)
+```  
+  
+The density of Standard Mean Ocean Water at a given temperature can be obtained through:  
 
-## ------------------------------------------------------------------------
+```{r}
 rho_smow(T=10)
-
-## ------------------------------------------------------------------------
+```
+## Running the model  
+  Once all the parameters have been set, the DWBA model can be run with the defined parameters:  
+  
+```{r}
 result <- bscat(para=para, misc=misc)
+```
+  
+This returns a list of 6 with:  
 
+* the variable values (var)  
+* the model results (y)  
+* a ggplot of the model output (rplot)  
+* the name of the variable (xlab)  
+* the caption of the y axis of the ggplot (ylab)  
+* a ggplot of the shape input (shplot)
+  
+##References

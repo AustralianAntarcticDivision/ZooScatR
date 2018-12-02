@@ -1,0 +1,280 @@
+---
+title: "Parallelise DWBA sweeps with ZooScatR"
+author: "Sven Gastauer"
+date: "`r Sys.Date()`"
+bibliography: vignettes.bib
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 4
+vignette: >
+  %\VignetteIndexEntry{Parallelise DWBA sweeps with ZooScatR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+```{r setup, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = T, comment = "#>")
+options(tibble.print_min = 4L, tibble.print_max = 4L)
+library(ZooScatR)
+set.seed(1014)
+```
+  
+This vignette will provide an introduction and one way of parallelising numerous DWBA simulations using ZooScatR and [doSNOW]("https://cran.r-project.org/web/packages/doSNOW/index.html") as a [foreach](https://cran.r-project.org/web/packages/foreach/index.html) implementation within the [snow](https://cran.r-project.org/web/packages/snow/index.html) package (Alternatively [doParallel](https://cran.r-project.org/web/packages/doParallel/index.html) can be used, but this will make the progress bars malfunction). The vignette depends on ZooScatR, [doSNOW]("https://cran.r-project.org/web/packages/doSNOW/index.html"), and [Tcltk2]("https://cran.r-project.org/web/packages/tcltk2/index.html). For plotting purposes [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html), [viridis](https://cran.r-project.org/web/packages/viridis/index.html) and [reshape2](https://cran.r-project.org/web/packages/reshape2/index.html) are loaded.  
+
+This vignettes assumes that the user is familiar with the ZooScatR package and knows how to run the DWBA model from the command line within ZooScatR ([see the general DWBA command line tutorial](DwbaCommand.html)) and that a suitable config file for the model is available. If no config file is available, the easiest way to generate one is to use [DWBAapp()](DWBAapp_vignette.html).
+
+For the purpose of this vignette we will run a DWBA simulation of a single hypothetical krill over a range of frequencies (13 - 400 kHz with 1 kHz intervals), for a number of lengths (30 - 60 mm with 1 mm interval) and orientations (-90 - +90 with 1 degree interval).
+
+## Preparation
+  
+Load the necessary packages:  
+
+```{r warning=FALSE}
+#function to check if packages are available, otherwise installs them and loads them
+libcheck <- function(x){ 
+  for( i in x ){
+    #  require returns TRUE invisibly if it was able to load package
+    if( ! require( i , character.only = TRUE ) ){
+      #  If package was not able to be loaded then re-install
+      install.packages( i , dependencies = TRUE )
+      #  Load package after installing
+      require( i , character.only = TRUE )
+    }
+  }
+}
+#list of packages needed
+libs = c("ZooScatR",
+         "doSNOW", #for paralled process
+         "tcltk2", #for os independent progressbar without RMarkdown output
+         "ggplot2", #for plotting
+         "viridis", #for nicer colors
+         "reshape2") #reshaping the results dataframe to be used in ggplot
+libcheck(libs)
+
+```
+  
+### Config file settings  
+
+Set the path to the config file and read it in.  
+If no custom config file has been created yet, some example config files can be found in the extdata/configs folder of the package:
+
+```{r}
+#Set filename for preset config file
+fname = paste0(system.file(package="ZooScatR"),"/extdata/configs/config_krill.dat")
+#Read configuration from file
+para = read_para(fname) 
+#Define the soundspeed in the surrounding fluid
+misc <- list(cw = 1460) #soundspeed m/s
+```
+
+
+### Define the variable ranges
+  
+Any of the variables contained within the parameters list could be varied. Here we will only focus on frequencies, length, orientation and shape profile.   
+
+#### Shape parameters  
+
+Define the length range:  
+
+```{r}
+#set length and theta limits
+#minimum and maximum length [mm], increment step
+lmin = 30; lmax = 60; lincr = 1
+```  
+
+Sometimes, a model config file was generated but should be run for a different shape or maybe the model should run for various shapes:
+```{r fig.width=7,fig.height=3, warning=FALSE}
+#For a range of example profiles
+profiles = paste0(paste0(system.file(package = "ZooScatR"),"/extdata/profiles/"),list.files(paste0(system.file(package = "ZooScatR"),"/extdata/profiles/"), pattern=".dat"))
+
+#For this example we will only select a generic, hypothetical krill shape but set the parallel process to be able to cope with numerous profiles
+profiles = paste0(paste0(system.file(package = "ZooScatR"),"/extdata/profiles/euphaus0.dat"))
+
+#Check if the correct shape profile is selected:
+para$shape$prof_name = profiles #Update the parameters (not necessary for the parallel process)
+sprof = buildpos(para) #build the shape 
+sprof$plot #Check the shape plot
+```
+
+
+### Orientation parameters  
+  
+Define the orientation ranges:  
+
+```{r}
+#minimum and maximum theta, increment step
+t_min = -90; t_max = 0; tincr = 1
+```
+
+### Simulation parameters
+  
+Define the frequencies:  
+
+```{r}
+startfreq = 14; endfreq = 400; fincr = 1
+
+para$simu$var0 <- startfreq #set starting frequency
+para$simu$var1 <- endfreq #set end frequency
+para$simu$n <- length(seq(para$simu$var0,para$simu$var1,by=fincr)) #number of output points based on the frequency range
+```
+
+## Model setup
+
+### Progressbar  
+
+In a first step, we will calculate the total number of simulations we will have to run:  
+```{r}
+#Total number of simulations
+total <-length(seq(lmin,lmax,by=lincr))*
+  length(seq(t_min,t_max,by=tincr))*
+  length(profiles)
+message(paste("The total number of simulations is:", total))
+```
+  
+Based on the number of simulations, we can initialise the progressbar:  
+
+```{r}
+pb <- tkProgressBar("ZooScatR - DWBA", "Initialising Model...", 0, total)
+progress <- function(n) {
+  info <- sprintf("Model progress: %d%% completed", round(n/total*100))
+  setTkProgressBar(pb, n, sprintf("test (%s)", info), info)
+  }
+opts <- list(progress = progress)
+```
+
+### Output filename  
+
+The model output will be saved as a csv and rds file.  
+Here we set the filename (without format ending):
+
+```{r}
+out_fn = "TS_sim"
+```
+
+### Cluster initialisation  
+
+```{r}
+#Set number of cores to be used:
+ncl = 8
+#Initialise the cluster in Snow
+cl <- makeCluster(ncl)
+registerDoSNOW(cl)
+```
+
+### Create foreach loop  
+
+```{r}
+TS.df <- foreach(p=1:length(profiles), .combine=rbind) %:% #loop through profiles
+   
+  foreach(l = seq(lmin,lmax, by=lincr),.combine=rbind) %:% #loop through lengths
+  
+  foreach(theta = seq(t_min,t_max,by=tincr), #loop through orientations
+          .combine=rbind, # make a rowbind of the results
+          .packages=c("ZooScatR"), # bind ZooScatR to the loop
+          .options.snow = opts) %dopar% { # uncomment to show progress bar (commented for vignette)
+            para$shape$prof_name = profiles[p] #load a preset shape
+            para$shape$L <- l #set length
+            para$orient$angm <- theta #set orientation
+            
+            # Run DWBA based on config file (invisible to suppress warnings)
+            invisible(capture.output(res <- bscat(para=para, misc=misc)))
+            res.df <- as.data.frame(t(res$y)) #store results in a dataframe
+            names(res.df) <- res$var #Set the names of the datraframe header
+            res.df$id <- para$shape$prof_name #set the profile name as id
+            res.df$L <- para$shape$L #add length information
+            res.df$theta <- para$orient$angm #add orientation informaiton
+            res.df
+            }
+message("Finished simulations...")
+```
+
+Stop the progress bar and cluster:  
+
+```{r}
+close(pb) #Close progressbar and cluster
+stopCluster(cl)
+```
+
+### Save results
+
+```{r}
+message("Saving files")
+write.csv(file=paste0(out_fn,".csv"), TS.df)
+#Check if file was written successfully
+if(file.exists(paste0(out_fn,".csv"))){ 
+  message(paste0(paste0(out_fn,".csv"), " Written sucessfully!"))
+}else{message(paste0("ERROR WRITING ", paste0(out_fn,".csv")))}
+
+saveRDS(TS.df,paste0(out_fn,".RDS"))
+#Check if file was written successfully
+if(file.exists(paste0(out_fn,".RDS"))){
+  message(paste0(paste0(out_fn,".RDS"), " Written sucessfully!"))
+}else{message(paste0("ERROR WRITING ", paste0(out_fn,".RDS")))}
+
+```
+
+### Plot some of the results  
+
+Make a raster plot of TS as a function of length and orientation for a given frequency.
+
+```{r fig.width=7,fig.height=4}
+ggts <- melt(TS.df, id=c("id","L","theta")) #melt data frame to be used in ggplot 
+
+#create the plot settings
+TS_raster <- function(f){
+  pp<- ggplot(data=ggts[ggts$variable==as.character(f),],aes(fill=value, x=L,y=theta))+
+    facet_grid(.~id)+ #make grid for multiple profiles
+    geom_raster(interpolate=TRUE)+ #make raster plot
+    scale_fill_viridis(name="TS [dB]", limits=c(-95,-60), oob = scales::squish)+ #use viridis color scheme
+    scale_x_continuous(expand = c(0,0))+ #remove white space on x axis
+    scale_y_continuous(expand = c(0,0))+ #remove white space on y axis
+    xlab("Length [mm]")+ylab("Theta [degrees]")+ #modify x and y axis labels
+    ggtitle(paste("TS @",f,"kHz" ))
+    theme_minimal()+ #use minimal theme
+    theme(legend.position="top", #place legend on top
+          axis.text = element_text(size=14), #change font size on x and y axis
+          axis.title = element_text(size=16)) #change axis title font size
+  print(pp)
+}  
+
+#make plot at 38 kHz
+TS_raster(38)
+#make plot at 70 kHz
+TS_raster(70)
+#make plot at 120 kHz
+TS_raster(120)
+#make plot at 200 kHz
+TS_raster(200)
+
+```
+
+Plot the frequency response curves for selected lengths and orientations.  
+Observe how the location and number of Nulls changes with respect to orientation and length.  
+
+```{r fig.width=7,fig.height=7}
+f.cols <- 1:(length(TS.df)-3) #get the number of output points
+TS.df[,f.cols] <- 10^(TS.df[,f.cols]/10) #linearise TS
+vv2 <- which(TS.df$L %in% seq(10,100,by=10) & TS.df$theta %in% c(seq(-90,90,by=30))) #create a selection of the variable  values to be plotted
+TS <- melt(TS.df[vv2,-which(names(TS.df)=="id")], id.vars=c("L","theta")) #reshape the dataframe to be compatile with ggplot
+TS$Frequency <- as.numeric(as.character(TS$variable)) #make sure frequency is a numeric value
+TS$value <- 10*log10(TS$value)
+TS$L <- paste0(TS$L, " mm")
+TS$theta <- paste0(TS$theta, "°")
+
+TS.plot <-ggplot(data=TS, aes(x=Frequency,y=value, fill='value'))+
+  geom_path(size=1)+
+  facet_grid(L~theta)+
+  xlab("Frequency [kHz]")+ylab('TS [dB]')+
+  theme_bw()+
+  theme(panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line = element_line(colour = "black"),
+        axis.text = element_text(size=16),
+        axis.text.x = element_text(size=16,angle=75,hjust=1),
+        axis.title = element_text(size=20),
+        strip.background = element_rect(color="black", fill="white", size=2, linetype=0),
+        strip.text = element_text(size = 16))
+TS.plot
+  ```

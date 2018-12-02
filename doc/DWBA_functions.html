@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Sven Gastauer" />
+
+<meta name="date" content="2018-12-02" />
+
+<title>DWBA</title>
+
+
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">DWBA</h1>
+<h4 class="author"><em>Sven Gastauer</em></h4>
+<h4 class="date"><em>2018-12-02</em></h4>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#getting-the-orientation-angles">Getting the orientation angles</a></li>
+<li><a href="#getting-the-limits-of-the-ka-variation">Getting the limits of the ka variation</a></li>
+<li><a href="#dwba-simulation-parameters">DWBA simulation parameters</a></li>
+<li><a href="#material-properties">Material properties</a></li>
+<li><a href="#position-vectors">Position vectors</a></li>
+<li><a href="#computing-final-output-value">Computing final output value</a></li>
+</ul>
+</div>
+
+<hr />
+<div id="getting-the-orientation-angles" class="section level4">
+<h4>Getting the orientation angles</h4>
+<p>If no orientaiton angle should be computed only the mean orientation will be considered (<code>para$orient$angm</code>).</p>
+<p>If an average orientation should be computed (<code>para$orient$ave_flag = 1</code>), either a Uniform (<code>para$orient$PDF = 1</code>) or a Gaussian (<code>para$orient$PDF = 2</code>) probability density function (PDF) can be applied.</p>
+<p>In case of a Uniform PDF the limits are defined by minimum (<span class="math inline">\(\theta_{min}=\)</span> <code>para$orient$ang0</code>) and maximum ( <span class="math inline">\(\theta_{max}=\)</span> <code>para$orient$ang1</code>) orientation angles and the mean incident angle ( <span class="math inline">\(\bar\theta =\)</span> <code>para$orient$angm</code>).</p>
+<p>For a Gaussian PDF, the limits are defined as <span class="math inline">\(\bar\theta \pm std(\theta)\)</span> (<code>para$orient$angm</code> <span class="math inline">\(\pm\)</span> <code>para$orient$PDF_para</code>).</p>
+<p>The angles for which the model should be computed are then optained as the sequence of values within the limits of the minimum and maximum orientation angles by the incremental step (<code>para$orient$dang</code>).</p>
+<p>Within ZooScatR the orientations are added to the misc list as <code>misc$ang</code>for further use in the DWBA funciton.</p>
+</div>
+<div id="getting-the-limits-of-the-ka-variation" class="section level3">
+<h3>Getting the limits of the ka variation</h3>
+<p>First the width of the radius of the mid-point of each cylinder (<span class="math inline">\(a\)</span>) is obtained through combinaiton of information on the target Length (<span class="math inline">\(L\)</span>) and the ratio <span class="math inline">\(\frac{L}{a}\)</span>.</p>
+<p>The next step is to get the initial and final ka (the wavenumber (<span class="math inline">\(k\)</span>, which equals the 2<span class="math inline">\(\pi\)</span> divided by the wavelength (<span class="math inline">\(\lambda=c/f\)</span> with <span class="math inline">\(c\)</span> = soundspeed [m/s] and <span class="math inline">\(f\)</span> the frequency [Hz])), multiplied by the radius): <span class="math inline">\(ka = 2\pi \frac{f}{c_w}a = \frac{2\pi}{\lambda}a\)</span> (in ZooScatR this equals <code>k(c,f)*a</code> or <code>2*pi*a/lambda(c,f)</code>).</p>
+<p>If the output model variable is frequency (<code>para$simu$var_indx=1</code>), the range of ka depends on the maximum (<code>para$simu$var1</code>) and minimum input (<code>para$simu$var0</code>) frequencies. If the output variable is angles (<code>para$simu$var_indx=2</code>), only the simulation frequency will be considered (<code>para$simu$freq</code>). If the output variable is ka (<code>para$simu$var_indx=3</code>) the the limits of ka are directly defined through the variable start and end values (<code>para$simu$var0</code>, <code>para$simu$var1</code>).</p>
+<p>In ZooScatR, ka values are stored in the misc list for further use in the DWBA simulation (<code>misc$ka</code>)</p>
+</div>
+<div id="dwba-simulation-parameters" class="section level3">
+<h3>DWBA simulation parameters</h3>
+<p>Get the number of ka points (<span class="math inline">\(n\)</span>): <code>length(misc$ka</code><br />
+Number of integration points (<span class="math inline">\(n_{int}\)</span>): <code>para$simu$ni</code><br />
+Initial ka (<span class="math inline">\(ka_0\)</span>): <code>misc$ka</code><br />
+Incident angles (<span class="math inline">\(ang\)</span>): <code>misc$ang</code><br />
+Number of incident angles(<span class="math inline">\(m\)</span>): <code>length(misc$ang</code><br />
+Incident angles in radians (<span class="math inline">\(th\)</span>): <code>ang*pi/180</code></p>
+</div>
+<div id="material-properties" class="section level3">
+<h3>Material properties</h3>
+<p>—-Inhomogenous body—–</p>
+<p>If a homogenous body is assumed, density (<span class="math inline">\(g\)</span>) and soundspeed (<span class="math inline">\(h\)</span>) contrasts are directly read from the parameters and stored as a matrix with dimensions [<span class="math inline">\(n_{int}\)</span> rows x 1 column] (<code>g = para$phy$g0 * matrix(1, n_int, g); h = para$phy$h0 * matrix(1, n_int, h)</code>).</p>
+<p>In a next step the DWBA material properties term <span class="math inline">\(C_b = \gamma_k - \gamma_{\rho} = \frac{1-gh^2}{gh^2} - \frac{g-1}{g}\)</span> is computed (<code>Cb = (1-g*h*h)/(g*h*h) - (g-1) / g</code>)</p>
+</div>
+<div id="position-vectors" class="section level3">
+<h3>Position vectors</h3>
+<p>Position vectors are computed using the <code>buildpos</code> function. The buildpos function returns a list containing <span class="math inline">\(r_{pos}\)</span>,<span class="math inline">\(th_{tilt}\)</span>, <span class="math inline">\(dr\)</span>, <span class="math inline">\(\gamma_t\)</span>, <span class="math inline">\(taper\)</span>, <span class="math inline">\(x\)</span>, <span class="math inline">\(z\)</span> and a plot of the shape.</p>
+<p>Arbitrary shapes can be read from profile files. Profile files must contain at least 3 columns, containing the x and z coordinates as well as the tapering.<br />
+If a profile file is loaded, a small offset for the interpolation is defined (<code>eps=2^-52</code>).</p>
+<p>The coordinates are read from a file (<code>pos</code>) as: <code>xp = pos[,1]; zp = pos[,2]; taper1 = pos[,3]</code> and then the coordinates are calculated for the requested number of integration points (<span class="math inline">\(n_{int}\)</span>).<br />
+For <span class="math inline">\(z\)</span> the sequence with length <span class="math inline">\(n_{int}\)</span> between the minimum and maximum points <span class="math inline">\(zp\)</span> are computed (<code>z = seq(min(zp) + eps, max(zp)-eps, length=n_int)</code>). Coordinate points <span class="math inline">\(x\)</span> and <span class="math inline">\(tapering\)</span> are opbtained through one-dimensional linear interpolation between the points <span class="math inline">\(zp\)</span> and <span class="math inline">\(xp\)</span> or <span class="math inline">\(taper\)</span> at points <span class="math inline">\(z\)</span> (<code>approx(zp,xp,z, method=&quot;linear&quot;)</code>; <code>approx(zp,taper1,z, method=&quot;linear&quot;)</code>).<br />
+Then the difference from the means are computed (<code>x = x-mean(x); z=z-mean(z)</code>).<br />
+The 2D-distance between the points is computed through <span class="math inline">\(d_r =\sqrt{(x_n-x_{n+1})^2+(y_n+y_{n+1})^2}\)</span> (<code>dr=sqrt(diff(x)^2 + diff(z)^2)</code>)<br />
+The length equals <span class="math inline">\(L=\sum{dr}\)</span> (<code>sum(dr)</code>)<br />
+Coordinates <span class="math inline">\(x\)</span> and <span class="math inline">\(z\)</span> are normalised by length <span class="math inline">\(x=\frac{2x}{L}\)</span> and <span class="math inline">\(z=\frac{2z}{L}\)</span></p>
+<p>If no shape profile is provided, a uniformly bent regularly tapered cylinder will be generated based on the input parameters length (<span class="math inline">\(L\)</span>), tapering order (<span class="math inline">\(order\)</span>) and the ratio of the radius of curvature vs length <span class="math inline">\(\frac{\rho}{L}\)</span>. To construct the coordinates, <span class="math inline">\(\gamma\)</span> is defined as <span class="math inline">\(\frac{0.5}{\frac{\rho}{L}}\)</span> and <span class="math inline">\(ratio = 2\frac{\rho}{L}\)</span></p>
+<p>A smoother (<code>smoother(yi,n)</code>) function is applied to the tapering. The smoother function is a simple symmetrical moving average, where the smoother factor <span class="math inline">\(n\)</span> will be set to the length <span class="math inline">\(nl\)</span> of the input values <span class="math inline">\(yi\)</span> if it is bigger than <span class="math inline">\(nl\)</span>. The symmetrical moving average window size is set to <span class="math inline">\(m=floor(\frac{n}{2})\)</span>.<br />
+<span class="math display">\[y_{i;m+1:nl-m} = \overline{yi_{(i-m):(i+m)}}\]</span> For the <span class="math inline">\(m\)</span> first values a standard moving average would not be defined and is computed as <span class="math inline">\(y_{i; 1:m}=\overline{yi_{(1:i+m)}}\)</span> and for the values at positiosn <span class="math inline">\(nl - m +1\)</span> to <span class="math inline">\(nl\)</span> as <span class="math inline">\(y_{i; nl-m+1:nl}=\overline{yi_{((i-m):min((i+m);nl))}}\)</span></p>
+<p>Independent of the shape, the positional vector <span class="math inline">\(r_{pos}\)</span> is computed as <span class="math inline">\(\sqrt{x^2+z^2}\)</span> and <span class="math inline">\(\gamma_t=atan2(z,x)\)</span> the inverse tangent in radians.<br />
+The directional vectors <span class="math inline">\(dx\)</span> and <span class="math inline">\(dz\)</span> are defined as <span class="math inline">\(dx = (x_n-x_{n+1}) +eps\)</span> and <span class="math inline">\(dz=z_n-z_{n+1}\)</span>.</p>
+</div>
+<div id="computing-final-output-value" class="section level3">
+<h3>Computing final output value</h3>
+<p>The backscattering amplifude <span class="math inline">\(f\)</span> relates to the output variable in the following way, where <span class="math inline">\(y = |f|\)</span> :</p>
+<ul>
+<li>Normalised Backscattering amplitude: <span class="math inline">\(f_{norm}=\frac{f}{L}\)</span></li>
+<li>Scattering pressure: <span class="math inline">\(p_{scat} = p_0(\frac{e^{ikr}}{r})f\)</span><br />
+</li>
+<li>Backscattering cross-section: <span class="math inline">\(\sigma_{bs} = |f|^2\)</span></li>
+<li>TS: <span class="math inline">\(10log_{10}(\sigma_{bs})\)</span> (here transformation from mm into m has to be done)<br />
+</li>
+<li>Reduced Target Strength RTS: <span class="math inline">\(10log_{10}(\frac{\sigma_{bs}}{L^2})\)</span></li>
+</ul>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
