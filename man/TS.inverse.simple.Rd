@@ -4,12 +4,12 @@
 \alias{TS.inverse.simple}
 \title{Simple TS inversion through minimisation of sum of squares}
 \usage{
-TS.inverse.simple(TS.test, TS.sim, n.nf = 3)
+TS.inverse.simple(TS.test, TS.mod, n.nf = 3)
 }
 \arguments{
 \item{TS.test}{Dataframe with TS values, where column names are the frequencies}
 
-\item{TS.sim}{Dataframe with modelled TS values, where each row is a sample and column names are the frequencies, the last columns contain the parameters}
+\item{TS.mod}{Dataframe with modelled TS values, where each row is a sample and column names are the frequencies, the last columns contain the parameters}
 
 \item{n.nf}{number of factors contained within the data frame}
 }
@@ -18,11 +18,12 @@ Takes data TS and a data frame containing simulated TS at known Length and Orien
 }
 \examples{
 #load data
-data(TS_sim)
+setwd('C:\\\\Users\\\\sveng\\\\Nextcloud\\\\ts keras\\\\')
+TS.mod <- readRDS("data\\\\TS_sim.RDS")
 #select random row
-rr<-sample(1:nrow(TS.sim),1)
-TS.inv <- TS.inverse.simple(TS.test=TS.sim[rr,1:(length(TS.sim)-3)],
-                           TS.sim=TS.sim,n.nf=3)
+rr<-sample(1:nrow(TS.mod),1)
+TS.inv <- TS.inverse.simple(TS.test=TS.mod[rr,1:(length(TS.mod)-3)],
+                           TS.mod=TS.mod,n.nf=3)
  ##########################################################
 ## CREATE PLOTS
 ##########################################################
