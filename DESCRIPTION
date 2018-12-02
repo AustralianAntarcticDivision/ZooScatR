@@ -1,7 +1,7 @@
 Package: ZooScatR
 Type: Package
 Title: ZooScatR - Acoustic Scattering of zooplankton using DWBA
-Version: 0.2.1
+Version: 0.3.0
 Date: 2018-05-15
 Author: Sven Gastauer, Dezhang Chu, Martin J. Cox
 Maintainer: Sven Gastauer <sven.gastauer@utas.edu.au>; Martin J. Cox <martin.cox@aad.gov.au>
