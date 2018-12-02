@@ -68,6 +68,7 @@ if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
 For a quick start, a minimal example:  
 
 ``` r
+library(ZooScatR)
 fname <- paste0(system.file(package="ZooScatR"),"/extdata/configs/config_0.dat") #Loacation of the parameters file
 para = read_para(fname) #Read parameters file
 #Create list with soundspeed info
