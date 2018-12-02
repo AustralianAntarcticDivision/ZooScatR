@@ -1,4 +1,6 @@
 ^Meta$
+^doc$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^docs$
 ^data-raw$
