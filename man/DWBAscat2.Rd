@@ -21,7 +21,7 @@ Computes ka
 }
 \examples{
 #Get filename of the parameters file
-fname <- paste0(system.file(package = "ZooScat"),"/extdata/configs/config_0.dat")
+fname <- paste0(system.file(package = "ZooScatR"),"/extdata/configs/config_0.dat")
 #Read in teh parameter
 para = read_para(fname)
 #Create list with soundspeed info
