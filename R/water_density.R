@@ -9,10 +9,12 @@
 #' @examples
 #' rho(S=35,T=0.5,p=10)
 #' rho(8,10) #Should be 1005.94659
+#' @export
 rho = function(S,T,p=0) ifelse(p==0, rho_p0(S,T), rho_p0(S,T) / (1 - p/K(S,T,p)))
 
 #' Standard  Mean Ocean Water (SMOW)
 #' @param T Temperature in degrees Celsius
+#' @export
 rho_smow = function(T){
   a0 = 999.842594
   a1 = 6.793953 * 10^-2
@@ -27,6 +29,7 @@ rho_smow = function(T){
 #' Density (rho) at normal atmospheric pressure (p = 0)
 #' @param S Salinity in psu (~ppm)
 #' @param T Temperature in degrees Celsius
+#' @export
 rho_p0 = function(S,T){
   b0 = 8.2449 * 10^-1
   b1 = -4.0899 * 10^-3
@@ -49,6 +52,7 @@ rho_p0 = function(S,T){
 #' compressibility at p = 0
 #' @param S Salinity in psu (~ppm)
 #' @param T Temperature in degrees Celsius
+#' @export
 K_p0 = function(S, T){
   e0 = 19652.210
   e1 = 148.4206
@@ -78,6 +82,7 @@ K_p0 = function(S, T){
 #' @param S Salinity in psu (~ppm)
 #' @param T Temperature in degrees Celsius
 #' @param p pressure in bar
+#' @export
 K = function(S,T,p){
 
   h0 = 3.2399

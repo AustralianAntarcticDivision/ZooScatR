@@ -17,5 +17,4 @@ Derivative of the Spherical bessel function first kind
 \examples{
 Sbessj_p(x=1:10,order=1)
 Sbessj_p(x=1:10,order=0)
-
 }

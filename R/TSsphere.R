@@ -19,6 +19,7 @@ k <- function(c,f){2 * pi / lambda(c,f)}
 #' @param order order of the bessel funciton
 #' @examples
 #' Sbessj(x=1:10,order=1)
+#' @export
 Sbessj <- function(x,order){
   sqrt(pi/2) * 1/sqrt(x) * besselJ(x,(order + (1/2)))
 }
@@ -28,6 +29,7 @@ Sbessj <- function(x,order){
 #' @param order order of the bessel funciton
 #' @examples
 #' Sneum(x=1:10,order=1)
+#' @export
 Sneum <- function(x,order){
   sqrt(pi/2) * 1/sqrt(x) * besselY(x,(order + 1/2))
 }
@@ -38,7 +40,7 @@ Sneum <- function(x,order){
 #' @examples
 #' Sneum_p(x=1:10,order=1)
 #' Sneum_p(x=1:10,order=0)
-#'
+#' @export
 Sneum_p <- function(x,order){
   sn <- Sneum(x,order)
 
@@ -57,7 +59,7 @@ Sneum_p <- function(x,order){
 #' @examples
 #' Sbessj_p(x=1:10,order=1)
 #' Sbessj_p(x=1:10,order=0)
-#'
+#' @export
 Sbessj_p <- function(x,order){
   bn <- Sbessj(x,order)
   bn <- (sqrt(pi/(2*x)))*besselJ(x, order+0.5)
@@ -77,7 +79,7 @@ Sbessj_p <- function(x,order){
 #' @param z numeric data vector
 #' @examples
 #' besselH(k=1,n=1,z=1:10)
-#'
+#' @export
 besselH <- function(k,n,z){
   if(!(k %in% c(1,2))){
     message("The kind of the Hankel function must be 1 or 2")
@@ -96,7 +98,7 @@ besselH <- function(k,n,z){
 #' @examples
 #' SHankel(x=1:10,order=1)
 #' SHankel(x=1:10,order=0)
-#'
+#' @export
 SHankel<- function(z,order){
   (sqrt(pi/(2*x))) * besselH(k=1,z=z,rep(order+1/2,length(x)))
 }
@@ -107,7 +109,7 @@ SHankel<- function(z,order){
 #' @examples
 #' SHankel_p(x=1:10,order=1)
 #' SHankel_p(x=1:10,order=0)
-#'
+#' @export
 SHankel_p <- function(x,order){
   if(order == 0){
     Hankel_n = (sqrt(pi/(2*x)))* besselJ(x,order+1/2) +
@@ -141,6 +143,7 @@ SHankel_p <- function(x,order){
 #' @examples
 #' coeffs=2;degree=3
 #' LegPoly(degree,coeffs)
+#' @export
 LegPoly <- function(degree, coeffs){
   lp <- matrix(1,dim(matrix(coeffs))[2], dim(matrix(coeffs))[1])
   lp1 <- coeffs * lp
@@ -189,6 +192,7 @@ LegPoly <- function(degree, coeffs){
 #' #For a range of frequencies
 #' ts<- TS.sphere(f=seq(10,400)*1000,r,a,c,h,g, rho, theta=pi)
 #' plot(ts~seq(10,400),xlab="Frequency [kHz]", ylab="TS [dB re m2]", type="l",ylim=c(-160,-80))
+#' @export
 TS.sphere <- function(f,r,a,c,h,g, rho, theta = pi){
 
   ###Basic calculations
@@ -290,6 +294,7 @@ TS.sphere <- function(f,r,a,c,h,g, rho, theta = pi){
 #' h <- 1480.3/c #soundspeed contrast
 #' TS <- sapply(fs,TS.sphere2,r=r,a=a,c=c,h=h,g=g,rho=rho)
 #' plot(fs,TS, type="l", xlab="Frequency [Hz]",ylab="TS [dB re m2]")
+#' @export
 TS.sphere2 <- function(f,r,a,c,h,g, rho){
 
   ###Basic calculations
@@ -319,6 +324,3 @@ TS.sphere2 <- function(f,r,a,c,h,g, rho){
     TS <- 10*log10(abs(fbs)^2)
     return(TS)
 }
-
-
-

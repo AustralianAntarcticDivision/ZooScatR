@@ -2,6 +2,7 @@
 #' @description Radius of curvature
 #' @param x x coordinates
 #' @param y y coordinates
+#' @export
 
 rho_c = function(x,y){
   #get center of mass

@@ -51,6 +51,7 @@
 #' @return Runs a DWBA web application
 #' @examples
 #' DWBAapp() #run the web applications
+#' @export
 
 
 DWBAapp <- function(){

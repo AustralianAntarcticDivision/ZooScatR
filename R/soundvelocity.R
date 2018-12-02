@@ -11,6 +11,7 @@
 #' @param T Temperature in degrees Celsius
 #' @examples
 #' c_Mackenzie1981(100,35,10)
+#' @export
 
 c_Mackenzie1981 <- function(D,S,T){
   c<-1448.96 + 4.591*T - 5.304 *
@@ -35,6 +36,7 @@ return(c)
 #' @param T Temperature in degrees Celsius
 #' @examples
 #' c_Coppens1981(D=100, S=35, T=10)
+#' @export
 
 c_Coppens1981 <- function(D,S,T){
   t <- T/10
@@ -66,6 +68,7 @@ c_Coppens1981 <- function(D,S,T){
 #' c_Leroy08(Z=497.12,T=seq(-2,20,2),S=35,lat)
 #' # Common oceans, = 30°, P= 5 MPa Z= 497.12 m, T=8 °C
 #' c_Leroy08(Z=497.12,T=8,S=seq(33,37,1),lat)
+#' @export
 c_Leroy08 <- function(Z,T,S,lat){
   c <- 1402.5 + 5*T - 5.44 * 10^-2*T^2 + 2.1 * 10^-4*T^3 +
     1.33*S - 1.23 * (10^-2)*S*T+8.7*(10^-5)*S*T^2 +

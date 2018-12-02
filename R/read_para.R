@@ -10,6 +10,7 @@
 #' @examples
 #' fn <- paste0(system.file(package="ZooScatR"),"/extdata/configs/config_0.dat")
 #' para <- read_para(fn)
+#' @export
 
 read_para <- function(fn){
   #read all lines

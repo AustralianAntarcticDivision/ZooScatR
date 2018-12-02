@@ -26,6 +26,7 @@
 #'                seg_no =7,
 #'                corrL = 20,
 #'                filename="profile1")
+#' @export
 
 create_profile <- function(g,h,seg_no, corrL, filename){
   #check if filename ends with .RData and add it not

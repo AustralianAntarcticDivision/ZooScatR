@@ -7,6 +7,7 @@
 #' fn <- 'config_0.dat'
 #' para <- read_para(fn)
 #' createParaDat(para,fn)
+#' @export
 
 
 createParaDat <- function(para, fn){

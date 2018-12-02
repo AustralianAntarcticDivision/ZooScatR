@@ -18,5 +18,4 @@ Hankel function
 }
 \examples{
 besselH(k=1,n=1,z=1:10)
-
 }

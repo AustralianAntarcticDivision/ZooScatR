@@ -17,5 +17,4 @@ Derivative of the Spherical Hankel function
 \examples{
 SHankel_p(x=1:10,order=1)
 SHankel_p(x=1:10,order=0)
-
 }

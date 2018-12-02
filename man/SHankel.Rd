@@ -17,5 +17,4 @@ Spherical Hankel function
 \examples{
 SHankel(x=1:10,order=1)
 SHankel(x=1:10,order=0)
-
 }

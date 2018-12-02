@@ -6,7 +6,7 @@
 #' @author Sven Gastauer
 #' @return list with all parameters for DWBA
 #' @import ggplot2
-#' @import ggplot2
+#' @export bscat
 #' @examples
 #' #Get filename of the parameters file
 #' fname <- paste0(system.file(package = "ZooScatR"),"/extdata/configs/config_0.dat")
@@ -25,7 +25,7 @@
 #' #plot the results of the model
 #' res$rplot
 #'
-#' @export
+
 
 
 bscat <- function(para, misc, app=FALSE){

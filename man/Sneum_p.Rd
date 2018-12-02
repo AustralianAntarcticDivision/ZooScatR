@@ -17,5 +17,4 @@ Derivative of the Spherical bessel function second kind
 \examples{
 Sneum_p(x=1:10,order=1)
 Sneum_p(x=1:10,order=0)
-
 }
