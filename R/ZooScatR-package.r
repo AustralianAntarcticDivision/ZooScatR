@@ -1,5 +1,5 @@
 #' ZooScatR.
 #'
-#' @name ZooScat
+#' @name ZooScatR
 #' @docType package
 NULL
