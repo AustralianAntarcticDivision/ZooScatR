@@ -128,7 +128,7 @@ In a first step, we will calculate the total number of simulations we will have 
 #Total number of simulations
 total <-length(seq(lmin,lmax,by=lincr))*
   length(seq(t_min,t_max,by=tincr))*
-  length(profiles)
+  length(profiles)*length(seq(startfreq,endfreq,by=fincr))
 message(paste("The total number of simulations is:", total))
 ```
   
