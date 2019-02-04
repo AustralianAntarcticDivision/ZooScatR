@@ -1,17 +1,17 @@
 citHeader("To cite ZooScatR in publications use:")
 
 citEntry(entry = "Article",
-         title        = "An R package for the implementation of the Distorted Wave Born Approximation for acoustic scattering of weak targets inside a fluid medium",
+         title        = "ZooScatR—An R package for modelling the scattering properties of weak scattering targets using the distorted wave Born approximation",
          author       = personList(as.person("Sven Gastauer"), as.person("Dezhang Chu"), as.person("Martin J. Cox")),
          journal      = "Unpublished",
-         year         = "2018",
-         volume       = "X",
-         number       = "X",
-         doi          = "X",
+         year         = "2019",
+         volume       = "145",
+         number       = "1",
+         doi          = "10.1121/1.5085655",
          
          textVersion  =
-           paste("Gastauer S, Chu D, Cox MJ (2018).",
-                 "An {R} package for the implementation of the Distorted Wave Born Approximation for acoustic scattering of weak targets inside a fluid medium.",
-                 "Unpublished,",
-                 "doi: xxx")
+           paste("Gastauer S, Chu D, Cox MJ (2019).",
+                 "ZooScatR—An R package for modelling the scattering properties of weak scattering targets using the distorted wave Born approximation",
+                 "The Journal of the Acoustical Society of America 2019 145:1, EL102-EL108",
+                 "doi:  10.1121/1.5085655")
 )
