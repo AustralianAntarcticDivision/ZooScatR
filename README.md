@@ -1,5 +1,7 @@
 # ZooScatR 
 
+[![DOI](https://zenodo.org/badge/130287798.svg)](https://zenodo.org/badge/latestdoi/130287798)
+
 ## Overview
 ZooScatR is an implementation of the Distorted Wave Born Approximation (DWBA) model for the simulation of acoustic scattering by weak scattering targets inside a fluid.  
 It includes a shiny web application called DWBAapp for easy model parametrisation and result visualisation as well as the option to run the DWBA model from the command line. Additional functions to compute soundspeed in water, water density and Spherical Bessel functions with their derivatives (as needed in the analytical solution of a weakly scattering sphere, e.g. Neumann and Hankel functions).    
@@ -64,7 +66,15 @@ These dependencies should be installed automatically, if unavailable when ZooSca
 packages <- c("shiny","shinyjs","ggplot2", "reshape2","pracma","doSNOW","tcltk2","viridis")
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(packages, rownames(installed.packages())))}
-```
+```  
+If you get a message such as:  
+```WARNING: Rtools is required to build R packages, but is not currently installed. ```  
+Install Rtools by downloading the required binary package from cran:  
+* [Windows users](https://cran.r-project.org/bin/windows)  
+* [Linux users](https://cran.r-project.org/bin/linux)  
+* [MacOsX](https://cran.r-project.org/bin/macosx)
+* [MacOs](https://cran.r-project.org/bin/macos)  
+
 
 ## Usage - Quick Start  
   
