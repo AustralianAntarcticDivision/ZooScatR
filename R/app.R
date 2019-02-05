@@ -434,7 +434,7 @@ DWBAapp <- function(){
                              ),
                              shiny::tabPanel(value="gh_tab",
                                              title="g and h Examples",
-                                             shiny::includeHTML(paste0(system.file(package="ZooScatR"),"/extdata/doc/gh2.HTML"))
+                                             shiny::includeHTML(paste0(system.file(package="ZooScatR"),"/extdata/doc/gh2.html"))
                              ),
 
 
@@ -520,11 +520,11 @@ DWBAapp <- function(){
                              ),
                              shiny::tabPanel(value="pe_tab",
                                              title="Parameter Explanation",
-                                             shiny::includeHTML(paste0(system.file(package="ZooScatR"),"/extdata/doc/parameters.HTML"))
+                                             shiny::includeHTML(paste0(system.file(package="ZooScatR"),"/extdata/doc/parameters.html"))
                              ),
                              shiny::tabPanel("About",
                                              title="About",
-                                             shiny::includeHTML(paste0(system.file(package="ZooScatR"),"/extdata/doc/about.HTML"))
+                                             shiny::includeHTML(paste0(system.file(package="ZooScatR"),"/extdata/doc/about.html"))
                              )
           ))
       )),
