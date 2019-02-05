@@ -44,8 +44,7 @@ libcheck <- function(x){
   }
 }
 #list of packages needed
-libs = c("ZooScatR",
-         "doSNOW", #for paralled process
+libs = c("doSNOW", #for paralled process
          "tcltk2", #for os independent progressbar without RMarkdown output
          "ggplot2", #for plotting
          "viridis", #for nicer colors
