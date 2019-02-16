@@ -36,6 +36,8 @@ citation('ZooScatR')
 
 ## Installation  
 
+ZooScatR can be instaled from binary or source files found [here](https://github.com/AustralianAntarcticDivision/ZooScatR/tree/master/inst/extdata/source) and will be updated regularly.
+
 ZooScatR can be installed form GitHub. This requires the [devtools](https://cran.r-project.org/web/packages/devtools/index.html) package.
 
 ``` r
