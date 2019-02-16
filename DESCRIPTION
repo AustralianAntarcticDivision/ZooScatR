@@ -12,6 +12,7 @@ LazyData: true
 Depends:
 	R (>= 3.0)
 Imports:
+	Rdpack,
 	pracma,
 	ggplot2,
 	shiny,
