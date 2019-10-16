@@ -2,10 +2,10 @@
 #' @description Calculate speed of sound in seawater based on MacKenzie (1981)
 #' The empirical equation generally holds validity for a temperature range between 2 and 30 degrees Celsius, Salinities between 25 and 40 parts per thousand and a depth range between 0 and 8000 m
 #' @source Mackenzie, K. V. (1981).
-#' Nine‐term equation for sound speed in the oceans. The Journal of the Acoustical Society of America, 70(3), 807-812.
+#' Nine term equation for sound speed in the oceans. The Journal of the Acoustical Society of America, 70(3), 807-812.
 #' \url{http://asa.scitation.org/doi/abs/10.1121/1.386920}
 #' @references Mackenzie, K. V. (1981).
-#' Nine‐term equation for sound speed in the oceans. The Journal of the Acoustical Society of America, 70(3), 807-812.
+#' Nine term equation for sound speed in the oceans. The Journal of the Acoustical Society of America, 70(3), 807-812.
 #' @param D Depth in meters
 #' @param S Salinity in parts per thousands
 #' @param T Temperature in degrees Celsius

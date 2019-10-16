@@ -18,8 +18,7 @@ libcheck <- function(x){
   }
 }
 #list of packages needed
-libs = c("ZooScatR",
-         "doSNOW", #for paralled process
+libs = c("doSNOW", #for paralled process
          "tcltk2", #for os independent progressbar without RMarkdown output
          "ggplot2", #for plotting
          "viridis", #for nicer colors
@@ -54,7 +53,7 @@ sprof$plot #Check the shape plot
 
 ## ------------------------------------------------------------------------
 #minimum and maximum theta, increment step
-t_min = -90; t_max = 0; tincr = 1
+t_min = -90; t_max = 0; tincr = 10
 
 ## ------------------------------------------------------------------------
 startfreq = 14; endfreq = 400; fincr = 1
@@ -67,23 +66,23 @@ para$simu$n <- length(seq(para$simu$var0,para$simu$var1,by=fincr)) #number of ou
 #Total number of simulations
 total <-length(seq(lmin,lmax,by=lincr))*
   length(seq(t_min,t_max,by=tincr))*
-  length(profiles)
+  length(profiles)*length(seq(startfreq,endfreq,by=fincr))
 message(paste("The total number of simulations is:", total))
 
 ## ------------------------------------------------------------------------
-pb <- tkProgressBar("ZooScatR - DWBA", "Initialising Model...", 0, total)
-progress <- function(n) {
-  info <- sprintf("Model progress: %d%% completed", round(n/total*100))
-  setTkProgressBar(pb, n, sprintf("test (%s)", info), info)
-  }
-opts <- list(progress = progress)
+#pb <- tkProgressBar("ZooScatR - DWBA", "Initialising Model...", 0, total)
+#progress <- function(n) {
+#  info <- sprintf("Model progress: %d%% completed", round(n/total*100))
+#  setTkProgressBar(pb, n, sprintf("test (%s)", info), info)
+#  }
+#opts <- list(progress = progress)
 
 ## ------------------------------------------------------------------------
 out_fn = "TS_sim"
 
 ## ------------------------------------------------------------------------
 #Set number of cores to be used:
-ncl = 8
+ncl = 2
 #Initialise the cluster in Snow
 cl <- makeCluster(ncl)
 registerDoSNOW(cl)
@@ -95,8 +94,8 @@ TS.df <- foreach(p=1:length(profiles), .combine=rbind) %:% #loop through profile
   
   foreach(theta = seq(t_min,t_max,by=tincr), #loop through orientations
           .combine=rbind, # make a rowbind of the results
-          .packages=c("ZooScatR"), # bind ZooScatR to the loop
-          .options.snow = opts) %dopar% { # uncomment to show progress bar (commented for vignette)
+          .packages=c("ZooScatR")) %dopar% { # bind ZooScatR to the loop
+          #.options.snow = opts) %dopar% { # uncomment to show progress bar (commented for vignette)
             para$shape$prof_name = profiles[p] #load a preset shape
             para$shape$L <- l #set length
             para$orient$angm <- theta #set orientation
@@ -113,7 +112,7 @@ TS.df <- foreach(p=1:length(profiles), .combine=rbind) %:% #loop through profile
 message("Finished simulations...")
 
 ## ------------------------------------------------------------------------
-close(pb) #Close progressbar and cluster
+#close(pb) #Close progressbar and cluster
 stopCluster(cl)
 
 ## ------------------------------------------------------------------------

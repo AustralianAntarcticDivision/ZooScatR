@@ -22,7 +22,10 @@ length_ave <- function(ka0,ka1,f,pdf_type,paral, app=FALSE){
   m=round(paral[1])
   if(m == 1){
     outy=f
-    return(outy)
+    sim_out = outy
+    L=1
+    return(list(outy=outy, outys=sim_out,L=L))
+
   }
 
   r_min = 1 - 3 * paral[2]		# ratio = Lmin/<L>
@@ -40,6 +43,7 @@ length_ave <- function(ka0,ka1,f,pdf_type,paral, app=FALSE){
   sigma_bs0 = f * f		# f sqrt of orientatipon averaged scat. cross-section
   # which is a real function
   sigma_bs = matrix(0, m, n)
+  simsig = matrix(0, m, n)
   for(j in 1:m){
     ka2=L[j]*ka1
 
@@ -54,9 +58,13 @@ length_ave <- function(ka0,ka1,f,pdf_type,paral, app=FALSE){
     sigma_bs[j, 1:n] = L[j] * L[j] * PDF[j] * pracma::interp1(as.numeric(ka0),
                                                       as.numeric(sigma_bs0),
                                                       as.numeric(ka2))
+    simsig[j, 1:n] = L[j] * L[j] * pracma::interp1(as.numeric(ka0),
+                                                            as.numeric(sigma_bs0),
+                                                            as.numeric(ka2))
   }
 }
 
 outy = sqrt(colSums(sigma_bs))
-return(outy)
+sim_out = t(sqrt(simsig))
+return(list(outy=outy, outys=sim_out,L=L))
 }

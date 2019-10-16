@@ -71,7 +71,7 @@ DWBAscat2 <- function(para, misc, app=FALSE){
   Dtheta = t(th_tilt[,matrix(1,1,m)]) - th[,matrix(1, 1, n_int)]
 
   Cos_dtheta = abs(cos(Dtheta))   # choose different local coordinates to
-  # avoid negtive argument of Bessel function
+  # avoid negative argument of Bessel function
   Gamma_t = t(as.matrix(gamma_t)[,matrix(1, 1, m)])
   Theta = th[,matrix(1, 1,n_int)]
   Dgamma = Gamma_t-Theta

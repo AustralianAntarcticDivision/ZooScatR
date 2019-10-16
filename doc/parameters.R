@@ -56,13 +56,13 @@ knitr::kable(para.df)
 
 ## ----echo=FALSE----------------------------------------------------------
 
-orient.df <- as.data.frame(cbind(Variable = c("Mean Theta (<U+03B8>)",
+orient.df <- as.data.frame(cbind(Variable = c("Mean Theta ($\\theta$)",
                                       "Orientation Average",
-                                      "Theta Distribution (d<U+03B8>)",
-                                      "Min. Theta (<U+03B8>min)",
-                                      "Max. Theta (<U+03B8>max)",
-                                      "Std.(<U+03B8>)",
-                                      "Increment <U+03B8>"),
+                                      "Theta Distribution (d$\\theta$)",
+                                      "Min. Theta ($\\theta_{min}$)",
+                                      "Max. Theta ($\\theta_{max}$)",
+                                      "Std.($\\theta$)",
+                                      "Increment $\\theta$"),
                          Unit = c("°",
                                   "Boolean",
                                   "distribution (Uniform or Gaussian)",

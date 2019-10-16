@@ -3,6 +3,7 @@
 #' @param para [list] A list containing all the model parameters (\url{../doc/parameters.html})
 #' @param misc [list] A list containing the soundspeed (cw) of the surrounding fluid (to compute cw visit \code{\link{c_Coppens1981}} or \code{\link{c_Leroy08}} or \code{\link{c_Mackenzie1981}})
 #' @param app = FALSE [boolean] function call from shiny interface or command line
+#' @param simOut = TRUE [boolean] If TRUE ysim (results for the simulated orientations) and ysimL (results for the simulated lengths based on the results of the mean simulated angle) as well as ang (simulated orientation angles) and L (simulated lengths) are added to the function output (average is kept as well), which contains all simulated data, if FALSE, only the averaged value is kept
 #' @author Sven Gastauer
 #' @return list with all parameters for DWBA
 #' @import ggplot2
@@ -28,7 +29,7 @@
 
 
 
-bscat <- function(para, misc, app=FALSE){
+bscat <- function(para, misc, app=FALSE, simOut = TRUE){
   # if(exists("status")==FALSE){status=list()}
   # status$stop = 0
 
@@ -137,7 +138,7 @@ dwba_out=DWBAscat2(para, misc, app)
 ka = dwba_out$ka
 ang = dwba_out$ang
 f = dwba_out$f
-
+ys = f
  # if(status$stop == 1){
  #   return()
  # }
@@ -153,13 +154,18 @@ if(para$simu$var_indx == 2){
         f1 = f[,i]
       }
   if(exists("f2")==FALSE){f2<-NA}
-  f2[i] = length_ave(ka,kaL,f1,2,len_ave_para, app=TRUE)
+  f2[i] = length_ave(ka,kaL,f1,2,len_ave_para, app=TRUE)[[1]]
   }
 }else{
   orient_ave_para = c(para$orient$angm, para$orient$PDF_para)
   f1 = orient_ave(ang,f,para$orient$PDF,orient_ave_para)
   len_ave_para = c(nl, para$shape$Lstd)
   f2 = length_ave(ka,kaL,f1,2,len_ave_para, app=TRUE)
+  fsim_l = f2[[2]]
+  Lsim = f2[[3]] * para$shape$L
+  f2 = f2[[1]]
+
+
 }
 
 # convert output to the specified quantity
@@ -199,11 +205,35 @@ p = ggplot2::ggplot()+
         axis.line =
           ggplot2::element_line(colour = "black"))
 
+if(simOut==TRUE){
+  if(exists("fsim_L")==FALSE){fsim_l<-f2}
+  if(exists("Lsim")==FALSE){Lsim <- para$shape$L}
+  ys = abs(ys)
+  ysl =  abs(fsim_l)
+  if(para$simu$out_indx == 2){
+    ys = ys*ys
+    ysl = ysl*ysl
+  }
+
+  if(para$simu$out_indx == 3){
+    ys=20*log10(ys*para$shape$L)-60	# L: mm -> m
+    ysl=20*log10(ysl*para$shape$L)-60	# L: mm -> m
+  }
+
+  if(para$simu$out_indx == 4){
+    ys=20*log10(ys)
+    ysl=20*log10(ysl)
+  }
+
+}
 #xlabel(xlab);
 #ylabel(ylab);
 #dat.var=var;
 #dat.fun=y;
 #p=0;
-
-return(list(var = var, y=y,rplot=p, xlab=xlab, ylab=ylab, shplot = dwba_out$shplot))
+if(simOut==TRUE){
+  return(list(var = var, y=y,rplot=p, xlab=xlab, ylab=ylab, shplot = dwba_out$shplot, ysim = ys, ang=ang, ysimL = ysl,L=Lsim))
+}else{
+  return(list(var = var, y=y,rplot=p, xlab=xlab, ylab=ylab, shplot = dwba_out$shplot))
+}
 }

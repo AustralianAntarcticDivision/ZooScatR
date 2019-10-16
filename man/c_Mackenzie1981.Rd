@@ -5,7 +5,7 @@
 \title{Sound speed according to Mackenzie et al. (1981)}
 \source{
 Mackenzie, K. V. (1981).
-Nine‐term equation for sound speed in the oceans. The Journal of the Acoustical Society of America, 70(3), 807-812.
+Nine term equation for sound speed in the oceans. The Journal of the Acoustical Society of America, 70(3), 807-812.
 \url{http://asa.scitation.org/doi/abs/10.1121/1.386920}
 }
 \usage{
@@ -27,5 +27,5 @@ c_Mackenzie1981(100,35,10)
 }
 \references{
 Mackenzie, K. V. (1981).
-Nine‐term equation for sound speed in the oceans. The Journal of the Acoustical Society of America, 70(3), 807-812.
+Nine term equation for sound speed in the oceans. The Journal of the Acoustical Society of America, 70(3), 807-812.
 }

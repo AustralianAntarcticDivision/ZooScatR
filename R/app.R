@@ -64,6 +64,15 @@ DWBAapp <- function(){
       # Load Shinyjs to show/hide tabs easily
       shinyjs::useShinyjs(),
       # Set CSS in addition to standard bootstrap
+      shiny::tags$head(shiny::tags$style(
+        shiny::HTML('
+             #sidebar {
+             background-color: #181818;
+              }
+
+              body, label, input, button, select {
+              font-family: "Arial";
+              }'),
       shiny::tags$style(shiny::HTML("hr {
                               display: block;
                               margin-top: 0.5em;
@@ -108,7 +117,7 @@ DWBAapp <- function(){
 
                                 "
       )
-      ),
+      ))),
 
 
       # Application title
@@ -408,6 +417,7 @@ DWBAapp <- function(){
                                              shiny::actionButton("start","Run Model"),
                                              shiny::downloadButton("save_c","Save Config"),
                                              shiny::downloadButton("export","Export as csv"),
+                                             shiny::downloadButton("export_sim","Export all as RDS"),
                                              shiny::hr(),
                                              shiny::plotOutput("shapePlot"),
                                              shiny::br(),
@@ -912,7 +922,7 @@ DWBAapp <- function(){
           #Run DWBA based on config file
           #print(para)
           options(warn=-1)
-          res = bscat(para=para, misc=misc, app=TRUE)
+          res = bscat(para=para, misc=misc, app=TRUE, simOut=TRUE)
           values$para <- para
 
           options(warn=0)
@@ -1008,6 +1018,15 @@ DWBAapp <- function(){
         },
         content = function(file) {
           write.csv(values$results, file, row.names=FALSE)
+        }
+      )
+      # Export all simulation data as RDS
+      output$export_sim <- shiny::downloadHandler(
+        filename = function(){
+          paste("DWBA", ".RDS",sep="")
+        },
+        content = function(file) {
+          saveRDS(res, file)
         }
       )
 
