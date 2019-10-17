@@ -2,7 +2,14 @@
 title: "TS simulation"
 author: "Sven Gastauer"
 date: "16 October 2019"
-output: html_document
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 4
+vignette: >
+  %\VignetteIndexEntry{Simulations with ZooScatR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
 ---
 
 ```{r setup, include=FALSE}
@@ -43,11 +50,12 @@ para$orient$ave_flag = 1
 
 ## Simulation  
 
-Now we are ready to run the simulation. Note that we set simOut to TRUE (which strictly speaking is not necessary as this is the default setting now):  
+Now we are ready to run the simulation. We fix the number of simulations with *nang* for orientation angles and *nl* for lengths.  
+Note that we set simOut to TRUE (which strictly speaking is not necessary as this is the default setting now):  
 
 ```{r simulation}
 #Run DWBA based on config file
-res <- bscat(para=para, misc=misc, simOut = TRUE) #Target strength vs Frequency
+res <- bscat(para=para, misc=misc, simOut = TRUE, nang=100, nl=100) #Target strength vs Frequency
 ```
 
 The way the simulations work is that first simulations for the orientation distribution are generated. These are then stored as an output and the mean is computed for furhter simulation with the length distribution. Alternatively, individual simulations could be run for a set of lengths and orientations.  

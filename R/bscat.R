@@ -3,6 +3,8 @@
 #' @param para [list] A list containing all the model parameters (\url{../doc/parameters.html})
 #' @param misc [list] A list containing the soundspeed (cw) of the surrounding fluid (to compute cw visit \code{\link{c_Coppens1981}} or \code{\link{c_Leroy08}} or \code{\link{c_Mackenzie1981}})
 #' @param app = FALSE [boolean] function call from shiny interface or command line
+#' @param  nang [integer] Number of angular ismulations, this will overwrite increment
+#' @param nl [integer] Number of Length simulations, will overwrite increment informaiton
 #' @param simOut = TRUE [boolean] If TRUE ysim (results for the simulated orientations) and ysimL (results for the simulated lengths based on the results of the mean simulated angle) as well as ang (simulated orientation angles) and L (simulated lengths) are added to the function output (average is kept as well), which contains all simulated data, if FALSE, only the averaged value is kept
 #' @author Sven Gastauer
 #' @return list with all parameters for DWBA
@@ -29,7 +31,7 @@
 
 
 
-bscat <- function(para, misc, app=FALSE, simOut = TRUE){
+bscat <- function(para, misc, app=FALSE, nang=NULL, nl=NULL,simOut = TRUE){
   # if(exists("status")==FALSE){status=list()}
   # status$stop = 0
 
@@ -69,7 +71,11 @@ bscat <- function(para, misc, app=FALSE, simOut = TRUE){
       ang_min = para$orient$angm - 3.1 * para$orient$PDF_para
       ang_max = para$orient$angm + 3.1 * para$orient$PDF_para
     }
-      ang = seq(ang_min,ang_max, by = para$orient$dang)
+        if(is.null(nang)){
+          ang = seq(ang_min, ang_max, by = para$orient$dang) # get anular range
+        }else{
+          ang = seq(ang_min, ang_max, length.out = nang) # get anular range
+        }
     }else{ #no average should be computed
       ang_min=para$orient$angm
       ang_max=para$orient$angm
@@ -94,7 +100,7 @@ if(para$simu$var_indx == 3){
 if ( para$shape$ave_flag == 1){
   ka_min = ka0 * (1 - 3.1 * para$shape$Lstd)
   ka_max=ka1*(1+3.1*para$shape$Lstd)
-  nl=6*para$shape$Lstd/para$shape$dL
+  if(is.null(nl)){nl=6*para$shape$Lstd/para$shape$dL}
 }else{
   ka_min = ka0
   ka_max = ka1
@@ -107,7 +113,7 @@ Npts = para$simu$n
 
 if(para$simu$var_indx == 2){
   if(para$shape$ave_flag == 1){
-    nl = 6 * para$shape$Lstd / para$shape$dL
+    if(is.null(nl)){nl=6*para$shape$Lstd/para$shape$dL}
     kaL = seq(ka0, ka1, length=1)
     ka = seq(ka_min, ka_max,length=nl)
   }else{
@@ -206,7 +212,7 @@ p = ggplot2::ggplot()+
           ggplot2::element_line(colour = "black"))
 
 if(simOut==TRUE){
-  if(exists("fsim_L")==FALSE){fsim_l<-f2}
+  if(exists("fsim_l")==FALSE){fsim_l<-f2}
   if(exists("Lsim")==FALSE){Lsim <- para$shape$L}
   ys = abs(ys)
   ysl =  abs(fsim_l)

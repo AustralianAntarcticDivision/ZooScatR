@@ -259,7 +259,7 @@ TS <- melt(TS.df[vv2,-which(names(TS.df)=="id")], id.vars=c("L","theta")) #resha
 TS$Frequency <- as.numeric(as.character(TS$variable)) #make sure frequency is a numeric value
 TS$value <- 10*log10(TS$value)
 TS$L <- paste0(TS$L, " mm")
-TS$theta <- paste0(TS$theta, "°")
+TS$theta <- paste0(TS$theta, " degrees")
 
 TS.plot <-ggplot(data=TS, aes(x=Frequency,y=value, fill='value'))+
   geom_path(size=1)+

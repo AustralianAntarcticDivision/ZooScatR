@@ -4,7 +4,8 @@
 \alias{bscat}
 \title{Backscattering model}
 \usage{
-bscat(para, misc, app = FALSE, simOut = TRUE)
+bscat(para, misc, app = FALSE, nang = NULL, nl = NULL,
+  simOut = TRUE)
 }
 \arguments{
 \item{para}{[list] A list containing all the model parameters (\url{../doc/parameters.html})}
@@ -12,6 +13,10 @@ bscat(para, misc, app = FALSE, simOut = TRUE)
 \item{misc}{[list] A list containing the soundspeed (cw) of the surrounding fluid (to compute cw visit \code{\link{c_Coppens1981}} or \code{\link{c_Leroy08}} or \code{\link{c_Mackenzie1981}})}
 
 \item{app}{= FALSE [boolean] function call from shiny interface or command line}
+
+\item{nang}{[integer] Number of angular ismulations, this will overwrite increment}
+
+\item{nl}{[integer] Number of Length simulations, will overwrite increment informaiton}
 
 \item{simOut}{= TRUE [boolean] If TRUE ysim (results for the simulated orientations) and ysimL (results for the simulated lengths based on the results of the mean simulated angle) as well as ang (simulated orientation angles) and L (simulated lengths) are added to the function output (average is kept as well), which contains all simulated data, if FALSE, only the averaged value is kept}
 }
