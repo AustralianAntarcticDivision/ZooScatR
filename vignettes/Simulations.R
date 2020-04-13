@@ -39,14 +39,14 @@ names(o_sim)[1] <- 'TS'
 mTS = data.frame(Frequency=res$var,TS=res$y)
 
 ggplot()+geom_line(data=o_sim, aes(x = Frequency, y=TS, group=theta),lty=2, lwd=0.5, alpha=0.4)+
-  geom_line(data=mTS, aes(x=Frequency, y=TS), lty=1, lwd=2)+theme_classic()+theme(text=element_text(size=20))
+  geom_line(data=mTS, aes(x=Frequency, y=TS), lty=1, lwd=2)+theme_classic()+theme(text=element_text(size=14))
 
 ggplot(data=o_sim, aes(x=Frequency, y=theta, fill=TS))+
   geom_raster()+
   scale_fill_viridis_c()+
   scale_y_continuous(expand=c(0,0))+
   scale_x_continuous(expand=c(0,0))+
-  theme_classic()+theme(text=element_text(size=20))
+  theme_classic()+theme(text=element_text(size=14))
 
 ## ----plots_L-------------------------------------------------------------
 l_sim =  melt(res$ysimL)
@@ -56,7 +56,7 @@ l_sim=l_sim[,3:ncol(l_sim)]
 names(l_sim)[1] <- 'TS'
 
 ggplot()+geom_line(data=l_sim, aes(x = Frequency, y=TS, group=Length),lty=2, lwd=0.5, alpha=0.4)+
-  geom_line(data=mTS, aes(x=Frequency, y=TS), lty=1, lwd=2)+theme_classic()+theme(text=element_text(size=20))
+  geom_line(data=mTS, aes(x=Frequency, y=TS), lty=1, lwd=2)+theme_classic()+theme(text=element_text(size=14))
 
 
 
@@ -65,6 +65,6 @@ ggplot(data=l_sim, aes(x=Frequency, y=Length, fill=TS))+
   scale_fill_viridis_c()+
   scale_y_continuous(expand=c(0,0))+
   scale_x_continuous(expand=c(0,0))+
-  theme_classic()+theme(text=element_text(size=20))
+  theme_classic()+theme(text=element_text(size=14))
 
 
