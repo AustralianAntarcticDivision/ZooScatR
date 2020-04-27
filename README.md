@@ -44,10 +44,10 @@ ZooScatR can be installed form GitHub. This requires the [devtools](https://cran
 # The package can be installed from Github:
 # install.packages("devtools")
 #Install the package from github with vignettes
-# Latest devtools syntax
-devtools::install_github("AustralianAntarcticDivision/ZooScatR", build_opts = c("--no-resave-data", "--no-manual"))
-## For devtools v < 2.0
-# devtools::install_github("AustralianAntarcticDivision/ZooScatR", build_vignettes = TRUE, force_deps=TRUE)
+devtools::install_github("AustralianAntarcticDivision/ZooScatR", build_vignettes = TRUE, force_deps=TRUE)
+# if the above fails, try the alternative devtools syntax
+# devtools::install_github("AustralianAntarcticDivision/ZooScatR", build_opts = c("--no-resave-data", "--no-manual"))
+
 ```
 ### Dependencies  
 
