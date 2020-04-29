@@ -24,7 +24,7 @@ Imports:
 	tcltk2,
 	viridis
 RdMacros: Rdpack
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 Suggests: testthat,
     knitr,
     rmarkdown

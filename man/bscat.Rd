@@ -4,8 +4,7 @@
 \alias{bscat}
 \title{Backscattering model}
 \usage{
-bscat(para, misc, app = FALSE, nang = NULL, nl = NULL,
-  simOut = TRUE)
+bscat(para, misc, app = FALSE, nang = NULL, nl = NULL, simOut = TRUE)
 }
 \arguments{
 \item{para}{[list] A list containing all the model parameters (\url{../doc/parameters.html})}

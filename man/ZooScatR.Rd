@@ -3,8 +3,4 @@
 \docType{package}
 \name{ZooScatR}
 \alias{ZooScatR}
-\alias{ZooScatR-package}
 \title{ZooScatR.}
-\description{
-ZooScatR.
-}
