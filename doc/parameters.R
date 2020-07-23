@@ -1,4 +1,4 @@
-## ----echo=FALSE----------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 para.df <- as.data.frame(cbind(Variable = c("Length(L)",
                                       "$\\rho_c$/L",
                                       "L/a",
@@ -31,7 +31,7 @@ para.df <- as.data.frame(cbind(Variable = c("Length(L)",
                                          "Filter length to smooth the radius (R)",
                                          "Filter length to smooth the body axis (X, Z)"),
                          Influence = c("Length of the target",
-                                       "Curvature of the bent cylinder, if no shape profile is loaded ( 8 for straight cylinder)",
+                                       "Curvature of the bent cylinder, if no shape profile is loaded ( âˆž for straight cylinder)",
                                        "Contains information about the width of the target.",
                                        "For a straight cylinder ($\\rho_c$/L -> infinity), n=2 results in a prolate spheroid if L>2a, or in an oblate spheroid for L<2a",
                                        "1 = perform average; 0 = No average",
@@ -54,7 +54,7 @@ para.df <- as.data.frame(cbind(Variable = c("Length(L)",
                          ))
 knitr::kable(para.df)
 
-## ----echo=FALSE----------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 
 orient.df <- as.data.frame(cbind(Variable = c("Mean Theta ($\\theta$)",
                                       "Orientation Average",
@@ -63,13 +63,13 @@ orient.df <- as.data.frame(cbind(Variable = c("Mean Theta ($\\theta$)",
                                       "Max. Theta ($\\theta_{max}$)",
                                       "Std.($\\theta$)",
                                       "Increment $\\theta$"),
-                         Unit = c("°",
+                         Unit = c("Â°",
                                   "Boolean",
                                   "distribution (Uniform or Gaussian)",
-                                  "°",
-                                  "°",
-                                  "°",
-                                  "°"),
+                                  "Â°",
+                                  "Â°",
+                                  "Â°",
+                                  "Â°"),
                          Description = c("Mean orientation angle",
                                          "Defines if an orientation average should be considered",
                                          "PDF of theta",
@@ -92,7 +92,7 @@ orient.df <- as.data.frame(cbind(Variable = c("Mean Theta ($\\theta$)",
                          ))
 knitr::kable(orient.df, keep.line.breaks = TRUE, style = 'grid', justify = 'left')
 
-## ----echo=FALSE----------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 
 mat.df <- as.data.frame(cbind(Variable = c("Density contrast (g)",
                                       "Soundspeed contrast (h)",
@@ -130,7 +130,7 @@ mat.df <- as.data.frame(cbind(Variable = c("Density contrast (g)",
                          ))
 knitr::kable(mat.df, keep.line.breaks = TRUE, style = 'grid', justify = 'left')
 
-## ----echo=FALSE----------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 
 simu.df <- as.data.frame(cbind(Variable = c("Output",
                                       "Variable",
@@ -155,7 +155,7 @@ simu.df <- as.data.frame(cbind(Variable = c("Output",
                                          "Maximum output value",
                                          "Defines the discrete frequency for which the model is run if the variable is set to angle"),
                          Influence = c("1) backscattering amplitude; 2) differential backscattering cross-section [m2]; 3) Reduced Target Strength [dB re m2]; 4) Reduced Target Strength [db re m2]",
-                                         "1) Frequency [kHz]; 2) Angle (°); 3) ka (wave number k * a)",
+                                         "1) Frequency [kHz]; 2) Angle (Â°); 3) ka (wave number k * a)",
                                          "Resolution of the model variable output",
                                          "Resolution of the model shape input",
                                          

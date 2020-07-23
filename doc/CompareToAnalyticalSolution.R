@@ -1,9 +1,9 @@
-## ----warning=FALSE-------------------------------------------------------
+## ----warning=FALSE------------------------------------------------------------
 library(ZooScatR)
 library(ggplot2)
 library(viridis)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 library(ZooScatR)
 r <- 10 #range 
 a <- 0.01 # radius
@@ -15,7 +15,7 @@ f <- 200 * 1000 #Frequency in Hz
 
 TS.sphere2(f=f,r=r,a=a,c=c,h=h,g=g,rho=rho)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 r <- 10 #range 
 a <- 0.01 # radius
 c <- 1477.4 #soundspeed surrounding fluid
@@ -28,7 +28,7 @@ fmin=12
 fmax=400
 freqs <- seq(fmin,fmax, by=1)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 fname <- paste0(system.file(package="ZooScatR"),"/extdata/configs/config_0.dat") #Loacation of the parameters file
 para = read_para(fname) #Read parameters file
 
@@ -46,7 +46,7 @@ para$simu$n=length(freqs) #Set the number of output points
 para$simu$ni=2000 #any high number
 
 
-## ----warning=FALSE,fig.width=8,fig.height=4------------------------------
+## ----warning=FALSE,fig.width=8,fig.height=4-----------------------------------
 #Set the shape parameters
 para$shape$L <- 2*1000*a # 2 * the radius in m to get length in mm
 para$shape$order <- 2 #Set the tapering order
@@ -57,18 +57,18 @@ para$shape$rho_L <- 2000 #any high number to get a high curvature
 sp <- buildpos(para) #build the shape
 sp$plot #show the shape plot
 
-## ----warning=FALSE,fig.width=8,fig.height=4------------------------------
+## ----warning=FALSE,fig.width=8,fig.height=4-----------------------------------
 fs <- as.list(freqs*1000) #Create a list of frequencies
 TS.MJ <- sapply(fs,TS.sphere2,r=r,a=a,c=c,h=h,g=g,rho=rho) #Apply frequency list to the analytical model
 
-## ----warning=FALSE,fig.width=8,fig.height=4------------------------------
+## ----warning=FALSE,fig.width=8,fig.height=4-----------------------------------
 #Run DWBA based on config file
 DWBA <- bscat(para=para, misc=misc)
 #Show the model outcome
 DWBA$rplot
 
 
-## ----warning=FALSE,fig.width=8,fig.height=4,tidy=TRUE--------------------
+## ----warning=FALSE,fig.width=8,fig.height=4,tidy=TRUE-------------------------
 #Compare results
 TS.comp<-function(TS1,TS2,freqs){
   require(ggplot2)
@@ -103,10 +103,10 @@ TS.comp<-function(TS1,TS2,freqs){
   return(TScomp)
 }
 
-## ----warning=FALSE,fig.width=8,fig.height=4------------------------------
+## ----warning=FALSE,fig.width=8,fig.height=4-----------------------------------
 TS.compare <- TS.comp(TS.MJ,DWBA$y,freqs)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 a <- 0.01
 g <- 1.0357 #density contrast
 h <- 1.0279 #soundspeed contrast
@@ -124,10 +124,10 @@ TS.MJ <- sapply(fs,TS.sphere2,r=r,a=a,c=c,h=h,g=g,rho=rho) #Apply frequency list
 #Run the ZooScatR DWBA:  
 DWBA <- bscat(para=para, misc=misc)
 
-## ----warning=FALSE,fig.width=8,fig.height=4------------------------------
+## ----warning=FALSE,fig.width=8,fig.height=4-----------------------------------
 TS.compare <- TS.comp(TS.MJ,DWBA$y,freqs)
 
-## ----warning=FALSE-------------------------------------------------------
+## ----warning=FALSE------------------------------------------------------------
 th <- - 80
 tmp1 <- TS.MJ
 tmp1[which(tmp1 < th)] <- th
@@ -135,7 +135,7 @@ tmp2 <- DWBA$y
 tmp2[which(tmp2 < th)] <- th
 Ts.compare2 <- TS.comp(tmp1,tmp2,freqs)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 a <- 0.0381
 g <- 14900/rho #density contrast
 h <- 6853/c #soundspeed contrast
@@ -151,6 +151,6 @@ TS.MJ <- sapply(fs,TS.sphere2,r=r,a=a,c=c,h=h,g=g,rho=rho) #Apply frequency list
 #Run the ZooScatR DWBA:  
 DWBA <- bscat(para=para, misc=misc)
 
-## ----warning=FALSE,fig.width=8,fig.height=4------------------------------
+## ----warning=FALSE,fig.width=8,fig.height=4-----------------------------------
 TS.compare <- TS.comp(TS.MJ,DWBA$y,freqs)
 

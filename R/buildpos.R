@@ -43,7 +43,7 @@ buildpos <- function(para, disp_prof=1){
     pos = read.table(para$shape$prof_name, header = FALSE)
     xp = pos[,1]
     zp = pos[,2]
-    taper1 = pos[,3]
+    taper1 = pos[,3] / max(pos[,3]) #! added / max(pos[,3])
     z = seq(min(zp) + eps, max(zp)-eps, length=n_int)
     x = pracma::interp1(zp, xp, z, method="linear")
     taper = pracma::interp1(zp, taper1, z, method="linear")
@@ -57,7 +57,7 @@ buildpos <- function(para, disp_prof=1){
     para$shape$z = z
     para$shape$xp = xp
     para$shape$zp = zp
-    para$shape$taper = taper1
+    para$shape$taper = taper#!changed from taper1
   }
 
   taper = matrix(taper,1,nrow=n_int)
@@ -127,7 +127,7 @@ buildpos <- function(para, disp_prof=1){
     #  axis('equal')grid
     # disp('press any key to cont. ..')pause
     # plot(z,taper0,z,taper,'r')
-  }
+  }else{ppp=NULL}
   out =list()
   out$r_pos=r_pos
   out$th_tilt = th_tilt

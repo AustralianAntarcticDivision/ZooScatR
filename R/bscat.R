@@ -191,6 +191,10 @@ if(para$simu$out_indx == 4){
   y=20*log10(y)
   ylab=expression(paste('Reduced Target Strength (dB re ', m^{2},')'))
 }
+if(para$simu$out_indx == 5){
+  y=f2
+  ylab=expression(paste('Complex scattering'))
+}
 
 xlabs <- c('Frequency (kHz)','Orientation angle','ka')
 xlab <- xlabs[para$simu$var_indx]
@@ -214,6 +218,7 @@ p = ggplot2::ggplot()+
 if(simOut==TRUE){
   if(exists("fsim_l")==FALSE){fsim_l<-f2}
   if(exists("Lsim")==FALSE){Lsim <- para$shape$L}
+  ys0=ys
   ys = abs(ys)
   ysl =  abs(fsim_l)
   if(para$simu$out_indx == 2){
@@ -229,6 +234,10 @@ if(simOut==TRUE){
   if(para$simu$out_indx == 4){
     ys=20*log10(ys)
     ysl=20*log10(ysl)
+  }
+  if(para$simu$out_indx == 5){
+    ys=ys0
+    ysl=ys0
   }
 
 }

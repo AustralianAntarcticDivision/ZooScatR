@@ -1,8 +1,8 @@
-## ----setup, include=FALSE------------------------------------------------
+## ----setup, include=FALSE-----------------------------------------------------
 knitr::opts_chunk$set(echo = TRUE)
 library(knitr)
 
-## ---- echo=FALSE---------------------------------------------------------
+## ---- echo=FALSE--------------------------------------------------------------
 taxa <- c("Euphausiids and Decapod Shrimp",
           "Larval Crustacean",
           "Amphipods",
@@ -73,7 +73,7 @@ Orientation <- c("N(20,20) [@benfield_estimating_2000], average ~0 [@lawson_impr
                  NA,
                  NA,
                  NA,
-                 NA,"Uniform [0, p]")
+                 NA,"Uniform [0, π]")
 
 
 g <- c("$$\\frac{5.485*L}{10^4}+1.002; L>25$$ $$1.016; L<25$$ [@lawson_acoustically-inferred_2004]",

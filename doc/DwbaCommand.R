@@ -1,10 +1,10 @@
-## ----setup, echo = FALSE, message = FALSE--------------------------------
+## ----setup, echo = FALSE, message = FALSE-------------------------------------
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 library(ZooScatR)
 set.seed(1014)
 
-## ----fig.width=8,fig.height=4--------------------------------------------
+## ----fig.width=8,fig.height=4-------------------------------------------------
 fname <- paste0(system.file(package="ZooScatR"),"/extdata/configs/config_0.dat") #Loacation of the parameters file
 para = read_para(fname) #Read parameters file
 #Create list with soundspeed info
@@ -30,13 +30,13 @@ para$simu$var_indx <- 1 #Set output variable to Frequency
 res <- bscat(para=para, misc=misc)
 res$rplot #Show the result plot
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 # filenmae of an example configuration
 fname <- paste0(system.file(package="ZooScatR"),"/extdata/configs/config_0.dat")
 #Read the parameter file
 para <- read_para(fname)
 
-## ----echo=FALSE----------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 para.df <- as.data.frame(cbind(Variable = c("Length(L)",
                                       "$\\rho_c$/L",
                                       "L/a",
@@ -92,7 +92,7 @@ para.df <- as.data.frame(cbind(Variable = c("Length(L)",
                          ))
 knitr::kable(para.df)
 
-## ----echo=FALSE----------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 
 orient.df <- as.data.frame(cbind(Variable = c("Mean Theta ($\\theta$)",
                                       "Orientation Average",
@@ -130,7 +130,7 @@ orient.df <- as.data.frame(cbind(Variable = c("Mean Theta ($\\theta$)",
                          ))
 knitr::kable(orient.df, keep.line.breaks = TRUE, style = 'grid', justify = 'left')
 
-## ----echo=FALSE----------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 
 mat.df <- as.data.frame(cbind(Variable = c("Density contrast (g)",
                                       "Soundspeed contrast (h)",
@@ -168,7 +168,7 @@ mat.df <- as.data.frame(cbind(Variable = c("Density contrast (g)",
                          ))
 knitr::kable(mat.df, keep.line.breaks = TRUE, style = 'grid', justify = 'left')
 
-## ----echo=FALSE----------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 
 simu.df <- as.data.frame(cbind(Variable = c("Output",
                                       "Variable",
@@ -211,7 +211,7 @@ simu.df <- as.data.frame(cbind(Variable = c("Output",
                          ))
 knitr::kable(simu.df, keep.line.breaks = TRUE, style = 'grid', justify = 'left')
 
-## ----echo=TRUE-----------------------------------------------------------
+## ----echo=TRUE----------------------------------------------------------------
 #Changing the length of the scattering target
 message(paste("Old length:", para$shape$L))
 para$shape$L <- 40
@@ -233,7 +233,7 @@ message(paste("Old output end value:", para$simu$var1))
 para$simu$var0 <- 200
 message(paste("New output end value:", para$simu$var1))
 
-## ----fig.width=6,fig.height=3--------------------------------------------
+## ----fig.width=6,fig.height=3-------------------------------------------------
 cyl <- buildpos(para)
 message(paste("Length:",para$shape$L))
 message(paste("L/a:",para$shape$L_a))
@@ -257,7 +257,7 @@ message(paste("L/a:",para$shape$L_a))
 message(paste("Tapering order:",para$shape$order))
 cyl$plot
 
-## ----fig.width=8,fig.height=4--------------------------------------------
+## ----fig.width=8,fig.height=4-------------------------------------------------
 # filenmae of an example configuration
 fname <- paste0(system.file(package="ZooScatR"),"/extdata/configs/config_0.dat")
 #Read the parameter file
@@ -280,7 +280,7 @@ para$shape$axis_sm <- 2000
 krill_shape1 <- buildpos(para, disp_prof=1)
 krill_shape1$plot
 
-## ---- echo=FALSE---------------------------------------------------------
+## ---- echo=FALSE--------------------------------------------------------------
 taxa <- c("Euphausiids and Decapod Shrimp",
           "Larval Crustacean",
           "Amphipods",
@@ -422,23 +422,23 @@ names(gh)<- c("Taxon",
 knitr::kable(gh)
 #datatable(gh)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 c_Coppens1981(D=100,S=35,T=10)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 c_Mackenzie1981(D=100,S=35,T=10)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 c_Leroy08(Z=100,T=10,S=35,30)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 rho(S=35, T=10)
 #which is equal to:
 rho_p0(S=35,T=10)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 rho_smow(T=10)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 result <- bscat(para=para, misc=misc)
 
