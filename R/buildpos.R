@@ -52,7 +52,8 @@ buildpos <- function(para, disp_prof=1){
     dr = sqrt(diff(x)^2 + diff(z)^2)
     L = sum(dr)
     x = 2*x/L
-    z = 2*z/L							# normalized position vector
+    z = 2*z/L
+    taper=2*taper# normalized position vector
     para$shape$x = x
     para$shape$z = z
     para$shape$xp = xp
@@ -110,7 +111,7 @@ buildpos <- function(para, disp_prof=1){
         ggplot2::aes(y=as.numeric(x10),x=z), lty=2, lwd=1.2)+
       ggplot2::geom_path(
         ggplot2::aes(y=as.numeric(x20),x=z),lty=2, lwd=1.2)+
-      ggplot2::coord_fixed(ratio=2)+
+      ggplot2::coord_equal()+
       ggplot2::theme_bw() +
       ggplot2::theme(panel.border =
                        ggplot2::element_blank(),
