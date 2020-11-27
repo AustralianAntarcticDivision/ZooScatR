@@ -53,7 +53,7 @@ buildpos <- function(para, disp_prof=1){
     L = sum(dr)
     x = 2*x/L
     z = 2*z/L
-    taper=2*taper# normalized position vector
+    taper=taper# normalized position vector
     para$shape$x = x
     para$shape$z = z
     para$shape$xp = xp
@@ -101,16 +101,17 @@ buildpos <- function(para, disp_prof=1){
     x10 = x+taper0/L_a
     x20 = x-taper0/L_a
     ppp <- ggplot2::ggplot()+
+      ylab('x')+
       ggplot2::geom_path(
-        ggplot2::aes(y=x,x=z))+
+        ggplot2::aes(y=2*x,x=z))+
       ggplot2::geom_path(
-        ggplot2::aes(y=as.numeric(x1),x=z))+
+        ggplot2::aes(y=as.numeric(2*x1),x=z))+
       ggplot2::geom_path(
-        ggplot2::aes(y=as.numeric(x2),x=z))+
+        ggplot2::aes(y=as.numeric(2*x2),x=z))+
       ggplot2::geom_path(
-        ggplot2::aes(y=as.numeric(x10),x=z), lty=2, lwd=1.2)+
+        ggplot2::aes(y=as.numeric(2*x10),x=z), lty=2, lwd=1.2)+
       ggplot2::geom_path(
-        ggplot2::aes(y=as.numeric(x20),x=z),lty=2, lwd=1.2)+
+        ggplot2::aes(y=as.numeric(2*x20),x=z),lty=2, lwd=1.2)+
       ggplot2::coord_equal()+
       ggplot2::theme_bw() +
       ggplot2::theme(panel.border =
