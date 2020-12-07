@@ -1,8 +1,8 @@
 Package: ZooScatR
 Type: Package
 Title: ZooScatR - Acoustic Scattering of zooplankton using DWBA
-Version: 0.4.6
-Date: 2020-08-14
+Version: 0.5
+Date: 2020-12-07
 Author: Sven Gastauer, Dezhang Chu, Martin J. Cox
 Maintainer: Sven Gastauer <ssgastauer@ucsd.edu>; Martin J. Cox <martin.cox@aad.gov.au>
 Description: Modelling the acoustic scattering properties of weak scatterers inside a fluid using the Distorted Wave Born Approximation (DWBA).
@@ -22,7 +22,9 @@ Imports:
 	dplyr,
 	doSNOW,
 	tcltk2,
-	viridis
+	viridis,
+	sf,
+	dplyr
 RdMacros: Rdpack
 RoxygenNote: 7.1.1
 Suggests: testthat,

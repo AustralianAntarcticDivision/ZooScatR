@@ -25,14 +25,14 @@ Returns the sound speed according to Leroy et al (2008). This "newer" equation s
 }
 \examples{
 # TABLE III in Leroy et al. (2008)
-# Common oceans, lat = 30B0, P= 80 MPa Z= 7808.13 m, S= 34.7\%
+# Common oceans, lat = 30Â°, P= 80 MPa Z= 7808.13 m, S= 34.7\%
 lat=30; Z=7808.13; S=34.7; T=c(1,1.5,2,2.5,3)
 c_Leroy08(Z,T,S,lat)
-# Common oceans, lat = 30B0, P= 80 MPa Z= 7808.13 m, T=2 B0C
+# Common oceans, lat = 30Â°, P= 80 MPa Z= 7808.13 m, T=2 Â°C
 c_Leroy08(Z,T=2,S=seq(33.5,35.5,.5),lat)
-# Common oceans, = 30B0, P= 5 MPa Z= 497.12 m, S= 35\%
+# Common oceans, = 30Â°, P= 5 MPa Z= 497.12 m, S= 35\%
 c_Leroy08(Z=497.12,T=seq(-2,20,2),S=35,lat)
-# Common oceans, = 30B0, P= 5 MPa Z= 497.12 m, T=8 B0C
+# Common oceans, = 30Â°, P= 5 MPa Z= 497.12 m, T=8 Â°C
 c_Leroy08(Z=497.12,T=8,S=seq(33,37,1),lat)
 }
 \references{
