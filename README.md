@@ -61,11 +61,12 @@ ZooScatR currently depends on:
 * [doSNOW](https://cran.r-project.org/web/packages/doSNOW/index.html) - for running the model in Parallel (multiple cores)
 * [tcltk2](https://cran.r-project.org/web/packages/tcltk2/index.html) - got system independent progressbar window
 * [viridis](https://cran.r-project.org/web/packages/viridis/index.html) - For improved colour scheme  
+* [plotly](https://plotly.com/r/) - For 3D plotting  
   
 These dependencies should be installed automatically, if unavailable when ZooScatR is installed. If not, the missing libraries can be installed through:  
 
 ``` r
-packages <- c("shiny","shinyjs","ggplot2", "reshape2","pracma","doSNOW","tcltk2","viridis")
+packages <- c("shiny","shinyjs","ggplot2", "reshape2","pracma","doSNOW","tcltk2","viridis", "plotly")
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(packages, rownames(installed.packages())))}
 ```  
