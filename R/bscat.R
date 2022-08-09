@@ -6,6 +6,7 @@
 #' @param  nang [integer] Number of angular ismulations, this will overwrite increment
 #' @param nl [integer] Number of Length simulations, will overwrite increment informaiton
 #' @param simOut = TRUE [boolean] If TRUE ysim (results for the simulated orientations) and ysimL (results for the simulated lengths based on the results of the mean simulated angle) as well as ang (simulated orientation angles) and L (simulated lengths) are added to the function output (average is kept as well), which contains all simulated data, if FALSE, only the averaged value is kept
+#' @param plotOut = TRUE [boolean] If results plot should be produced or not
 #' @author Sven Gastauer
 #' @return list with all parameters for DWBA
 #' @import ggplot2
@@ -31,7 +32,7 @@
 
 
 
-bscat <- function(para, misc, app=FALSE, nang=NULL, nl=NULL,simOut = TRUE){
+bscat <- function(para, misc, app=FALSE, nang=NULL, nl=NULL,simOut = TRUE, plotOut=TRUE){
   # if(exists("status")==FALSE){status=list()}
   # status$stop = 0
 
@@ -140,7 +141,8 @@ if(is.null(para$phy$body_ih)){para$phy$body_ih = FALSE}
 #define if in script mode or app mode
 if(exists('app')==FALSE){app=FALSE}
 if(exists('app')==FALSE){app="script"}
-dwba_out=DWBAscat2(para, misc, app)
+dp = ifelse(plotOut==T,1, 0)
+dwba_out=DWBAscat2(para, misc, app,shplot=dp)
 ka = dwba_out$ka
 ang = dwba_out$ang
 f = dwba_out$f
@@ -200,20 +202,22 @@ xlabs <- c('Frequency (kHz)','Orientation angle','ka')
 xlab <- xlabs[para$simu$var_indx]
 
 var = seq(para$simu$var0, para$simu$var1, length=para$simu$n)
-p = ggplot2::ggplot()+
-  ggplot2::geom_line(ggplot2::aes(x=var,y=y),lwd=1.5)+
-  ggplot2::xlab(xlab)+
-  ggplot2::ylab(ylab)+
-  ggplot2::scale_y_continuous(expand=c(0.2,0.2))+
-  ggplot2::theme_bw() +
-  ggplot2::theme(panel.border =
-                   ggplot2::element_blank(),
-                     panel.grid.major =
-                   ggplot2::element_blank(),
-                     panel.grid.minor =
-                   ggplot2::element_blank(),
-        axis.line =
-          ggplot2::element_line(colour = "black"))
+if(plotOut ==TRUE){
+  p = ggplot2::ggplot()+
+    ggplot2::geom_line(ggplot2::aes(x=var,y=y),lwd=1.5)+
+    ggplot2::xlab(xlab)+
+    ggplot2::ylab(ylab)+
+    ggplot2::scale_y_continuous(expand=c(0.2,0.2))+
+    ggplot2::theme_bw() +
+    ggplot2::theme(panel.border =
+                     ggplot2::element_blank(),
+                       panel.grid.major =
+                     ggplot2::element_blank(),
+                       panel.grid.minor =
+                     ggplot2::element_blank(),
+          axis.line =
+            ggplot2::element_line(colour = "black"))
+}else{p=NULL}
 
 if(simOut==TRUE){
   if(exists("fsim_l")==FALSE){fsim_l<-f2}
@@ -247,7 +251,7 @@ if(simOut==TRUE){
 #dat.fun=y;
 #p=0;
 if(simOut==TRUE){
-  return(list(var = var, y=y,rplot=p, xlab=xlab, ylab=ylab, shplot = dwba_out$shplot, ysim = ys, ang=ang, ysimL = ysl,L=Lsim))
+  return(list(var = var, y=y,rplot=p, xlab=xlab, ylab=ylab, shplot = dwba_out$shplot, ysim = ys, ang=ang, ysimL = ysl,L=Lsim, comp=ys0))
 }else{
   return(list(var = var, y=y,rplot=p, xlab=xlab, ylab=ylab, shplot = dwba_out$shplot))
 }

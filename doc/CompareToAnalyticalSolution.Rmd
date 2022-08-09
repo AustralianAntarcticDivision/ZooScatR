@@ -76,7 +76,6 @@ with
   These functions have been implemented within ZooScatR and can be called using:  
   
 ```{r}
-library(ZooScatR)
 r <- 10 #range 
 a <- 0.01 # radius
 c <- 1477.4 #soundspeed surrounding fluid

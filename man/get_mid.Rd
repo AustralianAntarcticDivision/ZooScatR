@@ -13,6 +13,8 @@ get_mid(fn, outdir = "", ndens = 500, prec = 2, rot = FALSE, res = 0.02)
 
 \item{ndens}{integer, number of points that will be used as a densification factor, defaults 500}
 
+\item{prec}{decimal points precision at which duplicated point will be averaged, defaults to 2}
+
 \item{rot}{boolean, TRUE/FALSE, used if x and y columns in the input file are flipped}
 
 \item{res}{numeric, defines the output resolution of the shape, defaults 0.02}

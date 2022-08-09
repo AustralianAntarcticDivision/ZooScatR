@@ -46,6 +46,7 @@
 #' @import shiny
 #' @import shinyjs
 #' @import ggplot2
+#' @import plotly
 #' @import reshape2
 #' @import pracma
 #' @return Runs a DWBA web application
@@ -421,13 +422,7 @@ DWBAapp <- function(){
                                              shiny::hr(),
                                              shiny::plotOutput("shapePlot"),
                                              shiny::br(),
-                                             shiny::plotOutput("resPlot",
-                                                               hover = shiny::hoverOpts(id = "plot_hover",
-                                                                                        delay = 0),
-                                                               dblclick = "resPlot_dblclick",
-                                                               brush = shiny::brushOpts(
-                                                                 id = "resPlot_brush",
-                                                                 resetOnNew = TRUE)),
+                                             plotly::plotlyOutput("resPlot"),
                                              shiny::uiOutput("dynamic"),
                                              shiny::br(),
                                              shiny::dataTableOutput("resDat")
@@ -937,61 +932,17 @@ DWBAapp <- function(){
           shiny::setProgress(value=0.9,message="Generating plots...")
 
           #Model output plot
-          output$resPlot <- shiny::renderPlot({
+          output$resPlot <- plotly::renderPlotly({
             indat <- as.data.frame(cbind(x=res$var, 'y'=res$y))
             names(indat) <- c('x','y')
-            ggplot2::ggplot(data=indat)+
-              ggplot2::geom_line(
-                ggplot2::aes(x=x,y=y),lwd=1.5)+
-              ggplot2::xlab(res$xlab)+
-              ggplot2::ylab(res$ylab)+
-              ggplot2::coord_cartesian(xlim = ranges$x, ylim = ranges$y, expand = c(0.2,0.2))+
-              ggplot2::theme_bw() +
-              ggplot2::theme(panel.border =
-                               ggplot2::element_blank(),
-                             panel.grid.major =
-                               ggplot2::element_blank(),
-                             panel.grid.minor =
-                               ggplot2::element_blank(),
-                             axis.line =
-                               ggplot2::element_line(colour = "black"),
-                             axis.text =
-                               ggplot2::element_text(size=18),
-                             axis.title =
-                               ggplot2::element_text(size=18))
+
+            fig <- plot_ly(indat, x = ~x, y = ~y, type = 'scatter', mode = 'lines')
+            fig <- fig %>% layout(xaxis = list(title = res$xlab),
+                                  yaxis = list (title = res$ylab))
+            fig
+
           })
 
-          #Zoom settings
-          shiny::observeEvent(input$resPlot_dblclick, {
-            brush <- input$resPlot_brush
-            if (!is.null(brush)) {
-              ranges$x <- c(brush$xmin, brush$xmax)
-              ranges$y <- c(brush$ymin, brush$ymax)
-
-            } else {
-              ranges$x <- NULL
-              ranges$y <- NULL
-            }
-          })
-
-          # Get plot values
-          output$dynamic <- shiny::renderUI({
-            shiny::req(input$plot_hover)
-            shiny::verbatimTextOutput("vals")
-          })
-          # Show cursor position values
-          output$vals <- shiny::renderPrint({
-            hover <- input$plot_hover
-            # print(str(hover)) # list
-            indat <- as.data.frame(cbind(x=res$var, y=res$y))
-            names(indat) <- c("x","y")
-            y <- shiny::nearPoints(indat,
-                            input$plot_hover,
-                            threshold = 1000,
-                            maxpoints = 1,
-                            addDist = TRUE)
-            y
-          })
 
           #create results data table
           shiny::setProgress(value=0.95,message="Generating data table...")

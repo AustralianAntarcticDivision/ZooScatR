@@ -24,9 +24,10 @@ Imports:
 	tcltk2,
 	viridis,
 	sf,
-	dplyr
+	dplyr,
+	plotly
 RdMacros: Rdpack
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.0
 Suggests: testthat,
     knitr,
     rmarkdown

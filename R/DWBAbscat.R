@@ -2,7 +2,8 @@
 #'
 #' @param para [list] A list containing all the model parameters (\url{../doc/parameters.html})
 #' @param misc [list] A list with misc parameters, containing at least the soundspeed of the surrounding fluid cw
-#' @param app TRUE or FALSE, defines if the function is used within a shiny app or not. If \code{app==TRUE} the progressbar inside the app will be updated.
+#' @param app TRUE or FALSE [boolean], defines if the function is used within a shiny app or not. If \code{app==TRUE} the progressbar inside the app will be updated.
+#' @param  shplot TRUE [boolean] produce shape plot
 #' @return list of \code{ka}, the wavelength \code{k * } the width \code{a}; f the square-root of the orientation aveaged scattering cross-section
 #' @examples
 #' #Get filename of the parameters file
@@ -15,7 +16,7 @@
 #' DWBAscat2(para,misc)
 #' @export
 
-DWBAscat2 <- function(para, misc, app=FALSE){
+DWBAscat2 <- function(para, misc, app=FALSE, shplot=TRUE){
   if(exists("status")==FALSE){status=list()}
   status$stop = 0
   #print(para$shape$prof_name)
@@ -53,7 +54,8 @@ DWBAscat2 <- function(para, misc, app=FALSE){
   Cb = (1- g * h * h) / (g * h * h) - (g-1) / g
 
   # construct postion vectors
-  bp <- buildpos(para)
+  sp = ifelse(shplot==1, 1,0)
+  bp <- buildpos(para, disp_prof=sp)
   r_pos = as.matrix(bp$r_pos)
   th_tilt = bp$th_tilt
   dr = bp$dr

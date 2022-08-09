@@ -1,6 +1,7 @@
 #' Get polygon points from contour coordinates
 #' @param xyP contour points with columns x, y
 #' @param lout length of the output data frame
+#' @export
 #' @import sf
 #'
 get_int<- function(xyP,lout=1000){
@@ -23,6 +24,7 @@ get_int<- function(xyP,lout=1000){
 #' @title Rotate axis
 #' @param xy dataframe with xy coordinates
 #' @param angle rotation angle
+#' @export
 rotate <- function (xy, angle) {
   cos.angle <- cos(angle)
   sin.angle <- sin(angle)
@@ -36,6 +38,7 @@ rotate <- function (xy, angle) {
 #' @title Densify points along axis
 #' @param xy dataframe with xy coordinates
 #' @param b densify factor
+#' @export
 densify <- function(xy,n=20){
   ## densify a 2-col matrix
   cbind(dens(xy[,1],n=n),dens(xy[,2],n=n))
@@ -44,7 +47,7 @@ densify <- function(xy,n=20){
 #' @title Densify a vector
 #' @param x vector to be densified
 #' @param n densification factor
-#'
+#' @export
 dens <- function(x,n=15){
   ## densify a vector
   out = rep(NA,1+(length(x)-1)*(n+1))
@@ -60,7 +63,7 @@ dens <- function(x,n=15){
 #' @param fn character, input filename containing 2 columns with the x, y coordinates
 #' @param outdir character, folder to which the the output shape should be saved, defaults to '', which selectds the current working directory
 #' @param ndens integer, number of points that will be used as a densification factor, defaults 500
-#' @prec deimal points precision at which duplicated point will be averaged, defaults to 2
+#' @param prec decimal points precision at which duplicated point will be averaged, defaults to 2
 #' @param rot boolean, TRUE/FALSE, used if x and y columns in the input file are flipped
 #' @param res numeric, defines the output resolution of the shape, defaults 0.02
 #' @export

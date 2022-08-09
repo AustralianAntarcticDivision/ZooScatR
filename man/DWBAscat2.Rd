@@ -4,14 +4,16 @@
 \alias{DWBAscat2}
 \title{Computes ka}
 \usage{
-DWBAscat2(para, misc, app = FALSE)
+DWBAscat2(para, misc, app = FALSE, shplot = TRUE)
 }
 \arguments{
 \item{para}{[list] A list containing all the model parameters (\url{../doc/parameters.html})}
 
 \item{misc}{[list] A list with misc parameters, containing at least the soundspeed of the surrounding fluid cw}
 
-\item{app}{TRUE or FALSE, defines if the function is used within a shiny app or not. If \code{app==TRUE} the progressbar inside the app will be updated.}
+\item{app}{TRUE or FALSE [boolean], defines if the function is used within a shiny app or not. If \code{app==TRUE} the progressbar inside the app will be updated.}
+
+\item{shplot}{TRUE [boolean] produce shape plot}
 }
 \value{
 list of \code{ka}, the wavelength \code{k * } the width \code{a}; f the square-root of the orientation aveaged scattering cross-section

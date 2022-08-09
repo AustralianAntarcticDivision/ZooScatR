@@ -4,7 +4,15 @@
 \alias{bscat}
 \title{Backscattering model}
 \usage{
-bscat(para, misc, app = FALSE, nang = NULL, nl = NULL, simOut = TRUE)
+bscat(
+  para,
+  misc,
+  app = FALSE,
+  nang = NULL,
+  nl = NULL,
+  simOut = TRUE,
+  plotOut = TRUE
+)
 }
 \arguments{
 \item{para}{[list] A list containing all the model parameters (\url{../doc/parameters.html})}
@@ -18,6 +26,8 @@ bscat(para, misc, app = FALSE, nang = NULL, nl = NULL, simOut = TRUE)
 \item{nl}{[integer] Number of Length simulations, will overwrite increment informaiton}
 
 \item{simOut}{= TRUE [boolean] If TRUE ysim (results for the simulated orientations) and ysimL (results for the simulated lengths based on the results of the mean simulated angle) as well as ang (simulated orientation angles) and L (simulated lengths) are added to the function output (average is kept as well), which contains all simulated data, if FALSE, only the averaged value is kept}
+
+\item{plotOut}{= TRUE [boolean] If results plot should be produced or not}
 }
 \value{
 list with all parameters for DWBA
