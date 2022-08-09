@@ -56,10 +56,6 @@
 
 
 DWBAapp <- function(){
-  #library(shiny)
-  #library(shinyjs)
-  #library(ggplot2)
-
   shiny::shinyApp(
     ui <- shiny::fluidPage(
       # Load Shinyjs to show/hide tabs easily
